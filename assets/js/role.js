@@ -1,7 +1,7 @@
 export function requireAdmin() {
   const role = localStorage.getItem("role");
   if (role !== "admin") {
-    window.location.href = "index.html";
+    window.location.href = "login.html";
   }
 }
 
