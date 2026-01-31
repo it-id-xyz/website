@@ -16,6 +16,11 @@ form.addEventListener("submit", async (e) => {
       email,
       password
     );
+   if (user.email === "admin@it-sch.id" { 
+      localStorage.setItem("role", "admin");
+    } else {
+      localStorage.setItem("role", "user");
+    }
 
     console.log("LOGIN OK:", userCred.user.uid);
     window.location.href = "index.html";
@@ -25,3 +30,4 @@ form.addEventListener("submit", async (e) => {
     console.error(err);
   }
 });
+
