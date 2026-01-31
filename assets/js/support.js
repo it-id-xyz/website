@@ -2,11 +2,14 @@ import { showAdminUI } from "./role.js";
 
 // === 1. CEK ROLE DULU ===
 const role = localStorage.getItem("role");
+const btnLogin = document.getElementById('btnLogin');
 
 if (role !== "admin") {
   alert("Halaman khusus admin");
   window.location.href = "index.html";
   throw new Error("Unauthorized"); // stop JS
+} else {
+  btnLogin.classList.add('hidden');
 }
 
 // === 2. TAMPILKAN UI ADMIN ===
@@ -23,6 +26,7 @@ if (btnUpdate) {
     // logic update nanti di sini
   });
 }
+
 
 
 
