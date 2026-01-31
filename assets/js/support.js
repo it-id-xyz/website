@@ -1,3 +1,5 @@
+import { showAdminUI } from "./js/role.js";
+showAdminUI();
 const newList = document.getElementById('new-list');
 const btnUpdate = document.getElementById('btn-update');
 
@@ -24,3 +26,4 @@ btnUpdate.addEventListener('click', () => {
 //        error.appendChild(cText);
 //    }
 //})
+
