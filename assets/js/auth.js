@@ -16,6 +16,7 @@ form.addEventListener("submit", async (e) => {
       email,
       password
     );
+    const user = userCred.user;
    if (user.email === "admin@it-sch.id") { 
       localStorage.setItem("role", "admin");
     } else {
@@ -30,5 +31,6 @@ form.addEventListener("submit", async (e) => {
     console.error(err);
   }
 });
+
 
 
