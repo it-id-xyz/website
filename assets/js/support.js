@@ -1,4 +1,4 @@
-import { showAdminUI } from "role.js";
+import { showAdminUI } from "/role.js";
 
 // === 1. CEK ROLE DULU ===
 const role = localStorage.getItem("role");
@@ -23,5 +23,6 @@ if (btnUpdate) {
     // logic update nanti di sini
   });
 }
+
 
 
