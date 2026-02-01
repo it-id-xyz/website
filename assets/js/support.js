@@ -43,7 +43,7 @@ const btnCancel = document.getElementById('cancel-btn');
 const btnPreview = document.getElementById('preview-btn');
   
 
-btnPreview.addEventListener('click', () => { 
+if(e.target.id === 'preview-btn') { 
     const judul = document.getElementById('judul-article').value;
     const link = document.getElementById('link-article').value;
     const desk = document.getElementById('desk-article').value;
@@ -60,7 +60,7 @@ btnPreview.addEventListener('click', () => {
       <button id="delete-btn">Delete</button>
       <button id="post-btn">Confirm & Post</button>
     `;
-  });
+  };
 document.getElementById('delete-btn').addEventListener('click', () => {
   previewPost.innerHTML = '';
   });
@@ -154,4 +154,5 @@ function setupDeleteListeners() {
     });
   });
 }
+
 
