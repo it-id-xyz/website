@@ -49,8 +49,7 @@ if(e.target.id === 'preview-btn') {
     const desk = document.getElementById('desk-article').value;
 
     if(!link || !desk || !judul) {
-      alert('isi semua');
-      return
+      alert('isi semua') return;
     }
     previewPost.innerHTML = `
       <h3>Preview Article</h3>
@@ -154,5 +153,6 @@ function setupDeleteListeners() {
     });
   });
 }
+
 
 
