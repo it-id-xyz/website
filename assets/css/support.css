@@ -1,3 +1,10 @@
+.news-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 24px;
+}
+
 .news-card {
   max-width: 360px;
   background: #ffffff;
@@ -34,3 +41,4 @@
   line-height: 1.6;
   color: #6b7280;
 }
+
