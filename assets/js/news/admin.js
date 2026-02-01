@@ -5,21 +5,32 @@ import {
   serverTimestamp, doc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// 🔒 STOP SCRIPT JIKA BUKAN ADMIN
-await requireAdmin();
+// JANGAN gunakan await di luar fungsi secara langsung jika ingin guest tetap bisa akses
+requireAdmin()
+  .then(() => {
+    // KODE DI BAWAH HANYA JALAN JIKA USER ADALAH ADMIN
+    console.log("Admin terdeteksi, mengaktifkan fitur editor...");
+    initAdminFeatures(); 
+  })
+  .catch(() => {
+    // Jika bukan admin/guest, biarkan saja, jangan di-redirect
+    console.log("Bukan admin, fitur editor dinonaktifkan.");
+  });
 
-const ui = {
-  action: document.getElementById("if-error"),
-  form: document.getElementById("form-input"),
-  preview: document.getElementById("preview-post")
-};
-
-// === BUAT BUTTON ADMIN ===
-const btn = document.createElement("button");
-btn.id = "news-update";
-btn.textContent = "+ Update News";
-ui.action.appendChild(btn);
-
+function initAdminFeatures() {
+  const ui = {
+    action: document.getElementById("if-error"),
+    form: document.getElementById("form-input"),
+    preview: document.getElementById("preview-post")
+  };
+  
+  // === BUAT BUTTON ADMIN ===
+  const btn = document.createElement("button");
+  btn.id = "news-update";
+  btn.className = "admin-only-btn"; 
+  btn.textContent = "+ Update News";
+  ui.action.appendChild(btn);
+  
 // === EVENT GLOBAL ===
 document.addEventListener("click", async (e) => {
 
@@ -103,6 +114,7 @@ document.addEventListener("click", async (e) => {
   }
 
 });
+}
 
 
 
