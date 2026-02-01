@@ -23,17 +23,17 @@ function cleanMediaLink(foto) {
       }
     
       // HANDLE YOUTUBE (Video, Shorts, Mobile)
-      if (url.includes("youtube.com") || url.includes("youtu.be")) {
+      if (foto.includes("youtube.com") || foto.includes("youtu.be")) {
         let videoId = "";
         
-        if (url.includes("shorts/")) {
-          videoId = url.split("shorts/")[1]?.split(/[?#]/)[0];
-        } else if (url.includes("v=")) {
-          videoId = url.split("v=")[1]?.split(/[?#]/)[0];
-        } else if (url.includes("youtu.be/")) {
+        if (foto.includes("shorts/")) {
+          videoId = foto.split("shorts/")[1]?.split(/[?#]/)[0];
+        } else if (foto.includes("v=")) {
+          videoId = foto.split("v=")[1]?.split(/[?#]/)[0];
+        } else if (foto.includes("youtu.be/")) {
           videoId = url.split("youtu.be/")[1]?.split(/[?#]/)[0];
-        } else if (url.includes("embed/")) {
-          videoId = url.split("embed/")[1]?.split(/[?#]/)[0];
+        } else if (foto.includes("embed/")) {
+          videoId = foto.split("embed/")[1]?.split(/[?#]/)[0];
         }
     
         if (videoId) {
@@ -114,6 +114,7 @@ document.addEventListener("click", async (e) => {
     console.error(err);
   }
 });
+
 
 
 
