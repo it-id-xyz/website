@@ -1,4 +1,4 @@
-import { db } from "./js/firebase.js";
+import { db } from "../firebase.js";
 import {
   collection,
   query,
@@ -42,4 +42,5 @@ async function loadNews() {
 }
 
 loadNews();
+
 
