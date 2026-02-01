@@ -18,22 +18,35 @@ onSnapshot(q, (snap) => {
 
   snap.forEach(docSnap => {
     const d = docSnap.data();
+    const media = cleanMediaLink(d.foto); // Bersihkan link
+    
+    let mediaHTML = "";
+
+    if (media.type === 'youtube') {
+      mediaHTML = `<iframe src="${media.foto}" frameborder="0" allowfullscreen class="media-content"></iframe>`;
+    } else if (media.type === 'tiktok') {
+      mediaHTML = `<blockquote class="tiktok-embed" data-video-id="${media.foto}" style="max-width: 605px;min-width: 325px;" > <section> </section> </blockquote>`;
+    } else {
+      // Default Gambar
+      mediaHTML = `<img src="${media.foto}" alt="News Image" class="media-content" onerror="this.src='assets/img/placeholder.png'">`;
+    }
 
     newsList.innerHTML += `
-  <div class="news-card" data-id="${docSnap.id}">
-    <img src="${d.foto}" alt="">
-    <h3>${d.judul}</h3>
-    <p>${d.desk}</p>
-
-    ${role === "admin" ? `
-      <button class="delete-btn" data-id="${docSnap.id}">
-        🗑 Hapus
-      </button>
-    ` : ""}
-  </div>
-  `;
-
+      <div class="news-card">
+        ${mediaHTML}
+        <h3>${d.judul}</h3>
+        <p>${d.desk}</p>
+        ${role === "admin" ? `<button class="delete-btn" data-id="${docSnap.id}">🗑 Hapus</button>` : ""}
+      </div>
+    `;
   });
+
+  // Load ulang script TikTok jika ada video TikTok
+  if (document.querySelector('.tiktok-embed')) {
+    const s = document.createElement('script');
+    s.src = "https://www.tiktok.com/embed.js";
+    document.body.appendChild(s);
+  }
 });
 
 document.addEventListener("click", async (e) => {
@@ -54,3 +67,4 @@ document.addEventListener("click", async (e) => {
     console.error(err);
   }
 });
+
