@@ -95,11 +95,6 @@ document.addEventListener("click", async (e) => {
       cleanMediaLink(foto);
     }
     
-    if (!isValidDirectLink(foto)) {
-    alert("❌ LINK SALAH! Untuk ImgBB, kamu harus pilih 'Direct Link' (akhirannya harus .jpg atau .png).");
-    return; // Berhenti, jangan kirim ke database
-    }
-
     if (!judul || !foto || !desk) {
       alert("Lengkapi semua");
       return;
@@ -158,6 +153,7 @@ document.addEventListener("click", async (e) => {
 
 });
 }
+
 
 
 
