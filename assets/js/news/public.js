@@ -22,13 +22,26 @@ function cleanMediaLink(foto) {
         return { type: 'image', url: `https://lh3.googleusercontent.com/d/${fileId}` };
       }
     
-      // Handle YouTube (Shorts atau Video Biasa)
-      if (foto.includes("youtube.com") || foto.includes("youtu.be")) {
+      // HANDLE YOUTUBE (Video, Shorts, Mobile)
+      if (url.includes("youtube.com") || url.includes("youtu.be")) {
         let videoId = "";
-        if (foto.includes("youtu.be/")) videoId = foto.split("youtu.be/")[1]?.split(/[?#]/)[0];
-        else if (foto.includes("shorts/")) videoId = foto.split("shorts/")[1]?.split(/[?#]/)[0];
-        else videoId = foto.split("v=")[1]?.split(/[?#]/)[0];
-        return { type: 'youtube', url: `https://www.youtube.com/embed/${videoId}` };
+        
+        if (url.includes("shorts/")) {
+          videoId = url.split("shorts/")[1]?.split(/[?#]/)[0];
+        } else if (url.includes("v=")) {
+          videoId = url.split("v=")[1]?.split(/[?#]/)[0];
+        } else if (url.includes("youtu.be/")) {
+          videoId = url.split("youtu.be/")[1]?.split(/[?#]/)[0];
+        } else if (url.includes("embed/")) {
+          videoId = url.split("embed/")[1]?.split(/[?#]/)[0];
+        }
+    
+        if (videoId) {
+          return { 
+            type: 'youtube', 
+            url: `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1` 
+          };
+        }
       }
     
       // Handle TikTok (Embed)
@@ -101,6 +114,7 @@ document.addEventListener("click", async (e) => {
     console.error(err);
   }
 });
+
 
 
 
