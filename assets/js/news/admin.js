@@ -1,11 +1,12 @@
 import { db } from "../firebase.js";
-import { isAdmin, requireAdmin } from "../role.js";
+import { requireAdmin } from "../role.js";
 import {
   collection, addDoc, deleteDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-requireAdmin(); // STOP DI SINI KALAU BUKAN ADMIN
+// 🔒 STOP SCRIPT JIKA BUKAN ADMIN
+await requireAdmin();
 
 const ui = {
   action: document.getElementById("if-error"),
@@ -97,4 +98,5 @@ document.addEventListener("click", async (e) => {
     alert("Gagal hapus");
     console.error(err);
   }
+
 });
