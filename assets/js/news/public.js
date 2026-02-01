@@ -1,12 +1,9 @@
 import { db } from "../firebase.js";
 import {
-  collection,
-  query,
-  orderBy,
-  getDocs
+  collection, query, orderBy, getDocs
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-const list = document.getElementById("news-list");
+const newsList = document.getElementById("news-list");
 
 async function loadNews() {
   const q = query(
@@ -15,32 +12,19 @@ async function loadNews() {
   );
 
   const snap = await getDocs(q);
+  newsList.innerHTML = "";
 
-  if (snap.empty) {
-    list.innerHTML = "<p>Belum ada berita.</p>";
-    return;
-  }
+  snap.forEach(docSnap => {
+    const d = docSnap.data();
 
-  let html = "";
-
- snap.forEach(docSnap => {
-  const data = docSnap.data();
-  const id = docSnap.id;
-
-  html += `
-    <article class="news-card" data-id="${id}">
-      <img src="${data.foto}">
-      <h3>${data.judul}</h3>
-      <p>${data.desk}</p>
-
-      ${isAdmin() ? `<button class="delete-btn" data-id="${id}">Hapus</button>` : ""}
-    </article>
-  `;
-});
-
-  list.innerHTML = html;
+    newsList.innerHTML += `
+      <div class="news-card">
+        <img src="${d.foto}" alt="">
+        <h3>${d.judul}</h3>
+        <p>${d.desk}</p>
+      </div>
+    `;
+  });
 }
 
 loadNews();
-
-
