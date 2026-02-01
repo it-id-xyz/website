@@ -27,15 +27,3 @@ export function requireAdmin() {
     });
   });
 }
-
-
-      const snap = await getDoc(doc(db, "users", user.uid));
-      if (!snap.exists() || snap.data().role !== "admin") {
-        reject(new Error("Bukan admin"));
-        return;
-      }
-
-      resolve(user);
-    });
-  });
-}
