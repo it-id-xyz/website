@@ -79,12 +79,14 @@ onSnapshot(q, (snap) => {
     }
 
     newsList.innerHTML += `
-      <div class="news-card">
+      <article class="news-card">
         ${mediaHTML}
+        <div class="article-content">
         <h3>${d.judul}</h3>
         <p>${d.desk}</p>
+        </div>
         ${role === "admin" ? `<button class="delete-btn" data-id="${docSnap.id}">🗑 Hapus</button>` : ""}
-      </div>
+      </article>
     `;
   });
 
@@ -114,6 +116,7 @@ document.addEventListener("click", async (e) => {
     console.error(err);
   }
 });
+
 
 
 
