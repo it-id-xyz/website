@@ -69,7 +69,7 @@ document.addEventListener("click", async (e) => {
       foto,
       desk,
       createdAt: serverTimestamp()
-    });
+    }
 
     alert("Artikel terbit!");
     ui.form.innerHTML = "";
@@ -100,3 +100,4 @@ document.addEventListener("click", async (e) => {
   }
 
 });
+
