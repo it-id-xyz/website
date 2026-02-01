@@ -7,7 +7,6 @@ import {
 
 // 🔒 STOP SCRIPT JIKA BUKAN ADMIN
 await requireAdmin();
-return false;
 
 const ui = {
   action: document.getElementById("if-error"),
@@ -104,6 +103,7 @@ document.addEventListener("click", async (e) => {
   }
 
 });
+
 
 
 
