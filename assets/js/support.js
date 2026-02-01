@@ -18,10 +18,11 @@ showAdminUI();
 
 // === 3. BARU SENTUH DOM ===
 const bagianForm = document.getElementById('form-input');
-const NewsUpdate = document.getElementById('news-update');
+const previewPost = document.getElementById('preview-post');
 
 // SAFETY CHECK
-NewsUpdate.addEventListener('click', (e) => {
+bagianForm.addEventListener('click', (e) => {
+  if (e.target.id === 'news-update') {
     if (document.getElementById('form-input')) return;
 
     bagianForm.innerHTML = ` 
@@ -31,26 +32,20 @@ NewsUpdate.addEventListener('click', (e) => {
       <input type="text" id="link-article" placeholder="https://..." required>
       <p style="font-size:12px">Bisa menggunakan link imgbb, gdrive, youtube</p>
       <h4>Masukan deskripsi</h4>
-      <textarea type"text" id="desk-article" placeholder="Tulis deskripsi berita" required></textarea
+      <textarea type"text" id="desk-article" placeholder="Tulis deskripsi berita" required></textarea>
       <p style="font-size:12px">Upload foto ke: <a href="https://imgbb.com" target="_blank">ImgBB.com</a></p>
       <button id="cancel-btn">Cancel</button>
       <button id="preview-btn">Preview</button>
     `;
-  }); 
 
-const previewPost = document.getElementById('preview-post');
-const btnCancel = document.getElementById('cancel-btn');
-const btnPreview = document.getElementById('preview-btn');
-  
-
-btnPreview.addEventListener('click', () => { 
+  if(e.target.id === 'preview-btn') { 
     const judul = document.getElementById('judul-article').value;
     const link = document.getElementById('link-article').value;
     const desk = document.getElementById('desk-article').value;
 
     if(!link || !desk || !judul) {
       alert('isi semua');
-      return
+      return;
     }
     previewPost.innerHTML = `
       <h3>Preview Article</h3>
@@ -60,54 +55,60 @@ btnPreview.addEventListener('click', () => {
       <button id="delete-btn">Delete</button>
       <button id="post-btn">Confirm & Post</button>
     `;
-  });
-document.getElementById('delete-btn').addEventListener('click', () => {
-  previewPost.innerHTML = '';
-  });
-
-document.getElementById('post-btn').addEventListener('click', async () => {
-  const judul = document.getElementById('judul-article').value;
-  const desk = document.getElementById('desk-article').value;
-  const link = document.getElementById('link-article').value;
-
-  if (role !== "admin") return;
-  try {
-    document.getElementById('post-btn').innerText = "Uploading...";
-    document.getElementById('post-btn').disabled = true;
-
-    await addDoc(collection(db, "article"), {
-      judul: judul,
-      foto: link, 
-      desk: desk,
-      createdAt: serverTimestamp()
-    });
-
-    alert("Artikel Berhasil Terbit Publik!");
+  };
+  if (e.target.id === 'delete-btn') {
     previewPost.innerHTML = '';
-    News.remove();
+  };
+  
+  if (e.target.id === 'cancel-btn') {
+    document.getElementById('form-input').remove();
+    previewPost.innerHTML = '';
+  };
+  };
+});
+
+document.addEventListener('click', async (e) => {
+  if (e.target.id === 'post-btn') {
+    const judul = document.getElementById('judul-article').value;
+    const desk = document.getElementById('desk-article').value;
+    const link = document.getElementById('link-article').value;
+
+    if (role !== "admin") return;
+    try {
+      document.getElementById('post-btn').innerText = "Uploading...";
+      document.getElementById('post-btn').disabled = true;
+
+      await addDoc(collection(db, "article"), {
+        judul: judul,
+        foto: link, 
+        desk: desk,
+        createdAt: serverTimestamp()
+      });
+
+      alert("Artikel Berhasil Terbit Publik!");
+      previewPost.innerHTML = '';
+      News.remove();
 
     } catch (e) {
       console.error("Gagal total: ", e);
       alert("Waduh, gagal upload: " + e.message);
-      }
-  });
-
-btnCancel.addEventListener('click', () => {
-  document.getElementById('form-input').remove();
-  document.getElementById('preview-post').remove()
-  });
+      e.target.innerText = "Confirm & Post";
+      e.target.disabled = false;
+    }
+  }
+});
 
 async function loadNews() {
-  const newsList = document.querySelector('news-list'); 
+  const newsList = document.querySelector('.news-list:not(#preview-post)'); 
   if (!newsList) return;
 
   const q = query(collection(db, "article"), orderBy("createdAt", "desc"));
   const querySnapshot = await getDocs(q);
   let cards = "";
 
-  querySnapshot.forEach((document) => {
-    const data = document.data();
-    const docId = document.id; 
+  querySnapshot.forEach((documentSnap) => {
+    const data = documentSnap.data();
+    const docId = documentSnap.id;
 
     cards += `
       <div class="news-card" id="card-${docId}">
@@ -127,31 +128,21 @@ async function loadNews() {
     `;
   });
   newsList.innerHTML = cards;
-  
-  setupDeleteListeners();
-}
-function setupDeleteListeners() {
-  const deleteButtons = document.querySelectorAll('.delete-news-btn');
-  
-  deleteButtons.forEach(btn => {
-    btn.addEventListener('click', async (e) => {
-      const docId = e.target.getAttribute('data-id');
-      
-      if (confirm("Serius mau hapus artikel ini, Bro?")) {
+
+document.querySelectorAll('.delete-news-btn').forEach(btn => {
+    btn.onclick = async (e) => {
+      const docId = e.target.closest('button').getAttribute('data-id');
+      if (confirm("Yakin mau hapus?")) {
         try {
-          // 1. Hapus dari Firestore Database
           await deleteDoc(doc(db, "article", docId));
-          
-          // 2. Hapus dari tampilan HTML (GitHub) tanpa reload
           document.getElementById(`card-${docId}`).remove();
-          
-          alert("Artikel berhasil dihapus!");
-        } catch (error) {
-          console.error("Gagal hapus:", error);
-          alert("Gagal hapus data: " + error.message);
+          alert("Berhasil dihapus!");
+        } catch (err) {
+          alert("Gagal hapus: " + err.message);
         }
       }
-    });
+    };
   });
 }
 
+loadNews();
