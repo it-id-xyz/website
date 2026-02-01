@@ -12,11 +12,6 @@ export function requireAdmin() {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       unsubscribe(); // ⬅️ WAJIB
 
-      if (!user) {
-        reject(new Error("Belum login"));
-        return;
-      }
-
       const snap = await getDoc(doc(db, "users", user.uid));
       if (!snap.exists() || snap.data().role !== "admin") {
         reject(new Error("Bukan admin"));
