@@ -62,7 +62,7 @@ onSnapshot(q, (snap) => {
       mediaHTML = `<blockquote class="tiktok-embed" data-video-id="${media.foto}" style="max-width: 605px;min-width: 325px;" > <section> </section> </blockquote>`;
     } else {
       // Default Gambar
-      mediaHTML = `<img src="${media.foto}" alt="News Image" class="media-content" onerror="this.src='assets/img/placeholder.png'">`;
+      mediaHTML = `<img src="${media.foto}" alt="News Image" class="media-content" onerror="this.src='assets/img/it.png'">`;
     }
 
     newsList.innerHTML += `
@@ -101,5 +101,6 @@ document.addEventListener("click", async (e) => {
     console.error(err);
   }
 });
+
 
 
