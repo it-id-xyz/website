@@ -43,13 +43,14 @@ const btnCancel = document.getElementById('cancel-btn');
 const btnPreview = document.getElementById('preview-btn');
   
 
-if(e.target.id === 'preview-btn') { 
+btnPreview.addEventListener('click', () => { 
     const judul = document.getElementById('judul-article').value;
     const link = document.getElementById('link-article').value;
     const desk = document.getElementById('desk-article').value;
 
     if(!link || !desk || !judul) {
-      alert('isi semua') return;
+      alert('isi semua');
+      return
     }
     previewPost.innerHTML = `
       <h3>Preview Article</h3>
@@ -59,7 +60,7 @@ if(e.target.id === 'preview-btn') {
       <button id="delete-btn">Delete</button>
       <button id="post-btn">Confirm & Post</button>
     `;
-  };
+  });
 document.getElementById('delete-btn').addEventListener('click', () => {
   previewPost.innerHTML = '';
   });
@@ -153,6 +154,4 @@ function setupDeleteListeners() {
     });
   });
 }
-
-
 
