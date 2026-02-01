@@ -31,7 +31,7 @@ function cleanMediaLink(foto) {
         } else if (foto.includes("v=")) {
           videoId = foto.split("v=")[1]?.split(/[?#]/)[0];
         } else if (foto.includes("youtu.be/")) {
-          videoId = url.split("youtu.be/")[1]?.split(/[?#]/)[0];
+          videoId = foto.split("youtu.be/")[1]?.split(/[?#]/)[0];
         } else if (foto.includes("embed/")) {
           videoId = foto.split("embed/")[1]?.split(/[?#]/)[0];
         }
@@ -114,6 +114,7 @@ document.addEventListener("click", async (e) => {
     console.error(err);
   }
 });
+
 
 
 
