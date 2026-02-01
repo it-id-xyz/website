@@ -5,11 +5,11 @@ import {
   serverTimestamp, doc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// JANGAN gunakan await di luar fungsi secara langsung jika ingin guest tetap bisa akses
 requireAdmin()
   .then(() => {
     // KODE DI BAWAH HANYA JALAN JIKA USER ADALAH ADMIN
     console.log("Admin terdeteksi, mengaktifkan fitur editor...");
+    document.querySelectorAll('.delete-btn').forEach(b => b.style.display = 'block');
     initAdminFeatures(); 
   })
   .catch(() => {
@@ -115,6 +115,7 @@ document.addEventListener("click", async (e) => {
 
 });
 }
+
 
 
 
