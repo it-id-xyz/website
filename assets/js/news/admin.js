@@ -2,11 +2,11 @@ import { db } from "../firebase.js";
 import { requireAdmin } from "../role.js";
 import {
   collection, addDoc, deleteDoc,
-  serverTimestamp
+  serverTimestamp, doc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // 🔒 STOP SCRIPT JIKA BUKAN ADMIN
-await requireAdmin();
+await requireAdmin() return false;
 
 const ui = {
   action: document.getElementById("if-error"),
@@ -64,13 +64,16 @@ document.addEventListener("click", async (e) => {
 
   // POST
   if (e.target.id === "post-btn") {
+    const judul = document.getElementById("judul").value;
+    const foto  = document.getElementById("foto").value;
+    const desk  = document.getElementById("desk").value;
     await addDoc(collection(db, "article"), {
       judul,
       foto,
       desk,
       createdAt: serverTimestamp()
-    }
-
+    })
+    
     alert("Artikel terbit!");
     ui.form.innerHTML = "";
     ui.preview.innerHTML = "";
@@ -100,4 +103,5 @@ document.addEventListener("click", async (e) => {
   }
 
 });
+
 
