@@ -86,9 +86,9 @@ document.addEventListener("click", async (e) => {
   }
 });
 document.addEventListener("click", async (e) => {
-  if (!e.target.classList.contains("delete-btn")) return;
-
-  const id = e.target.dataset.id;
+  const btn = e.target.closest(".delete-btn");
+  if (!btn) return;
+ const id = btn.dataset.id;
 
   if (!confirm("Hapus artikel ini?")) return;
 
@@ -96,13 +96,14 @@ document.addEventListener("click", async (e) => {
     await deleteDoc(doc(db, "article", id));
     alert("Artikel dihapus");
 
-    e.target.closest(".news-card").remove();
+   btn.closest(".news-card").remove();
   } catch (err) {
     alert("Gagal hapus");
     console.error(err);
   }
 
 });
+
 
 
 
