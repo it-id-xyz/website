@@ -9,11 +9,25 @@ const db = getFirestore(app);
 
 export function requireAdmin() {
   return new Promise((resolve, reject) => {
-    onAuthStateChanged(auth, async (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      unsubscribe(); // ⬅️ WAJIB
+
       if (!user) {
         reject(new Error("Belum login"));
         return;
       }
+
+      const snap = await getDoc(doc(db, "users", user.uid));
+      if (!snap.exists() || snap.data().role !== "admin") {
+        reject(new Error("Bukan admin"));
+        return;
+      }
+
+      resolve(user);
+    });
+  });
+}
+
 
       const snap = await getDoc(doc(db, "users", user.uid));
       if (!snap.exists() || snap.data().role !== "admin") {
