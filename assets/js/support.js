@@ -19,9 +19,10 @@ showAdminUI();
 // === 3. BARU SENTUH DOM ===
 const bagianForm = document.getElementById('form-input');
 const previewPost = document.getElementById('preview-post');
+const newsUpdate = document.getElementById('if-error');
 
 // SAFETY CHECK
-bagianForm.addEventListener('click', (e) => {
+newsUpdate.addEventListener('click', (e) => {
   if (e.target.id === 'news-update') {
     if (document.getElementById('form-input')) return;
 
@@ -146,3 +147,4 @@ document.querySelectorAll('.delete-news-btn').forEach(btn => {
 }
 
 loadNews();
+
