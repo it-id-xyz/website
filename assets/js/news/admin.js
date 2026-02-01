@@ -6,7 +6,8 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // 🔒 STOP SCRIPT JIKA BUKAN ADMIN
-await requireAdmin() return false;
+await requireAdmin();
+return false;
 
 const ui = {
   action: document.getElementById("if-error"),
@@ -103,5 +104,6 @@ document.addEventListener("click", async (e) => {
   }
 
 });
+
 
 
