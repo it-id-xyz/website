@@ -16,6 +16,40 @@ requireAdmin()
     // Jika bukan admin/guest, biarkan saja, jangan di-redirect
     console.log("Bukan admin, fitur editor dinonaktifkan.");
   });
+// function clean media
+ function cleanMediaLink(foto) {
+      if (!foto) return "";
+    
+      // Handle Google Drive
+      if (foto.includes("drive.google.com")) {
+        const fileId = foto.split("/d/")[1]?.split("/")[0] || foto.split("id=")[1];
+        return { type: 'image', url: `https://lh3.googleusercontent.com/d/${fileId}` };
+      }
+    
+      // Handle YouTube (Shorts atau Video Biasa)
+      if (foto.includes("youtube.com") || foto.includes("youtu.be")) {
+        let videoId = "";
+        if (foto.includes("youtu.be/")) videoId = foto.split("youtu.be/")[1]?.split(/[?#]/)[0];
+        else if (foto.includes("shorts/")) videoId = foto.split("shorts/")[1]?.split(/[?#]/)[0];
+        else videoId = foto.split("v=")[1]?.split(/[?#]/)[0];
+        return { type: 'youtube', url: `https://www.youtube.com/embed/${videoId}` };
+      }
+    
+      // Handle TikTok (Embed)
+      if (foto.includes("tiktok.com")) {
+        const videoId = foto.split("/video/")[1]?.split(/[?#]/)[0];
+        return { type: 'tiktok', url: videoId }; // Kita simpan ID-nya saja
+      }
+    
+      // Handle ImgBB (Jika bukan direct link, kita tidak bisa menebak id-nya dengan mudah, 
+      // disarankan tetap ambil 'Direct Link' di ImgBB, tapi kita tandai)
+      if (foto.includes("ibb.co") && !foto.match(/\.(jpg|jpeg|png|webp|gif)$/i)) {
+        return { type: 'image', url: foto, warning: 'Gunakan Direct Link ImgBB!' };
+      }
+    
+      // Default: Anggap saja gambar biasa
+      return { type: 'image', url: foto };
+    }
 
 function initAdminFeatures() {
   const ui = {
@@ -57,6 +91,14 @@ document.addEventListener("click", async (e) => {
     const foto  = document.getElementById("foto-input").value;
     const desk  = document.getElementById("desk-input").value;
 
+    if(foto === "https://") {
+      cleanMediaLink(foto);
+    }
+    
+    if (!isValidDirectLink(foto)) {
+    alert("❌ LINK SALAH! Untuk ImgBB, kamu harus pilih 'Direct Link' (akhirannya harus .jpg atau .png).");
+    return; // Berhenti, jangan kirim ke database
+    }
 
     if (!judul || !foto || !desk) {
       alert("Lengkapi semua");
@@ -79,39 +121,6 @@ document.addEventListener("click", async (e) => {
     const foto  = document.getElementById("foto-input").value;
     const desk  = document.getElementById("desk-input").value;
     
-    function cleanMediaLink(foto) {
-      if (!foto) return "";
-    
-      // Handle Google Drive
-      if (foto.includes("drive.google.com")) {
-        const fileId = foto.split("/d/")[1]?.split("/")[0] || foto.split("id=")[1];
-        return { type: 'image', url: `https://lh3.googleusercontent.com/d/${fileId}` };
-      }
-    
-      // Handle YouTube (Shorts atau Video Biasa)
-      if (foto.includes("youtube.com") || foto.includes("youtu.be")) {
-        let videoId = "";
-        if (foto.includes("youtu.be/")) videoId = foto.split("youtu.be/")[1]?.split(/[?#]/)[0];
-        else if (foto.includes("shorts/")) videoId = foto.split("shorts/")[1]?.split(/[?#]/)[0];
-        else videoId = foto.split("v=")[1]?.split(/[?#]/)[0];
-        return { type: 'youtube', url: `https://www.youtube.com/embed/${videoId}` };
-      }
-    
-      // Handle TikTok (Embed)
-      if (foto.includes("tiktok.com")) {
-        const videoId = foto.split("/video/")[1]?.split(/[?#]/)[0];
-        return { type: 'tiktok', url: videoId }; // Kita simpan ID-nya saja
-      }
-    
-      // Handle ImgBB (Jika bukan direct link, kita tidak bisa menebak id-nya dengan mudah, 
-      // disarankan tetap ambil 'Direct Link' di ImgBB, tapi kita tandai)
-      if (foto.includes("ibb.co") && !foto.match(/\.(jpg|jpeg|png|webp|gif)$/i)) {
-        return { type: 'image', url: foto, warning: 'Gunakan Direct Link ImgBB!' };
-      }
-    
-      // Default: Anggap saja gambar biasa
-      return { type: 'image', url: foto };
-    }
     await addDoc(collection(db, "article"), {
       judul: judul,
       foto: foto,
@@ -149,6 +158,7 @@ document.addEventListener("click", async (e) => {
 
 });
 }
+
 
 
 
