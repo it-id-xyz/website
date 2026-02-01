@@ -29,12 +29,12 @@ document.addEventListener("click", async (e) => {
 
     ui.form.innerHTML = `
       <h4>Masukan Judul Article</h4>
-      <input id="judul" placeholder="Judul">
+      <input id="judul-input" placeholder="Judul">
       <h4>Masukan link Foto/Video/File</h4>
-      <input id="foto" placeholder="Link gambar">
+      <input id="foto-input" placeholder="Link gambar">
       <p>Upload foto ke: <a href="https://imgbb.com" target="_blank">ImgBB.com</a></p>
       <p>Atau link gdrive/youtube/google</p>
-      <textarea id="desk" placeholder="Deskripsi"></textarea>
+      <textarea id="desk-input" placeholder="Deskripsi"></textarea>
       <button id="cancel-btn">Cancel</button>
       <button id="preview-btn">Preview</button>
     `;
@@ -42,9 +42,9 @@ document.addEventListener("click", async (e) => {
 
   // PREVIEW
   if (e.target.id === "preview-btn") {
-    const judul = document.getElementById("judul").value;
-    const foto  = document.getElementById("foto").value;
-    const desk  = document.getElementById("desk").value;
+    const judul = document.getElementById("judul-input").value;
+    const foto  = document.getElementById("foto-input").value;
+    const desk  = document.getElementById("desk-input").value;
 
 
     if (!judul || !foto || !desk) {
@@ -64,13 +64,13 @@ document.addEventListener("click", async (e) => {
 
   // POST
   if (e.target.id === "post-btn") {
-    const judul = document.getElementById("judul").value;
-    const foto  = document.getElementById("foto").value;
-    const desk  = document.getElementById("desk").value;
+    const judul = document.getElementById("judul-input").value;
+    const foto  = document.getElementById("foto-input").value;
+    const desk  = document.getElementById("desk-input").value;
     await addDoc(collection(db, "article"), {
-      judul,
-      foto,
-      desk,
+      judul: judul,
+      foto: foto,
+      desk: desk,
       createdAt: serverTimestamp()
     })
     
@@ -103,6 +103,7 @@ document.addEventListener("click", async (e) => {
   }
 
 });
+
 
 
 
