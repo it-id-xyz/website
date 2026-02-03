@@ -48,7 +48,7 @@ requireAdmin().then(async (user) => {
             const statusColor = u.status === "online" ? "#7aa2ff" : "gray";
             onlineList.innerHTML += `
                 <div style="margin-bottom: 5px;">
-                    <span style="color: ${statusColor}">●</span> ${u.nama || u.email} 
+                    <i class="fa fa-circle" style="color: ${statusColor}"></i> ${u.nama || u.email} 
                     <small>(${u.status || 'offline'})</small>
                 </div>`;
         });
@@ -103,4 +103,5 @@ async function getIP() {
         return data.ip;
     } catch { return "IP Unknown"; }
 }
+
 
