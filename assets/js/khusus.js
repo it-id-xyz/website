@@ -45,7 +45,7 @@ requireAdmin().then(async (user) => {
         onlineList.innerHTML = "";
         snap.forEach(docSnap => {
             const u = docSnap.data();
-            const statusColor = u.status === "online" ? "green" : "gray";
+            const statusColor = u.status === "online" ? "#7aa2ff" : "gray";
             onlineList.innerHTML += `
                 <div style="margin-bottom: 5px;">
                     <span style="color: ${statusColor}">●</span> ${u.nama || u.email} 
@@ -103,3 +103,4 @@ async function getIP() {
         return data.ip;
     } catch { return "IP Unknown"; }
 }
+
