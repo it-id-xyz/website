@@ -3,6 +3,7 @@ import { getAuth, onAuthStateChanged } from
 import { getFirestore, doc, getDoc } from
 "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { app } from "./firebase.js";
+import { updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -20,5 +21,17 @@ export function requireAdmin() {
 
       resolve(user);
     });
+  });
+}
+
+async function updateOnlineStatus(uid) {
+  const userRef = doc(db, "users", uid);
+  await updateDoc(userRef, {
+    status: "online",
+    lastSeen: serverTimestamp()
+  });
+  
+  window.addEventListener("beforeunload", () => {
+    updateDoc(userRef, { status: "offline" });
   });
 }
