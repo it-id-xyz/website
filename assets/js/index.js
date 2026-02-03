@@ -13,6 +13,7 @@ requireAdmin()
     cEl.id = 'admin-only';
     cEl.innerText ='<i class="fa fa-gauge-high"></i> Admin Dashboard';
     cEl.href = 'admin.html';
+    navMenu.appendChild(cEl);
     initAdminFeatures(); 
   })
   .catch(() => {
@@ -28,4 +29,5 @@ back.addEventListener('click', () => {
     navMenu.classList.add('hidden');
 
 });
+
 
