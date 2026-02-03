@@ -1,6 +1,6 @@
 // Tambahkan import addDoc dan collection jika belum
 import { addDoc, collection, serverTimestamp, query, limit, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { updateOnlineStatus } from "./role.js";
+import { updateOnlineStatus, requireAdmin } from "./role.js";
 
 requireAdmin().then(async (user) => {
     // Ambil dokumen user dari Firestore
@@ -107,4 +107,5 @@ if (e.target.classList.contains("delete-btn")) {
 
 }
 });
+
 
