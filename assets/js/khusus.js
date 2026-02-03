@@ -3,43 +3,21 @@ import { addDoc, collection, serverTimestamp, query, limit, orderBy, onSnapshot 
 import { updateOnlineStatus } from "./role.js";
 
 requireAdmin().then(async (user) => {
-    const userRef = doc(db, "users", user.uid);
-    const userSnap = await getDoc(userRef);
-
+    // Ambil dokumen user dari Firestore
+    const userSnap = await getDoc(doc(db, "users", user.uid));
+    
     if (userSnap.exists()) {
         const userData = userSnap.data();
-
-        // CEK APAKAH NAMA SUDAH ADA?
-        if (!userData.name || userData.name === "") {
-            document.getElementById("name-modal").style.display = "flex";
-        } else {
-            // Jika sudah ada, tampilkan salam di dashboard
-            document.getElementById("admin-name").innerText = `Selamat Bekerja, ${userData.name}!`;
+        const displayLabel = document.getElementById("admin-name");
+        
+        // Tampilkan Nama kalau ada, kalau nggak ada balik ke Email
+        if (displayLabel) {
+            displayLabel.innerText = userData.nama ? `Halo, ${userData.nama}!` : `Halo, ${user.email}`;
         }
     }
-
-    // EVENT SIMPAN NAMA
-    document.getElementById("save-name-btn").addEventListener("click", async () => {
-        const newName = document.getElementById("new-admin-name").value.trim();
-        
-        if (newName.length < 3) {
-            alert("Nama terlalu pendek, minimal 3 karakter ya!");
-            return;
-        }
-
-        try {
-            await updateDoc(userRef, { name: newName });
-            alert(`Profil diperbarui: ${newName}`);
-            document.getElementById("name-modal").style.display = "none";
-            document.getElementById("admin-name").innerText = `Selamat Bekerja, ${newName}!`;
-            
-            // Catat ke log bahwa admin baru saja set nama
-            simpanLog("UPDATE_PROFIL", `Mengubah nama menjadi ${newName}`);
-        } catch (err) {
-            console.error(err);
-            alert("Gagal menyimpan nama.");
-        }
-    });
+    
+    // Update status online
+    updateOnlineStatus(user.uid, "online");
 
 // 1. Tampilkan Log Aktivitas
 const qLogs = query(collection(db, "logs"), orderBy("time", "desc"), limit(10));
@@ -129,3 +107,4 @@ if (e.target.classList.contains("delete-btn")) {
 
 }
 });
+
