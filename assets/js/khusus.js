@@ -1,111 +1,105 @@
-// Tambahkan import addDoc dan collection jika belum
-import { addDoc, collection, serverTimestamp, query, limit, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { addDoc, collection, serverTimestamp, query, limit, orderBy, onSnapshot, getDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { updateOnlineStatus, requireAdmin } from "./role.js";
+import { auth, db } from "./firebase.js"; // Pastikan db dan auth diimport
 
 requireAdmin().then(async (user) => {
-    // Ambil dokumen user dari Firestore
-    const userSnap = await getDoc(doc(db, "users", user.uid));
-    
+    // Ambil UID dari objek 'user' hasil resolve requireAdmin
+    const uid = user.uid; 
+
+    // 1. Ambil dokumen profil admin
+    const userSnap = await getDoc(doc(db, "users", uid));
+    let namaAdmin = user.email; // Default pakai email
+
     if (userSnap.exists()) {
         const userData = userSnap.data();
-        const displayLabel = document.getElementById("admin-name");
+        namaAdmin = userData.nama || user.email; // Ambil field 'nama' dari DB kamu
         
-        // Tampilkan Nama kalau ada, kalau nggak ada balik ke Email
+        const displayLabel = document.getElementById("admin-name");
         if (displayLabel) {
-            displayLabel.innerText = userData.nama ? `Halo, ${userData.nama}!` : `Halo, ${user.email}`;
+            displayLabel.innerText = `Halo, ${namaAdmin}!`;
         }
     }
     
-    // Update status online
-    updateOnlineStatus(user.uid, "online");
+    // 2. Update status online
+    updateOnlineStatus(uid);
 
-// 1. Tampilkan Log Aktivitas
-const qLogs = query(collection(db, "logs"), orderBy("time", "desc"), limit(10));
-onSnapshot(qLogs, (snap) => {
-  const logList = document.getElementById("log-list");
-  logList.innerHTML = "";
-  snap.forEach(doc => {
-    const data = doc.data();
-    const time = data.time?.toDate().toLocaleString('id-ID');
-    logList.innerHTML += `<li>[${time}] ${data.email}: ${data.action} (${data.target})</li>`;
-  });
+    // 3. Tampilkan Log Aktivitas
+    const qLogs = query(collection(db, "logs"), orderBy("time", "desc"), limit(10));
+    onSnapshot(qLogs, (snap) => {
+        const logList = document.getElementById("log-list");
+        if(!logList) return;
+        logList.innerHTML = "";
+        snap.forEach(docSnap => {
+            const data = docSnap.data();
+            const time = data.time?.toDate().toLocaleString('id-ID') || "...";
+            // Sesuaikan field log: adminName dan action
+            logList.innerHTML += `<li>[${time}] <b>${data.adminName}</b>: ${data.action} (${data.target})</li>`;
+        });
+    });
+
+    // 4. Tampilkan Admin Online
+    const qOnline = query(collection(db, "users"), orderBy("lastSeen", "desc"));
+    onSnapshot(qOnline, (snap) => {
+        const onlineList = document.getElementById("online-list");
+        if(!onlineList) return;
+        onlineList.innerHTML = "";
+        snap.forEach(docSnap => {
+            const u = docSnap.data();
+            const statusColor = u.status === "online" ? "green" : "gray";
+            onlineList.innerHTML += `
+                <div style="margin-bottom: 5px;">
+                    <span style="color: ${statusColor}">●</span> ${u.nama || u.email} 
+                    <small>(${u.status || 'offline'})</small>
+                </div>`;
+        });
+    });
+
+    // 5. Fungsi Log Global (Hanya satu fungsi agar rapi)
+    async function simpanLog(aksi, target) {
+        const ip = await getIP();
+        await addDoc(collection(db, "logs"), {
+            adminName: namaAdmin, // Pakai variabel namaAdmin yang sudah kita ambil di atas
+            email: user.email,
+            action: aksi,
+            target: target,
+            ipAddress: ip,
+            time: serverTimestamp()
+        });
+    }
+
+    // --- EVENT LISTENER (Taruh di dalam .then agar fungsi simpanLog terbaca) ---
+
+    document.addEventListener("click", async (e) => {
+        // SAAT POST ARTIKEL
+        if (e.target.id === "post-btn") {
+            const judul = document.getElementById("judul-input").value;
+            // ... kode addDoc artikel kamu di sini ...
+            
+            await simpanLog("TAMBAH_ARTIKEL", judul);
+            alert("Artikel terbit!");
+        }
+
+        // SAAT HAPUS ARTIKEL
+        if (e.target.classList.contains("delete-btn")) {
+            const id = e.target.dataset.id;
+            const judulHapus = e.target.closest(".news-card")?.querySelector("h3")?.innerText || id;
+            
+            // ... kode deleteDoc artikel kamu di sini ...
+            
+            await simpanLog("HAPUS_ARTIKEL", judulHapus);
+        }
+    });
+
+}).catch(err => {
+    console.error("Akses ditolak:", err);
+    window.location.href = "login.html";
 });
 
-// 2. Tampilkan Admin Online
-const qOnline = query(collection(db, "users"), orderBy("lastSeen", "desc"));
-onSnapshot(qOnline, (snap) => {
-  const onlineList = document.getElementById("online-list");
-  onlineList.innerHTML = "";
-  snap.forEach(doc => {
-    const user = doc.data();
-    const statusColor = user.status === "online" ? "green" : "gray";
-    onlineList.innerHTML += `
-      <div style="margin-bottom: 5px;">
-        <span style="color: ${statusColor}">●</span> ${user.email} 
-        <small>(Terakhir: ${user.lastSeen?.toDate().toLocaleTimeString()})</small>
-      </div>`;
-  });
-});
-
-// Fungsi Log Global
-a// Di admin.js (asumsi kamu sudah punya data user dari requireAdmin)
-async function simpanLog(aksi, target) {
-  const ip = await getIP();
-  
-  // Ambil data nama dari Firestore (agar lebih akurat)
-  const userSnap = await getDoc(doc(db, "users", auth.currentUser.uid));
-  const adminName = userSnap.exists() ? userSnap.data().nama : auth.currentUser.email;
-
-  await addDoc(collection(db, "logs"), {
-    adminName: adminName, 
-    email: auth.currentUser.email,
-    action: aksi,
-    target: target,
-    ipAddress: ip,
-    time: serverTimestamp()
-  });
+// Fungsi bantu ambil IP
+async function getIP() {
+    try {
+        const res = await fetch('https://api.ipify.org?format=json');
+        const data = await res.json();
+        return data.ip;
+    } catch { return "IP Unknown"; }
 }
-
-// CONTOH SAAT POST ARTIKEL
-if (e.target.id === "post-btn") {
- 
-  
-  await simpanLog("TAMBAH_ARTIKEL", judul);
-  alert("Artikel terbit!");
-}
-
-// CONTOH SAAT HAPUS ARTIKEL
-if (e.target.classList.contains("delete-btn")) {
-  const id = e.target.dataset.id;
-  // ... kode hapus ...
-  
-  await simpanLog("HAPUS_ARTIKEL", `ID: ${id}`);
-}
-if (e.target.id === "post-btn") {
-  // ... kode posting artikel kamu ...
-  
-  // LOG AKTIVITAS
-  await addDoc(collection(db, "logs"), {
-    adminName: auth.currentUser.email, // atau ambil dari user.displayName
-    action: "Memposting artikel baru",
-    target: judul,
-    time: serverTimestamp()
-  });
-}
-
-
-// Di dalam fungsi DELETE artikel
-if (e.target.classList.contains("delete-btn")) {
-  // ... kode delete artikel ...
-  
-  await addDoc(collection(db, "logs"), {
-    adminName: auth.currentUser.email,
-    action: "Menghapus artikel",
-    target: id, // ID artikel yang dihapus
-    time: serverTimestamp()
-  });
-
-}
-});
-
-
