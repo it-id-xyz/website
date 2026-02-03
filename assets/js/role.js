@@ -24,7 +24,7 @@ export function requireAdmin() {
   });
 }
 
-async function updateOnlineStatus(uid) {
+export function updateOnlineStatus(uid) {
   const userRef = doc(db, "users", uid);
   await updateDoc(userRef, {
     status: "online",
