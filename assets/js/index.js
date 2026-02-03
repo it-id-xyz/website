@@ -1,3 +1,5 @@
+import { requireAdmin } from "./role.js"
+
 const menuToggle = document.getElementById('menuToggle');
 const navMenu = document.getElementById('navMenu');
 const back = document.getElementById('back');
@@ -26,3 +28,4 @@ back.addEventListener('click', () => {
     navMenu.classList.add('hidden');
 
 });
+
