@@ -2,6 +2,45 @@
 import { addDoc, collection, serverTimestamp, query, limit, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { updateOnlineStatus } from "./role.js";
 
+requireAdmin().then(async (user) => {
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+        const userData = userSnap.data();
+
+        // CEK APAKAH NAMA SUDAH ADA?
+        if (!userData.name || userData.name === "") {
+            document.getElementById("name-modal").style.display = "flex";
+        } else {
+            // Jika sudah ada, tampilkan salam di dashboard
+            document.getElementById("admin-name").innerText = `Selamat Bekerja, ${userData.name}!`;
+        }
+    }
+
+    // EVENT SIMPAN NAMA
+    document.getElementById("save-name-btn").addEventListener("click", async () => {
+        const newName = document.getElementById("new-admin-name").value.trim();
+        
+        if (newName.length < 3) {
+            alert("Nama terlalu pendek, minimal 3 karakter ya!");
+            return;
+        }
+
+        try {
+            await updateDoc(userRef, { name: newName });
+            alert(`Profil diperbarui: ${newName}`);
+            document.getElementById("name-modal").style.display = "none";
+            document.getElementById("admin-name").innerText = `Selamat Bekerja, ${newName}!`;
+            
+            // Catat ke log bahwa admin baru saja set nama
+            simpanLog("UPDATE_PROFIL", `Mengubah nama menjadi ${newName}`);
+        } catch (err) {
+            console.error(err);
+            alert("Gagal menyimpan nama.");
+        }
+    });
+
 // 1. Tampilkan Log Aktivitas
 const qLogs = query(collection(db, "logs"), orderBy("time", "desc"), limit(10));
 onSnapshot(qLogs, (snap) => {
@@ -31,14 +70,20 @@ onSnapshot(qOnline, (snap) => {
 });
 
 // Fungsi Log Global
-async function simpanLog(aksi, detail) {
+a// Di admin.js (asumsi kamu sudah punya data user dari requireAdmin)
+async function simpanLog(aksi, target) {
   const ip = await getIP();
+  
+  // Ambil data nama dari Firestore (agar lebih akurat)
+  const userSnap = await getDoc(doc(db, "users", auth.currentUser.uid));
+  const adminName = userSnap.exists() ? userSnap.data().nama : auth.currentUser.email;
+
   await addDoc(collection(db, "logs"), {
-    adminEmail: auth.currentUser.email,
+    adminName: adminName, 
+    email: auth.currentUser.email,
     action: aksi,
-    details: detail,
+    target: target,
     ipAddress: ip,
-    device: navigator.userAgent,
     time: serverTimestamp()
   });
 }
@@ -81,4 +126,6 @@ if (e.target.classList.contains("delete-btn")) {
     target: id, // ID artikel yang dihapus
     time: serverTimestamp()
   });
+
 }
+});
