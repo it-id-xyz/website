@@ -1,5 +1,6 @@
 import { requireAdmin } from "./role.js"
 
+const navbarBtn = document.getElementById('navbar-btn');
 const menuToggle = document.getElementById('menuToggle');
 const navMenu = document.getElementById('navMenu');
 const back = document.getElementById('back');
@@ -13,7 +14,7 @@ requireAdmin()
     cEl.id = 'admin-only';
     cEl.innerText ='<i class="fa fa-gauge-high"></i> Admin Dashboard';
     cEl.href = 'admin.html';
-    navMenu.appendChild(cEl);
+    navbarBtn.appendChild(cEl);
     initAdminFeatures(); 
   })
   .catch(() => {
@@ -29,5 +30,6 @@ back.addEventListener('click', () => {
     navMenu.classList.add('hidden');
 
 });
+
 
 
