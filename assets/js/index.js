@@ -12,7 +12,7 @@ requireAdmin()
     console.log("Admin terdeteksi, mengaktifkan fitur admin...");
     const cEl = document.createElement('a');
     cEl.id = 'admin-only';
-    cEl.innerText ='<i class="fa fa-gauge-high"></i> Admin Dashboard';
+    cEl.innerText ='<button><i class="fa fa-gauge-high"></i> Admin Dashboard'</button>;
     cEl.href = 'admin.html';
     navbarBtn.appendChild(cEl);
     initAdminFeatures(); 
@@ -30,6 +30,7 @@ back.addEventListener('click', () => {
     navMenu.classList.add('hidden');
 
 });
+
 
 
 
