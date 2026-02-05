@@ -267,50 +267,50 @@ h2 {
 }
 
 .chat-button {
-   /* Posisi nempel di kanan bawah */
+    /* Posisi nempel di pojok kanan bawah */
     position: fixed;
-    bottom: 25px;
-    right: 25px;
+    bottom: 30px;
+    right: 30px;
     
-    /* Ukuran bulat */
+    /* Ukuran & Warna sesuai request */
     width: 60px;
     height: 60px;
-    background-color: var(--bg-button); /* Warna Orange Cloudflare */
+    background-color: #7aa2ff;
     color: white;
-    border-radius: 50%;
     
-    /* Center icon-nya */
+    /* Membuat bentuk bulat */
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     
-    /* Gaya visual */
-    font-size: 30px; /* Ukuran icon fa-nya */
+    /* Styling Visual */
     text-decoration: none;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 12px rgba(122, 162, 255, 0.4);
     z-index: 9999;
     
-    /* Animasi */
-    transition: all 0.3s ease;
+    /* Animasi transisi */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Efek pas kursor nempel (Hover) */
+.ai-label {
+    /* Styling text AI biar tegas */
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 800; /* Super tebal */
+    letter-spacing: 0.5px;
+}
+
+/* Efek Hover */
 .chat-button:hover {
-    transform: scale(1.1);
-    background-color: var(--bg-dark);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    transform: scale(1.1); /* Sedikit membesar */
+    background-color: #668ee6; /* Warna agak gelap dikit pas hover */
+    box-shadow: 0 6px 16px rgba(122, 162, 255, 0.6);
 }
 
-/* Biar icon-nya gak miring atau aneh */
-.chat-button i {
-    line-height: 0;
-}
-
-.ai-text {
-    font-family: 'Arial Black', sans-serif; /* Pakai font yang tegas */
-    font-size: 22px;
-    font-weight: 900;
-    letter-spacing: -1px;
+/* Efek Klik */
+.chat-button:active {
+    transform: scale(0.95);
 }
 /* =====================
    CONTAINER
@@ -668,6 +668,7 @@ h2 {
   transform: translateY(-6px);
   box-shadow: 0 20px 40px rgba(0,0,0,.15);
 }
+
 
 
 
