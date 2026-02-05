@@ -267,21 +267,43 @@ h2 {
 }
 
 .chat-button {
+   /* Posisi nempel di kanan bawah */
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    bottom: 25px;
+    right: 25px;
+    
+    /* Ukuran bulat */
     width: 60px;
     height: 60px;
-    background-color: var(--bg-dark);
+    background-color: var(--bg-button); /* Warna Orange Cloudflare */
+    color: white;
     border-radius: 50%;
+    
+    /* Center icon-nya */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 30px;
-    color: white;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    z-index: 1000;
+    
+    /* Gaya visual */
+    font-size: 30px; /* Ukuran icon fa-nya */
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    
+    /* Animasi */
+    transition: all 0.3s ease;
+}
+
+/* Efek pas kursor nempel (Hover) */
+.chat-button:hover {
+    transform: scale(1.1);
+    background-color: #fa923f;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Biar icon-nya gak miring atau aneh */
+.chat-button i {
+    line-height: 0;
 }
 
 /* =====================
@@ -640,6 +662,7 @@ h2 {
   transform: translateY(-6px);
   box-shadow: 0 20px 40px rgba(0,0,0,.15);
 }
+
 
 
 
