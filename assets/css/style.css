@@ -297,7 +297,7 @@ h2 {
 /* Efek pas kursor nempel (Hover) */
 .chat-button:hover {
     transform: scale(1.1);
-    background-color: #fa923f;
+    background-color: var(--bg-dark);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
@@ -306,6 +306,12 @@ h2 {
     line-height: 0;
 }
 
+.ai-text {
+    font-family: 'Arial Black', sans-serif; /* Pakai font yang tegas */
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
 /* =====================
    CONTAINER
 ===================== */
@@ -662,6 +668,7 @@ h2 {
   transform: translateY(-6px);
   box-shadow: 0 20px 40px rgba(0,0,0,.15);
 }
+
 
 
 
