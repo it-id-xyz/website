@@ -59,9 +59,10 @@ async function sendQuest() {
             const htmlJawaban = marked.parse(data.jawaban);
             lastMessage.querySelector(".bubble").innerHTML = `<div class="markdown-content">${htmlJawaban}</div> <span class="time">${jam}</span>`;
             lastMessage.querySelectorAll('pre code').forEach((block) => {
-            hljs.highlightElement(block);
-            btnCopy(block);
-        }
+                hljs.highlightElement(block);
+                btnCopy(block);
+            }
+        };
     } catch(error) {
         lastMessage.querySelector(".bubble").innerHTML = `Error jaringan, silahkan coba lagi <span class="time">${jam}</span>`;
     }
@@ -69,4 +70,5 @@ async function sendQuest() {
 } 
 
 btnSubmit.addEventListener('click', sendQuest);
+
 
