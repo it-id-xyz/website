@@ -61,8 +61,8 @@ async function sendQuest() {
             lastMessage.querySelectorAll('pre code').forEach((block) => {
                 hljs.highlightElement(block);
                 btnCopy(block);
-            }
-        };
+            });
+        }
     } catch(error) {
         lastMessage.querySelector(".bubble").innerHTML = `Error jaringan, silahkan coba lagi <span class="time">${jam}</span>`;
     }
@@ -70,5 +70,6 @@ async function sendQuest() {
 } 
 
 btnSubmit.addEventListener('click', sendQuest);
+
 
 
