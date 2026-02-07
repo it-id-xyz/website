@@ -24,7 +24,7 @@ export default async function handler(req, res) {
   }
   global.maxReq[alamatIP].jumlah++; 
 
-  const apiKey = process.env.XAI_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return res.status(500).json({ error: 'Ada masalah di server, coba lagi nanti.' });
 
   const { question } = req.body; 
@@ -32,16 +32,8 @@ export default async function handler(req, res) {
 
   try {
     // Kirim pertanyaan ke API xAI (Grok)
-    const responsAPI = await axios.post('https://api.blackbox.ai/chat/completions', {
-            model: 'gpt-4',  // Tambah model required
-            messages: [{ role: 'user', content: question }],  // Format messages
-            max_tokens: 150,
-            temperature: 0.7
-        }, {
-            headers: {
-                'Authorization': `Bearer ${apiKey}`,
-                'Content-Type': 'application/json'
-            }
+    const responsAPI = await axios.post('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}', {
+            contents: [{ parts: [{ text: question }] }]
         });
     // Kirim jawaban balik ke user
     res.json({ answer: responsAPI.data.response });
