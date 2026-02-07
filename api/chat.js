@@ -39,6 +39,6 @@ export default async function handler(req, res) {
     res.json({ answer: responsAPI.data.response });
   } catch (error) {
     console.error('Error di API:', error.message);  // Log error buat debug
-    res.status(500).json({ error: 'AI lagi error, maaf ya. Coba lagi.' });
+    res.status(500).json({ error: 'AI lagi error, maaf ya. Coba lagi nanti.' });
   }
 }
