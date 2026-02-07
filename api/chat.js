@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   if (global.maxReq[alamatIP].jumlah >= 5) { 
     return res.status(429).json({ error: 'Terlalu banyak permintaan, tunggu sebentar ya.' });
   }
-  global.maxReq[alamatIP].jumlah++; t
+  global.maxReq[alamatIP].jumlah++; 
 
   const apiKey = process.env.XAI_API_KEY;
   if (!apiKey) return res.status(500).json({ error: 'Ada masalah di server, coba lagi nanti.' });
