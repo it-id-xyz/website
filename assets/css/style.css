@@ -338,6 +338,23 @@ h2 {
     font-size: 1.3rem;
 }
 
+#ai-promo {
+    margin-top: 20px;
+    text-align: center;
+    border-radius: 15px;
+    overflow: hidden; 
+}
+#ai-promo img {
+   width: 100%;
+   border-radius: 15px;
+   box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+   transition: transform 0.3s ease;
+}
+
+.ai-banner-link img:hover {
+   transform: scale(1.05);
+   filter:brightness(90%);
+
 /* =====================
    CARD GRID (MOBILE FIRST)
 ===================== */
@@ -668,6 +685,7 @@ h2 {
   transform: translateY(-6px);
   box-shadow: 0 20px 40px rgba(0,0,0,.15);
 }
+
 
 
 
