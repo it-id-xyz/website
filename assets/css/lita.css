@@ -24,6 +24,7 @@ body {
     box-shadow: 0 10px 25px rgba(0,0,0,0.5);
     border-radius: 12px;
     overflow: hidden;
+    position: relative;
 }
 
 /* Header */
@@ -59,6 +60,7 @@ body {
 /* Chat Box */
 .chat-box {
     flex: 1;
+    min-height: 0;
     padding: 20px;
     overflow-y: auto;
     display: flex;
@@ -87,6 +89,7 @@ body {
     line-height: 1.4;
     position: relative;
     word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .incoming .bubble {
@@ -116,6 +119,7 @@ body {
 
 /* Input Area */
 .chat-input-area {
+    flex-shrink: 0;
     padding: 15px;
     background-color: #151921;
     display: flex;
@@ -161,6 +165,7 @@ input::placeholder {
 
 /* Styling buat blok kode */
 .markdown-content pre {
+    max-width: 100%;
     background: #0b0e14 !important;
     padding: 15px;
     border-radius: 8px;
@@ -193,3 +198,4 @@ input::placeholder {
     padding-left: 20px;
     margin: 10px 0;
 }
+
