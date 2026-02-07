@@ -354,6 +354,7 @@ h2 {
 .ai-banner-link img:hover {
    transform: scale(1.05);
    filter:brightness(90%);
+}
 
 /* =====================
    CARD GRID (MOBILE FIRST)
@@ -685,6 +686,7 @@ h2 {
   transform: translateY(-6px);
   box-shadow: 0 20px 40px rgba(0,0,0,.15);
 }
+
 
 
 
