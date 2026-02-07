@@ -14,23 +14,20 @@ async function sendQuest() {
     }
 
     const chatBox = document.getElementById('chat-box');
-    const cardText = document.createElement('div');
-    cardText.innerHTML = `
-    <div class="message incoming">
+    chatBox.insertAdjacentHTML('beforeend',`
+    <div class="message outgoing">
         <div class="bubble">${isiText}
             <span class="time">${jam}</span>
         </div>
-    </div>`;
-    chatBox.appendChild(cardText);
+    </div>`);
     
     await sleep(2000)
-    cardText.innerHTML += `
-    <div class="message outgoing">
+    chatBox.insertAdjacentHTML('beforeend',`
+    <div class="message incoming">
         <div class="bubble">Waiting for response..
             <span class="time">${jam}</span>
         </div>
-    </div>`;
-    chatBox.appendChild(cardText);
+    </div>`);
 
     try {
         const response = await fetch('/api/chat.js',{
@@ -41,40 +38,16 @@ async function sendQuest() {
             body: JSON.stringify({question: isiText})
         });
         const data = await response.json();
+        const lastMessage = chatBox.lastElementChild;
         if(data.error) {
-            cardText.innerHTML = `
-            <div class="message outgoing">
-                <div class="bubble">${data.error}
-                <span class="time">${jam}</span>
-                </div>
-            </div>`;
-            chatBox.appendChild(cardText);
+            lastMessage.querySelector(".bubble").innerHTML = `${data.error} <span class="time">${jam}</span>`;
         } else {
-            cardText.innerHTML = `
-            <div class="message outgoing">
-                <div class="bubble">${data.answer}
-                <span class="time">${jam}</span>
-                </div>
-            </div>`;
-            chatBox.appendChild(cardText);
+            lastMessage.querySelector(".bubble").innerHTML = `${data.answer} <span class="time">${jam}</span>`;
         }
     } catch(error) {
-        cardText.innerHTML = `
-        <div class="message outgoing">
-            <div class="bubble">Error jaringan, coba lagi ya
-            <span class="time">${jam}</span>
-            </div>
-        </div>`;
-        chatBox.appendChild(cardText);
+        lastMessage.querySelector(".bubble").innerHTML = `Error jaringan, silahkan coba lagi <span class="time">${jam}</span>`;
     }
     inputText.value = '';
 } 
 
 btnSubmit.addEventListener('click', sendQuest);
-
-    
-
-
-
-
-
