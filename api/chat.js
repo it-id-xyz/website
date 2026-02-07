@@ -1,9 +1,10 @@
-res.setHeader('Access-Control-Allow-Origin', '*');
-res.setHeader('Access-Control-Allow-Methods', 'POST');
-res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 const axios = require('axios'); 
 
-export default async function handler(req, res) {  
+export default async function handler(req, res) { 
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  
   const alamatIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress; 
   if (!global.maxReq) global.maxReq = {}; 
   if (!global.maxReq[alamatIP]) global.maxReq[alamatIP] = { jumlah: 0, resetWaktu: Date.now() };
