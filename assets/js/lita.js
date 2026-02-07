@@ -30,7 +30,7 @@ async function sendQuest() {
 
     const lastMessage = chatBox.lastElementChild;
     try {
-        const response = await fetch('/api/chat.js',{
+        const response = await fetch('https://website-xav8-8vgdcmo3k-information-and-technologys-projects.vercel.apps',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -49,6 +49,7 @@ async function sendQuest() {
 } 
 
 btnSubmit.addEventListener('click', sendQuest);
+
 
 
 
