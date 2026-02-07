@@ -11,6 +11,14 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', 'https://it-id-xyz.github.io');
   res.setHeader('Access-Control-Allow-Methods', 'POST');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // Parse body JSON
+    let body;
+    try {
+        body = JSON.parse(req.body);
+    } catch (e) {
+        return res.status(400).json({ error: 'Invalid JSON body' });
+    }
   
   const alamatIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress; 
   if (!global.maxReq) global.maxReq = {}; 
@@ -27,7 +35,7 @@ export default async function handler(req, res) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return res.status(500).json({ error: 'Ada masalah di server, coba lagi nanti.' });
 
-  const { question } = req.body; 
+  const { question } = body; 
   if (!question) return res.status(400).json({ error: 'Pertanyaan harus diisi dong!' });
 
   try {
