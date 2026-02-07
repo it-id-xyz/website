@@ -13,14 +13,12 @@ async function sendQuest() {
     }
 
     const chatBox = document.getElementById('chat-box');
-    const cardChat = createElement('div');
-    chatBox.innerHTML =
-    cardChat.classList = 'message incoming';
-    cardChat.innerHTML = `
-    <div class="bubble">Waiting for response..
-    <span class="time">${jam}</span>
-    </div>
-    `;
+    chatBox.innerHTML = `
+    <div class="message incoming">
+        <div class="bubble">Waiting for response..
+            <span class="time">${jam}</span>
+        </div>
+    </div>`;
 
     try {
         const response = await fetch('api/chat.js',{
@@ -37,15 +35,14 @@ async function sendQuest() {
                 <div class="bubble">${data.error}
                 <span class="time">${jam}</span>
                 </div>
-            </div>`
+            </div>`;
         } else {
             chatBox.innerHTML = `
             <div class="message incoming">
                 <div class="bubble">${data.answer}
                 <span class="time">${jam}</span>
                 </div>
-            </div>
-            `;
+            </div>`;
         }
     } catch(error) {
         chatBox.innerHTML = `
@@ -53,11 +50,11 @@ async function sendQuest() {
             <div class="bubble">Error jaringan, coba lagi ya
             <span class="time">${jam}</span>
             </div>
-        </div>
-        `;
+        </div>`;
     }
     inputText.value = '';
 } 
 
 btnSubmit.addEventListener('click', sendQuest);
+
     
