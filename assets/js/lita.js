@@ -30,7 +30,7 @@ async function sendQuest() {
     </div>`);
 
     try {
-        const response = await fetch('/api/chat.js',{
+        const response = await fetch('website/api/chat.js',{
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -51,3 +51,4 @@ async function sendQuest() {
 } 
 
 btnSubmit.addEventListener('click', sendQuest);
+
