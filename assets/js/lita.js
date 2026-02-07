@@ -7,6 +7,7 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 async function sendQuest() {
     const inputText = document.getElementById('isi-text');
     const isiText = inputText.value;
+    inputText.value = '';
 
     if(isiText.trim() === '') {
         alert('error, harap isi teks');
@@ -30,7 +31,7 @@ async function sendQuest() {
     </div>`);
 
     try {
-        const response = await fetch('website/api/chat.js',{
+        const response = await fetch('./api/chat.js',{
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -47,8 +48,8 @@ async function sendQuest() {
     } catch(error) {
         lastMessage.querySelector(".bubble").innerHTML = `Error jaringan, silahkan coba lagi <span class="time">${jam}</span>`;
     }
-    inputText.value = '';
 } 
 
 btnSubmit.addEventListener('click', sendQuest);
+
 
