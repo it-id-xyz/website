@@ -1,0 +1,148 @@
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #151921; /* Background Lu */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat-container {
+    width: 100%;
+    max-width: 450px;
+    height: 90vh;
+    background-color: #0b0e14; /* Main Lu */
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* Header */
+.chat-header {
+    background-color: #151921;
+    padding: 15px;
+    border-bottom: 1px solid #1f2633;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    background-color: #7aa2ff;
+    border-radius: 50%;
+}
+
+.status h3 {
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.status span {
+    color: #7aa2ff;
+    font-size: 12px;
+}
+
+/* Chat Box */
+.chat-box {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.message {
+    display: flex;
+    width: 100%;
+}
+
+.bubble {
+    padding: 10px 15px;
+    border-radius: 15px;
+    max-width: 75%;
+    font-size: 14px;
+    line-height: 1.4;
+    position: relative;
+}
+
+.incoming .bubble {
+    background-color: #151921;
+    color: #e1e1e1;
+    border-bottom-left-radius: 2px;
+}
+
+.outgoing {
+    justify-content: flex-end;
+}
+
+.outgoing .bubble {
+    background-color: #7aa2ff; /* Button Color sebagai aksen bubble */
+    color: #0b0e14;
+    font-weight: 500;
+    border-bottom-right-radius: 2px;
+}
+
+.time {
+    display: block;
+    font-size: 10px;
+    margin-top: 5px;
+    text-align: right;
+    opacity: 0.7;
+}
+
+/* Input Area */
+.chat-input-area {
+    padding: 15px;
+    background-color: #151921;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+input {
+    flex: 1;
+    background-color: #0b0e14;
+    border: 1px solid #1f2633;
+    padding: 12px 15px;
+    border-radius: 25px;
+    color: white;
+    outline: none;
+}
+
+input::placeholder {
+    color: #4b5563;
+}
+
+.send-btn {
+    background-color: #7aa2ff; /* Button Lu */
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    color: #0b0e14;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s;
+}
+
+.send-btn:hover {
+    transform: scale(1.05);
+    background-color: #6a91f0;
+}
