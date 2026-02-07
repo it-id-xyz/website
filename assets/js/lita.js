@@ -15,7 +15,7 @@ async function sendQuest() {
 
     const chatBox = document.getElementById('chat-box');
     const cardText = document.createElement('div');
-    cardText.classList = 'message outgoing';
+    cardText.classList = 'message incoming';
     cardText.innerHtML = `
         <div class="bubble">${isiText}
             <span class="time">${jam}</span>
@@ -23,12 +23,11 @@ async function sendQuest() {
     chatBox.appendChild(cardText);
     
     await sleep(2000)
+    cardText.classList = 'message outgoing';
     cardText.innerHTML += `
-    <div class="message incoming">
         <div class="bubble">Waiting for response..
             <span class="time">${jam}</span>
-        </div>
-    </div>`;
+        </div>`;
     chatBox.appendChild(cardText);
 
     try {
@@ -41,6 +40,7 @@ async function sendQuest() {
         });
         const data = await response.json();
         if(data.error) {
+            cardText.classList = 'message outgoing';
             chatBox.innerHTML += `
             <div class="message incoming">
                 <div class="bubble">${data.error}
@@ -49,21 +49,19 @@ async function sendQuest() {
             </div>`;
             chatBox.appendChild(cardText);
         } else {
+            cardText.classList = 'message outgoing';
             chatBox.innerHTML += `
-            <div class="message incoming">
                 <div class="bubble">${data.answer}
                 <span class="time">${jam}</span>
-                </div>
-            </div>`;
+                </div>`;
             chatBox.appendChild(cardText);
         }
     } catch(error) {
+        cardText.classList = 'message outgoing';
         chatBox.innerHTML += `
-        <div class="message incoming">
             <div class="bubble">Error jaringan, coba lagi ya
             <span class="time">${jam}</span>
-            </div>
-        </div>`;
+            </div>`;
         chatBox.appendChild(cardText);
     }
     inputText.value = '';
@@ -72,5 +70,6 @@ async function sendQuest() {
 btnSubmit.addEventListener('click', sendQuest);
 
     
+
 
 
