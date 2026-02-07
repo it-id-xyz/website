@@ -1,9 +1,10 @@
 
 const btnSubmit = document.getElementById('send-btn');
 const now = new Date();
-const jam = `${now.getHours().toString().padStart(2, '0')}.${now.getMinutes().toString().padStart(2, '0')}`;
+
 
 async function sendQuest() {
+    const jam = `${now.getHours().toString().padStart(2, '0')}.${now.getMinutes().toString().padStart(2, '0')}`;
     const inputText = document.getElementById('isi-text');
     const isiText = inputText.value;
     inputText.value = '';
@@ -30,29 +31,23 @@ async function sendQuest() {
 
     const lastMessage = chatBox.lastElementChild;
     try {
-        const response = await fetch('https://website-it-xyz.vercel.app/api/chat',{
+        const response = await fetch('https://api.it-smansaci.my.id/chat',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({question: isiText})
+            body: JSON.stringify({pesan: isiText})
         });
         const data = await response.json();
         if(data.error) {
             lastMessage.querySelector(".bubble").innerHTML = `${data.error} <span class="time">${jam}</span>`;
         } else {
-            lastMessage.querySelector(".bubble").innerHTML = `${data.answer} <span class="time">${jam}</span>`;
+            lastMessage.querySelector(".bubble").innerHTML = `${data.jawaban} <span class="time">${jam}</span>`;
         }
     } catch(error) {
         lastMessage.querySelector(".bubble").innerHTML = `Error jaringan, silahkan coba lagi <span class="time">${jam}</span>`;
     }
+    chatBox.scrollTop = chatBox.scrollHeight;
 } 
 
 btnSubmit.addEventListener('click', sendQuest);
-
-
-
-
-
-
-
