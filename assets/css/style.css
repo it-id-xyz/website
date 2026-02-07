@@ -89,6 +89,7 @@ h2 {
 .navbar {
     grid-area: header;
     width: 100%;
+    height: 56px;   
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -110,27 +111,6 @@ h2 {
     align-items: center;
     gap: 16px;
     font-size: 12px;
-}.navbar {
-  grid-area: header;
-  width: 100%;
-  height: 56px;              /* KUNCI: tinggi fix */
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 12px;
-  background: var(--bg-dark);
-  box-shadow: var(--shadow);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-/* KIRI: LOGO + TITLE */
-.nav-logo {
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
 .navbar button {
@@ -688,6 +668,7 @@ h2 {
   transform: translateY(-6px);
   box-shadow: 0 20px 40px rgba(0,0,0,.15);
 }
+
 
 
 
