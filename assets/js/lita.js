@@ -1,7 +1,7 @@
 
 const btnSubmit = document.getElementById('send-btn');
 const now = new Date();
-const jam = now.getHours().toString().padStart(2, '0') + now.getMinutes().toString().padStart(2, '0');
+const jam = `${now.getHours().toString().padStart(2, '0')}.${now.getMinutes().toString().padStart(2, '0')}`;
 
 async function sendQuest() {
     const inputText = document.getElementById('isi-text');
@@ -13,6 +13,13 @@ async function sendQuest() {
     }
 
     const chatBox = document.getElementById('chat-box');
+    chatBox.innerHtML = `
+    <div class="message outgoing">
+        <div class="bubble">${isiText}
+            <span class="time">${jam}</span>
+        </div>
+    </div>`;
+    
     chatBox.innerHTML = `
     <div class="message incoming">
         <div class="bubble">Waiting for response..
@@ -58,3 +65,4 @@ async function sendQuest() {
 btnSubmit.addEventListener('click', sendQuest);
 
     
+
