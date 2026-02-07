@@ -11,7 +11,7 @@ body {
     height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
+    padding-top: 20px;
 }
 
 .chat-container {
@@ -65,6 +65,7 @@ body {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
     gap: 15px;
     overflow-anchor: none;
 }
@@ -198,4 +199,5 @@ input::placeholder {
     padding-left: 20px;
     margin: 10px 0;
 }
+
 
