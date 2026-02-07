@@ -32,16 +32,17 @@ export default async function handler(req, res) {
 
   try {
     // Kirim pertanyaan ke API xAI (Grok)
-    const responsAPI = await axios.post('https://api.x.ai/v1/chat', {
-      prompt: question, 
-      max_tokens: 150,  
-      temperature: 0.7
-    }, {
-      headers: {
-        'Authorization': `Bearer ${apiKey}`, 
-        'Content-Type': 'application/json'
-      }
-    });
+    const responsAPI = await axios.post('https://api.blackbox.ai/chat/completions', {
+            model: 'gpt-4',  // Tambah model required
+            messages: [{ role: 'user', content: question }],  // Format messages
+            max_tokens: 150,
+            temperature: 0.7
+        }, {
+            headers: {
+                'Authorization': `Bearer ${apiKey}`,
+                'Content-Type': 'application/json'
+            }
+        });
     // Kirim jawaban balik ke user
     res.json({ answer: responsAPI.data.response });
   } catch (error) {
