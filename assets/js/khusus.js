@@ -22,6 +22,12 @@ requireAdmin().then(async (user) => {
     
     // 2. Update status online
     updateOnlineStatus(uid);
+    async function getTotal() {
+        const article = collection(db,"article");
+        const totalArticle = await getCountFromServer(article);
+        document.getElementById("total-posts").innerText = `${totalArticle} Article Terbit`;
+    }
+    getTotal();
 
     // 3. Tampilkan Log Aktivitas
     const qLogs = query(collection(db, "logs"), orderBy("time", "desc"), limit(10));
@@ -103,5 +109,6 @@ async function getIP() {
         return data.ip;
     } catch { return "IP Unknown"; }
 }
+
 
 
