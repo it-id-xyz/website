@@ -9,6 +9,21 @@ async function refreshDashboard() {
         if (!response.ok) throw new Error('Server i3 tidak merespon');
         
         const data = await response.json();
+        if (data.groq) {
+            const rpdUsed = data.groq.rpd_used;
+            const tpdUsed = data.groq.tpd_used;
+
+            document.getElementById('total-posts-ai').innerText = `${rpdUsed} / 1000`;
+            
+            const tokenK = (tpdUsed / 1000).toFixed(1);
+            document.getElementById('total-tokens-ai').innerText = `${tokenK}K / 100K`;
+    
+            const reqBar = document.getElementById('req-bar');
+            if (reqBar) {
+                const percent = (rpdUsed / 1000) * 100;
+                reqBar.style.width = `${percent}%`;
+            }
+        }
 
         // Tampilkan List Artikel Firestore
         const containerArtikel = document.getElementById('total-articles');
@@ -23,6 +38,11 @@ async function refreshDashboard() {
         }
 
         // Tampilkan Status Server & Firebase
+        const ramBar = document.getElementById('ram-bar');
+        if (data.server.ram) {
+                const percent = (data.server.ram / 2000) * 100;
+                ramBar.style.width = `${percent}%`;
+            }
         document.getElementById('server-ram').innerText = data.server.ram;
         document.getElementById('server-uptime').innerText = data.server.uptime;
 
@@ -147,6 +167,7 @@ async function getIP() {
         return data.ip;
     } catch { return "IP Unknown"; }
 }
+
 
 
 
