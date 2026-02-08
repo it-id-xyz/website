@@ -24,7 +24,7 @@ async function refreshDashboard() {
         // Tampilkan Status Server & Firebase
         document.getElementById('server-ram').innerText = data.server.ram;
         document.getElementById('total-articles').innerText = data.firestore.total_articles;
-        document.getElementById('uptime-server').innerText = data.server.uptime;
+        document.getElementById('server-uptime').innerText = data.server.uptime;
 
         // Tampilkan Log GitHub
         const githubLog = document.getElementById('github-activity');
@@ -145,4 +145,5 @@ async function getIP() {
         return data.ip;
     } catch { return "IP Unknown"; }
 }
+
 
