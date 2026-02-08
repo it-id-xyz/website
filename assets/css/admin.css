@@ -118,13 +118,15 @@ th, td {
 }
 
 #total-articles {
+    gap:10px;
     display: flex;
     justify-content: space-beetween;
 }
 .card-monitor {
     padding: 10px;
-    background: #7aa2ff;
+    background:  linear-gradient(90deg, #7aa2ff, #4e84ff);
     color: black;
     border-radius: 15px;
 }
     
+
