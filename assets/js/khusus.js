@@ -38,13 +38,14 @@ async function refreshDashboard() {
         }
 
         // Tampilkan Status Server & Firebase
+        const ram = data.server.ram;
+        document.getElementById('server-ram').innerText = `ram / 2GB`;
+        document.getElementById('server-uptime').innerText = data.server.uptime;
         const ramBar = document.getElementById('ram-bar');
-        if (data.server.ram) {
-                const percent = (data.server.ram / 2000) * 100;
+        if (ramBar) {
+                const percent = (ram / 2000) * 100;
                 ramBar.style.width = `${percent}%`;
             }
-        document.getElementById('server-ram').innerText = data.server.ram;
-        document.getElementById('server-uptime').innerText = data.server.uptime;
 
         // Tampilkan Log GitHub
         const githubMsg = document.getElementById('git-msg');
@@ -167,6 +168,7 @@ async function getIP() {
         return data.ip;
     } catch { return "IP Unknown"; }
 }
+
 
 
 
