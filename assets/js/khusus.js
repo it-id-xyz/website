@@ -11,7 +11,7 @@ async function refreshDashboard() {
         const data = await response.json();
 
         // Tampilkan List Artikel Firestore
-        const containerArtikel = document.getElementById('list-artikel-firestore');
+        const containerArtikel = document.getElementById('total-articles');
         if (containerArtikel) {
             containerArtikel.innerHTML = data.latest_articles.map(art => `
                 <div class="card-monitor">
@@ -23,7 +23,6 @@ async function refreshDashboard() {
 
         // Tampilkan Status Server & Firebase
         document.getElementById('server-ram').innerText = data.server.ram;
-        document.getElementById('total-articles').innerText = data.firestore.total_articles;
         document.getElementById('server-uptime').innerText = data.server.uptime;
 
         // Tampilkan Log GitHub
@@ -147,6 +146,7 @@ async function getIP() {
         return data.ip;
     } catch { return "IP Unknown"; }
 }
+
 
 
 
