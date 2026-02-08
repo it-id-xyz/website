@@ -89,7 +89,7 @@ h2 {
 .navbar {
     grid-area: header;
     width: 100%;
-    height: 56px;   
+    height: 60px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -105,12 +105,11 @@ h2 {
 }
 
 .nav-logo {
-    margin: 20px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 16px;
     font-size: 12px;
+    margin: 0;
 }
 
 .navbar button {
@@ -668,6 +667,7 @@ h2 {
   transform: translateY(-6px);
   box-shadow: 0 20px 40px rgba(0,0,0,.15);
 }
+
 
 
 
