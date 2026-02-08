@@ -41,13 +41,26 @@ async function refreshDashboard() {
         const ramRaw = data.server.ram;
         const ram = parseFloat(ramRaw);
         document.getElementById('server-ram').innerText = `${ram}MB / 2048MB`;
-        document.getElementById('server-uptime').innerText = data.server.uptime;
+        
         const ramBar = document.getElementById('ram-bar');
         if (ramBar) {
                 const percent = (ram / 2048) * 100;
                 consol.log(`Ram sudah di covert ${ram}`);
                 ramBar.style.width = `${percent}%`;
-            }
+        }
+        const secondsRaw = data.server.uptime;
+        const seconds = parseFloat(secondsRaw);
+        function formatUptime(seconds) {
+            const jam = Math.floor(seconds / 3600);
+            const menit = Math.floor((seconds % 3600) / 60);
+            const detik = Math.floor(seconds % 60);
+            const hDisplay = String(jam).padStart(2, '0');
+            const mDisplay = String(menit).padStart(2, '0');
+            const sDisplay = String(detik).padStart(2, '0');
+        
+            return `${hDisplay}:${mDisplay}:${sDisplay}`;
+        }
+        document.getElementById('server-uptime').innerText = formatUptime(seconds);
 
         // Tampilkan Log GitHub
         const githubMsg = document.getElementById('git-msg');
@@ -170,6 +183,7 @@ async function getIP() {
         return data.ip;
     } catch { return "IP Unknown"; }
 }
+
 
 
 
