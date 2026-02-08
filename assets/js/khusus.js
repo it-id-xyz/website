@@ -38,12 +38,13 @@ async function refreshDashboard() {
         }
 
         // Tampilkan Status Server & Firebase
-        const ram = data.server.ram;
-        document.getElementById('server-ram').innerText = `${ram} / 2GB`;
+        const ramRaw = data.server.ram;
+        const ram = parseFloat(ramRaw);
+        document.getElementById('server-ram').innerText = `${ram}MB / 2048MB`;
         document.getElementById('server-uptime').innerText = data.server.uptime;
         const ramBar = document.getElementById('ram-bar');
         if (ramBar) {
-                const percent = (ram / 2000) * 100;
+                const percent = (ram / 2048) * 100;
                 ramBar.style.width = `${percent}%`;
             }
 
@@ -168,6 +169,7 @@ async function getIP() {
         return data.ip;
     } catch { return "IP Unknown"; }
 }
+
 
 
 
