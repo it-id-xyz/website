@@ -27,10 +27,12 @@ async function refreshDashboard() {
         document.getElementById('server-uptime').innerText = data.server.uptime;
 
         // Tampilkan Log GitHub
-        const githubLog = document.getElementById('github-activity');
-        if (githubLog) {
-            githubLog.innerText = `Update terakhir: ${data.github.last_commit} oleh ${data.github.author}`;
-        }
+        const githubMsg = document.getElementById('git-msg');
+        const githubAut = document.getElementById('git-author');
+        if (githubMsg || githubAut) {
+            githubMsg.innerText = `Update terakhir: ${data.github.last_commit}`;
+            githubAut.innerText = `Oleh ${data.github.author}`
+        } 
 
         console.log("Monitoring Updated:", new Date().toLocaleTimeString());
 
@@ -145,5 +147,6 @@ async function getIP() {
         return data.ip;
     } catch { return "IP Unknown"; }
 }
+
 
 
