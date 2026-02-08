@@ -11,10 +11,10 @@ body {
     height: 100vh;
     display: flex;
     justify-content: center;
-    padding-top: 20px;
 }
 
 .chat-container {
+    padding-top: 20px;
     width: 100%;
     max-width: 450px;
     height: 90vh;
@@ -199,5 +199,6 @@ input::placeholder {
     padding-left: 20px;
     margin: 10px 0;
 }
+
 
 
