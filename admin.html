@@ -80,6 +80,15 @@
                 <h3><i class="fa fa-users"></i> Admin Aktif</h3>
                 <div id="online-list" style="color:#7aa2ff"></div>
             </div>
+            <div class="stat-card">
+                <h3><i class="fa fa-brain"></i> Groq Rate Limit</h3>
+                <p style="font-size: 12px;">Requests: <span id="groq-req" style="color: #7aa2ff;">0/0</span></p>
+                <p style="font-size: 12px;">Tokens: <span id="groq-tokens" style="color: #7aa2ff;">0/0</span></p>
+                <div class="ram-container">
+                    <div id="groq-bar" style="width: 0%; background: #ffaa00; height: 100%;"></div>
+                </div>
+                <small>Sisa Kuota Menit Ini</small>
+            </div>
         </div>
 
         <div class="stat-card">
@@ -116,5 +125,6 @@
     <script type="module" src="assets/js/khusus.js"></script>
 </body>
 </html>
+
 
 
