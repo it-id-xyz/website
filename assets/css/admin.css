@@ -114,4 +114,17 @@ th, td {
     border: 1px solid #ddd;
     border-radius: 12px;
     margin-bottom: 25px;
+
 }
+
+#total-articles {
+    display: flex;
+    justify-content: space-beetween;
+}
+.card-monitor {
+    padding: 10px;
+    background: #7aa2ff;
+    color: black;
+    border-radius: 15px;
+}
+    
