@@ -81,13 +81,17 @@
                 <div id="online-list" style="color:#7aa2ff"></div>
             </div>
             <div class="stat-card">
-                <h3><i class="fa fa-brain"></i> Groq Rate Limit</h3>
-                <p style="font-size: 12px;">Requests: <span id="groq-req" style="color: #7aa2ff;">0/0</span></p>
-                <p style="font-size: 12px;">Tokens: <span id="groq-tokens" style="color: #7aa2ff;">0/0</span></p>
-                <div class="ram-container">
-                    <div id="groq-bar" style="width: 0%; background: #ffaa00; height: 100%;"></div>
+                <h3><i class="fa fa-brain"></i> AI Quota </h3>
+                <div style="font-size: 11px; line-height: 1.6;">
+                    <p>Model: <strong style="color: #7aa2ff;">Llama 3.3 70B</strong></p>
+                    <p>Req/Min: <span id="limit-rpm">0</span> / 30</p>
+                    <p>Req/Day: <span id="limit-rpd">0</span> / 1.0K</p>
+                    <p>Token/Min: <span id="limit-tpm">0</span> / 12K</p>
                 </div>
-                <small>Sisa Kuota Menit Ini</small>
+                <div class="ram-container" style="margin-top: 10px;">
+                    <div id="quota-bar" style="width: 100%; background: #4caf50; height: 100%;"></div>
+                </div>
+                <small style="font-size: 9px; color: #888;">*Limit otomatis dari Groq Cloud</small>
             </div>
         </div>
 
@@ -125,6 +129,7 @@
     <script type="module" src="assets/js/khusus.js"></script>
 </body>
 </html>
+
 
 
 
