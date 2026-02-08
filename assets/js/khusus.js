@@ -1,27 +1,68 @@
 import { addDoc, collection, serverTimestamp, query, limit, orderBy, onSnapshot, getDoc, doc, getCountFromServer } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { updateOnlineStatus, requireAdmin } from "./role.js";
-import { auth, db } from "./firebase.js"; // Pastikan db dan auth diimport
+import { auth, db } from "./firebase.js"; 
+const API_URL = 'https://api.it-smansaci.my.id/api/monitor';
+
+async function refreshDashboard() {
+    try {
+        const response = await fetch(API_URL);
+        if (!response.ok) throw new Error('Server i3 tidak merespon');
+        
+        const data = await response.json();
+
+        // Tampilkan List Artikel Firestore
+        const containerArtikel = document.getElementById('list-artikel-firestore');
+        if (containerArtikel) {
+            containerArtikel.innerHTML = data.latest_articles.map(art => `
+                <div class="card-monitor">
+                    <p><strong>ID:</strong> ${art.documentId}</p>
+                    <p><small>Tgl: ${new Date(art.createdAt).toLocaleString('id-ID')}</small></p>
+                </div>
+            `).join('');
+        }
+
+        // Tampilkan Status Server & Firebase
+        document.getElementById('ram-usage').innerText = data.server.ram;
+        document.getElementById('total-articles').innerText = data.firestore.total_articles;
+        document.getElementById('uptime-server').innerText = data.server.uptime;
+
+        // Tampilkan Log GitHub
+        const githubLog = document.getElementById('github-activity');
+        if (githubLog) {
+            githubLog.innerText = `Update terakhir: ${data.github.last_commit} oleh ${data.github.author}`;
+        }
+
+        console.log("Monitoring Updated:", new Date().toLocaleTimeString());
+
+    } catch (error) {
+        console.error("Dashboard Error:", error);
+        document.getElementById('server-status').innerText = "Offline";
+        document.getElementById('server-status').style.color = "red";
+    }
+}
+
+setInterval(refreshDashboard, 30000);
+window.onload = refreshDashboard;
 
 requireAdmin().then(async (user) => {
-    // Ambil UID dari objek 'user' hasil resolve requireAdmin
     const uid = user.uid; 
 
-    // 1. Ambil dokumen profil admin
+    // Ambil admin
     const userSnap = await getDoc(doc(db, "users", uid));
-    let namaAdmin = user.email; // Default pakai email
+    let namaAdmin = user.email;
 
     if (userSnap.exists()) {
         const userData = userSnap.data();
-        namaAdmin = userData.nama || user.email; // Ambil field 'nama' dari DB kamu
+        namaAdmin = userData.nama || user.email;
         
         const displayLabel = document.getElementById("admin-name");
         if (displayLabel) {
             displayLabel.innerText = `Halo, ${namaAdmin}!`;
         }
     }
-    
-    // 2. Update status online
     updateOnlineStatus(uid);
+
+    // Tampilkan Total Article
     async function getTotal() {
         const article = collection(db,"article");
         const totalArticle = await getCountFromServer(article);
@@ -29,7 +70,7 @@ requireAdmin().then(async (user) => {
     }
     getTotal();
 
-    // 3. Tampilkan Log Aktivitas
+    // Tampilkan Log Aktivitas
     const qLogs = query(collection(db, "logs"), orderBy("time", "desc"), limit(10));
     onSnapshot(qLogs, (snap) => {
         const logList = document.getElementById("log-list");
@@ -38,12 +79,11 @@ requireAdmin().then(async (user) => {
         snap.forEach(docSnap => {
             const data = docSnap.data();
             const time = data.time?.toDate().toLocaleString('id-ID') || "...";
-            // Sesuaikan field log: adminName dan action
             logList.innerHTML += `<li>[${time}] <b>${data.adminName}</b>: ${data.action} (${data.target})</li>`;
         });
     });
 
-    // 4. Tampilkan Admin Online
+    // Tampilkan Admin Online
     const qOnline = query(collection(db, "users"), orderBy("lastSeen", "desc"));
     onSnapshot(qOnline, (snap) => {
         const onlineList = document.getElementById("online-list");
@@ -60,11 +100,10 @@ requireAdmin().then(async (user) => {
         });
     });
 
-    // 5. Fungsi Log Global (Hanya satu fungsi agar rapi)
     async function simpanLog(aksi, target) {
         const ip = await getIP();
         await addDoc(collection(db, "logs"), {
-            adminName: namaAdmin, // Pakai variabel namaAdmin yang sudah kita ambil di atas
+            adminName: namaAdmin, 
             email: user.email,
             action: aksi,
             target: target,
@@ -73,24 +112,21 @@ requireAdmin().then(async (user) => {
         });
     }
 
-    // --- EVENT LISTENER (Taruh di dalam .then agar fungsi simpanLog terbaca) ---
 
     document.addEventListener("click", async (e) => {
-        // SAAT POST ARTIKEL
+        // POST ARTIKEL
         if (e.target.id === "post-btn") {
             const judul = document.getElementById("judul-input").value;
-            // ... kode addDoc artikel kamu di sini ...
-            
+
             await simpanLog("TAMBAH_ARTIKEL", judul);
             alert("Artikel terbit!");
         }
 
-        // SAAT HAPUS ARTIKEL
+        // HAPUS ARTIKEL
         if (e.target.classList.contains("delete-btn")) {
             const id = e.target.dataset.id;
             const judulHapus = e.target.closest(".news-card")?.querySelector("h3")?.innerText || id;
             
-            // ... kode deleteDoc artikel kamu di sini ...
             
             await simpanLog("HAPUS_ARTIKEL", judulHapus);
         }
@@ -109,8 +145,3 @@ async function getIP() {
         return data.ip;
     } catch { return "IP Unknown"; }
 }
-
-
-
-
-
