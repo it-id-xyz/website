@@ -17,6 +17,7 @@ async function refreshDashboard() {
                 <div class="card-monitor">
                     <p><strong>ID:</strong> ${art.documentId}</p>
                     <p><small>Tgl: ${new Date(art.createdAt).toLocaleString('id-ID')}</small></p>
+                    <button id="delete-btn"><i class="fa-regular fa-trash-can"></i> Delete </button>
                 </div>
             `).join('');
         }
@@ -146,6 +147,7 @@ async function getIP() {
         return data.ip;
     } catch { return "IP Unknown"; }
 }
+
 
 
 
