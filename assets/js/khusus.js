@@ -80,7 +80,7 @@ async function refreshDashboard() {
     }
 }
 
-setInterval(refreshDashboard, 30000);
+setInterval(refreshDashboard, 1000);
 window.onload = refreshDashboard;
 
 requireAdmin().then(async (user) => {
@@ -184,6 +184,7 @@ async function getIP() {
         return data.ip;
     } catch { return "IP Unknown"; }
 }
+
 
 
 
