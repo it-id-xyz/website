@@ -45,6 +45,7 @@ async function refreshDashboard() {
         const ramBar = document.getElementById('ram-bar');
         if (ramBar) {
                 const percent = (ram / 2048) * 100;
+                consol.log(`Ram sudah di covert ${ram}`);
                 ramBar.style.width = `${percent}%`;
             }
 
@@ -169,6 +170,7 @@ async function getIP() {
         return data.ip;
     } catch { return "IP Unknown"; }
 }
+
 
 
 
