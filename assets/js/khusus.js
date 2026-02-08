@@ -13,10 +13,10 @@ async function refreshDashboard() {
             const rpdUsed = data.groq.rpd_used;
             const tpdUsed = data.groq.tpd_used;
 
-            document.getElementById('total-posts-ai').innerText = `${rpdUsed} / 1000`;
+            document.getElementById('total-posts-ai').innerText = `Req/Day: ${rpdUsed} / 1k`;
             
             const tokenK = (tpdUsed / 1000).toFixed(1);
-            document.getElementById('total-tokens-ai').innerText = `${tokenK}K / 100K`;
+            document.getElementById('total-tokens-ai').innerText = `Token/Day: ${tokenK}K / 100K`;
     
             const reqBar = document.getElementById('req-bar');
             if (reqBar) {
@@ -167,6 +167,7 @@ async function getIP() {
         return data.ip;
     } catch { return "IP Unknown"; }
 }
+
 
 
 
