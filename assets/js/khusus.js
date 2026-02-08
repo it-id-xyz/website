@@ -22,7 +22,7 @@ async function refreshDashboard() {
         }
 
         // Tampilkan Status Server & Firebase
-        document.getElementById('ram-usage').innerText = data.server.ram;
+        document.getElementById('server-ram').innerText = data.server.ram;
         document.getElementById('total-articles').innerText = data.firestore.total_articles;
         document.getElementById('uptime-server').innerText = data.server.uptime;
 
@@ -145,3 +145,4 @@ async function getIP() {
         return data.ip;
     } catch { return "IP Unknown"; }
 }
+
