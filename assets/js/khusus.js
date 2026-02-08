@@ -39,7 +39,7 @@ async function refreshDashboard() {
 
         // Tampilkan Status Server & Firebase
         const ram = data.server.ram;
-        document.getElementById('server-ram').innerText = `ram / 2GB`;
+        document.getElementById('server-ram').innerText = `${ram} / 2GB`;
         document.getElementById('server-uptime').innerText = data.server.uptime;
         const ramBar = document.getElementById('ram-bar');
         if (ramBar) {
@@ -168,6 +168,7 @@ async function getIP() {
         return data.ip;
     } catch { return "IP Unknown"; }
 }
+
 
 
 
