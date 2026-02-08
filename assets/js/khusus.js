@@ -45,7 +45,7 @@ async function refreshDashboard() {
         const ramBar = document.getElementById('ram-bar');
         if (ramBar) {
                 const percent = (ram / 2048) * 100;
-                consol.log(`Ram sudah di covert ${ram}`);
+                console.log(`Ram sudah di covert ${ram}`);
                 ramBar.style.width = `${percent}%`;
         }
         const secondsRaw = data.server.uptime;
@@ -61,6 +61,7 @@ async function refreshDashboard() {
             return `${hDisplay}:${mDisplay}:${sDisplay}`;
         }
         document.getElementById('server-uptime').innerText = formatUptime(seconds);
+        console.log(`seconds sudah di covert`);
 
         // Tampilkan Log GitHub
         const githubMsg = document.getElementById('git-msg');
@@ -183,6 +184,7 @@ async function getIP() {
         return data.ip;
     } catch { return "IP Unknown"; }
 }
+
 
 
 
