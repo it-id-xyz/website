@@ -25,7 +25,7 @@ requireAdmin().then(async (user) => {
     async function getTotal() {
         const article = collection(db,"article");
         const totalArticle = await getCountFromServer(article);
-        document.getElementById("total-posts").innerText = `${totalArticle} Article Terbit`;
+        document.getElementById("total-posts").innerText = `${totalArticle.data().count} Article Terbit`;
     }
     getTotal();
 
@@ -109,6 +109,7 @@ async function getIP() {
         return data.ip;
     } catch { return "IP Unknown"; }
 }
+
 
 
 
