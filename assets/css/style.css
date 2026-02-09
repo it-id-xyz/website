@@ -448,6 +448,10 @@ h2 {
   text-align: center;
 }
 
+.news-list {
+   color: black;
+   gap: 10px;
+}
 
 .project-cards {
   gap: 20px;
@@ -668,6 +672,7 @@ h2 {
   transform: translateY(-6px);
   box-shadow: 0 20px 40px rgba(0,0,0,.15);
 }
+
 
 
 
