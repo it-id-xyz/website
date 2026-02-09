@@ -28,17 +28,26 @@ async function refreshDashboard() {
         // Tampilkan List Artikel Firestore
         const containerArtikel = document.getElementById('total-articles');
         if (containerArtikel) {
-            getDoc(db,"article").then(doc => {
-                const articles = doc.data();
-                const articlesList = articles.map(art => `
-                <div class="card-monitor">
-                    <img src="data:image/png;base64,${art.foto}">
-                    <p><strong>ID:</strong> ${art.Id}</p>
-                    <p><small>Tgl: ${new Date(art.createdAt).toLocaleString('id-ID')}</small></p>
-                    <button id="delete-btn"><i class="fa-regular fa-trash-can"></i> Delete </button>
-                </div>`).join('');
-            containerArtikel.innerHTML = articlesList;
+            onSnapshot(collection(db,"article"), (snap) => {
+                containerArtikel.innerHTML = "";
+            
+                snap.forEach((snap) => {
+                    const art = docSnap.data();
+                    const docId = docSnap.id;
+                    countainerArtikel.innerHTML = `
+                        <div class="card-monitor">
+                            <img src="${art.foto}" style="width:100%; border-radius:8px;">
+                            <p><strong>ID:</strong> ${art.Id}</p>
+                            <p>${art.judul}</p>
+                            <p><small>Tgl: ${new Date(art.createdAt).toLocaleString('id-ID')}</small></p>
+                            <button class="delete-btn" data-id="${docId}" style="background:#ff4d4d; color:white; border:none; padding:5px; border-radius:4px; cursor:pointer;">
+                                <i class="fa-regular fa-trash-can"></i> Delete
+                                </button>
+                        </div>`
+                    containerArtikel.innerHTML = articlesList;
+                });
             });
+            
         }
 
         // Tampilkan Status Server & Firebase
@@ -205,32 +214,31 @@ requireAdmin().then(async (user) => {
         // POST
         if (e.target.id === "post-btn") {
             const judul = document.getElementById("judul-input").value;
-            const foto  = document.getElementById("foto-input").value;
+            const foto  = document.getElementById("foto-input");
             const desk  = document.getElementById("desk-input").value;
 
             const file = foto.files[0];
             if(file) {    
                 const reader = new FileReader();
-
-                reader.onloadend = function() {
+            reader.onloadend = async () => {
                     const base64String = reader.result;
-                    addDoc(collection(db, "article"), {
-                        judul: judul,
-                        foto: base64String,
-                        desk: desk,
-                        createdAt: serverTimestamp()
-                    })
-                    .then(() => {
+                    try {
+                        await addDoc(collection(db, "article"), {
+                            judul: judul,
+                            foto: base64String,
+                            desk: desk,
+                            createdAt: serverTimestamp()
+                        });
                         alert("Artikel terbit!");
-                    ui.form.innerHTML = "";
-                    ui.preview.innerHTML = "";
-                    })
-                    .catch((error) => {
-                        console.error("Gagal menambah artikel: ", error);
-                    })
+                        await simpanLog("Menambah Artikel", judul);
+                        ui.form.innerHTML = "";
+                        ui.preview.innerHTML = "";
+                    } catch (err) {
+                        console.error(err);
+                    }
                 };
-            simpanLog()
-            reader.readAsDataURL(file);
+                reader.readAsDataURL(file);
+            }
         } else {
             alert("Silakan pilih file gambar!");
         };
