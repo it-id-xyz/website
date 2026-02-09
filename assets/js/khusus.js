@@ -248,7 +248,6 @@ requireAdmin().then(async (user) => {
             ui.form.innerHTML = "";
             ui.preview.innerHTML = "";
         }
-        }
     });
     document.addEventListener("click", async (e) => {
         const btn = e.target.closest(".delete-btn");
@@ -271,3 +270,4 @@ requireAdmin().then(async (user) => {
     console.error("Akses ditolak:", err);
     window.location.href = "login.html";
 });
+
