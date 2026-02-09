@@ -245,9 +245,9 @@ document.addEventListener("click", async (e) => {
 
 const containerArtikel = document.getElementById('total-articles');
 if (containerArtikel) {
-    onSnapshot(collection(db,"article"), (snap) => {
+    onSnapshot(collection(db,"article"), (docSnap) => {
     containerArtikel.innerHTML = "";            
-    snap.forEach((snap) => {
+    docSnap.forEach((snap) => {
         const art = snap.data();
         const docId = snap.id;
             containerArtikel.innerHTML += `
@@ -264,3 +264,4 @@ if (containerArtikel) {
         });
     }
 })
+
