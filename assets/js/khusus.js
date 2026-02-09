@@ -245,17 +245,17 @@ document.addEventListener("click", async (e) => {
 
 const containerArtikel = document.getElementById('total-articles');
 if (containerArtikel) {
-    onSnapshot(collection(db,"article"), (docSnap) => {
+    onSnapshot(collection(db,"article"), (snap) => {
     containerArtikel.innerHTML = "";            
-    docSnap.forEach((snap) => {
-        const art = snap.data();
-        const docId = snap.id;
+    snap.forEach(docSnap) => {
+        const art = docSnap.data();
+        const docId = docSnap.id;
             containerArtikel.innerHTML += `
                 <div class="card-monitor">
                     <img src="${art.foto}" style="width:100%; border-radius:8px;">
-                    <p><strong>ID:</strong> ${art.id}</p>
+                    <p><strong>ID:</strong> ${docId}</p>
                     <p>${art.judul}</p>
-                    <p><small>Tgl: ${new Date(art.createdAt).toLocaleString('id-ID')}</small></p>
+                    <p><small>Tgl: ${art.createdAt ? art.createdAt.toDate().toLocaleString('id-ID') : 'Memuat...'}</small></p>
                     <button class="delete-btn" data-id="${docId}" style="background:#ff4d4d; color:white; border:none; padding:5px; border-radius:4px; cursor:pointer;">
                         <i class="fa-regular fa-trash-can"></i> Delete
                     </button>
@@ -264,4 +264,5 @@ if (containerArtikel) {
         });
     }
 })
+
 
