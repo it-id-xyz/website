@@ -2,7 +2,7 @@ import { db } from "../firebase.js";
 import {
   collection, query, onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-const newsList = document.getElementById("news-list");
+const newsList = document.getElementById("total-articles");
 
 const q = query(collection(db, "article"));
 
@@ -21,4 +21,5 @@ onSnapshot(q, (snap) => {
     `;
   });
 });
+
 
