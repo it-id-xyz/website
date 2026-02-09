@@ -42,13 +42,11 @@ async function refreshDashboard() {
                             <p><small>Tgl: ${new Date(art.createdAt).toLocaleString('id-ID')}</small></p>
                             <button class="delete-btn" data-id="${docId}" style="background:#ff4d4d; color:white; border:none; padding:5px; border-radius:4px; cursor:pointer;">
                                 <i class="fa-regular fa-trash-can"></i> Delete
-                                </button>
+                            </button>
                         </div>`
-                    containerArtikel.innerHTML = articlesList;
+                    });
                 });
-            });
-            
-        }
+            }
 
         // Tampilkan Status Server & Firebase
         const ramRaw = data.server.ram;
@@ -270,6 +268,7 @@ requireAdmin().then(async (user) => {
     console.error("Akses ditolak:", err);
     window.location.href = "login.html";
 });
+
 
 
 
