@@ -34,7 +34,7 @@ async function refreshDashboard() {
                 snap.forEach((snap) => {
                     const art = snap.data();
                     const docId = snap.id;
-                    containerArtikel.innerHTML = `
+                    containerArtikel.innerHTML += `
                         <div class="card-monitor">
                             <img src="${art.foto}" style="width:100%; border-radius:8px;">
                             <p><strong>ID:</strong> ${art.Id}</p>
@@ -268,6 +268,7 @@ requireAdmin().then(async (user) => {
     console.error("Akses ditolak:", err);
     window.location.href = "login.html";
 });
+
 
 
 
