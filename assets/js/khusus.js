@@ -1,4 +1,4 @@
-import { addDoc, collection, serverTimestamp, query, limit, orderBy, onSnapshot, getDoc, doc, getCountFromServer } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { addDoc, collection, serverTimestamp, query, limit, orderBy, onSnapshot, getDoc, doc, deleteDoc, getCountFromServer } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { updateOnlineStatus, requireAdmin } from "./role.js";
 import { auth, db } from "./firebase.js"; 
 const API_URL = 'https://api.it-smansaci.my.id/api/monitor';
@@ -79,6 +79,14 @@ async function refreshDashboard() {
 setInterval(refreshDashboard, 1000);
 window.onload = refreshDashboard;
 
+async function getIP() {
+    try {
+        const res = await fetch('https://api.ipify.org?format=json');
+        const data = await res.json();
+        return data.ip;
+    } catch { return "IP Unknown"; }
+}
+
 requireAdmin().then(async (user) => {
     const uid = user.uid; 
 
@@ -150,20 +158,96 @@ requireAdmin().then(async (user) => {
 
     document.addEventListener("click", async (e) => {
         // POST ARTIKEL
-        if (e.target.id === "post-btn") {
-            const judul = document.getElementById("judul-input").value;
+        if (e.target.id === "news-update") {
+            if (ui.form.innerHTML) return;
 
-            await simpanLog("TAMBAH_ARTIKEL", judul);
-            alert("Artikel terbit!");
+            ui.form.innerHTML = `
+            <h4>Masukan Judul Article</h4>
+            <input id="judul-input" placeholder="Judul">
+            <h4>Masukan link Foto/Video/File</h4>
+            <input type="file" id="foto-input">
+            <p>Masukan file gambar</p>
+            <textarea id="desk-input" placeholder="Deskripsi"></textarea>
+            <button id="cancel-btn">Cancel</button>
+            <button id="preview-btn">Preview</button>
+            `;
         }
 
-        // HAPUS ARTIKEL
-        if (e.target.classList.contains("delete-btn")) {
-            const id = e.target.dataset.id;
-            const judulHapus = e.target.closest(".news-card")?.querySelector("h3")?.innerText || id;
+        // PREVIEW
+        if (e.target.id === "preview-btn") {
+            const judul = document.getElementById("judul-input").value;
+            const foto  = document.getElementById("foto-input").value;
+            const desk  = document.getElementById("desk-input").value;
             
+            if (!judul || !foto || !desk) {
+            alert("Lengkapi semua");
+            return;
+            }
+
+            ui.preview.innerHTML = `
+            <img src="${foto}" style="max-width:300px">
+            <h3>${judul}</h3>
+            <p>${desk}</p>
+
+            <button id="post-btn">Post</button>
+            <button id="clear-btn">Hapus</button>
+            `;
+        }
+
+        // POST
+        if (e.target.id === "post-btn") {
+            const judul = document.getElementById("judul-input").value;
+            const foto  = document.getElementById("foto-input").value;
+            const desk  = document.getElementById("desk-input").value;
+
+            const file = foto.files[0];
+            if(file) {    
+                const reader = new FileReader();
+
+                reader.onloadend = function() {
+                    const base64String = reader.result;
+                    addDoc(collection(db, "article"), {
+                        judul: judul,
+                        foto: base64String,
+                        desk: desk,
+                        createdAt: serverTimestamp()
+                    })
+                    .then(() => {
+                        alert("Artikel terbit!");
+                    ui.form.innerHTML = "";
+                    ui.preview.innerHTML = "";
+                    })
+                    .catch((error) => {
+                        console.error("Gagal menambah artikel: ", error);
+                    })
+                };
+            simpanLog()
+            reader.readAsDataURL(file);
+        } else {
+            alert("Silakan pilih file gambar!");
+        };
             
-            await simpanLog("HAPUS_ARTIKEL", judulHapus);
+        // CANCEL / CLEAR
+        if (e.target.id === "cancel-btn" || e.target.id === "clear-btn") {
+            ui.form.innerHTML = "";
+            ui.preview.innerHTML = "";
+        }
+        }
+    });
+    document.addEventListener("click", async (e) => {
+        const btn = e.target.closest(".delete-btn");
+        if (!btn) return;
+        const id = btn.dataset.id;
+
+        if (!confirm("Hapus artikel ini?")) return;
+
+        try {
+            await deleteDoc(doc(db, "article", id));
+            alert("Artikel dihapus");
+            btn.closest(".news-card").remove();
+        } catch (err) {
+            alert("Gagal hapus");
+            console.error(err);
         }
     });
 
@@ -171,28 +255,3 @@ requireAdmin().then(async (user) => {
     console.error("Akses ditolak:", err);
     window.location.href = "login.html";
 });
-
-// Fungsi bantu ambil IP
-async function getIP() {
-    try {
-        const res = await fetch('https://api.ipify.org?format=json');
-        const data = await res.json();
-        return data.ip;
-    } catch { return "IP Unknown"; }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
