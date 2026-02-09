@@ -28,13 +28,17 @@ async function refreshDashboard() {
         // Tampilkan List Artikel Firestore
         const containerArtikel = document.getElementById('total-articles');
         if (containerArtikel) {
-            containerArtikel.innerHTML = data.latest_articles.map(art => `
+            getDoc(db,"article").then(doc => {
+                const articles = doc.data();
+                const articlesList = articles.map(art => `
                 <div class="card-monitor">
-                    <p><strong>ID:</strong> ${art.documentId}</p>
+                    <img src="data:image/png;base64,${art.foto}">
+                    <p><strong>ID:</strong> ${art.Id}</p>
                     <p><small>Tgl: ${new Date(art.createdAt).toLocaleString('id-ID')}</small></p>
                     <button id="delete-btn"><i class="fa-regular fa-trash-can"></i> Delete </button>
-                </div>
-            `).join('');
+                </div>`).join('');
+            containerArtikel.innerHTML = articlesList;
+            });
         }
 
         // Tampilkan Status Server & Firebase
@@ -157,6 +161,10 @@ requireAdmin().then(async (user) => {
 
 
     document.addEventListener("click", async (e) => {
+        const ui = {
+            form: document.getElementById("form-input"),
+            preview: document.getElementById("preview-post")
+        };
         // POST ARTIKEL
         if (e.target.id === "news-update") {
             if (ui.form.innerHTML) return;
