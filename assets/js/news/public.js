@@ -12,7 +12,7 @@ onSnapshot(q, (snap) => {
 
     newsList.innerHTML += `
       <article class="news-card">
-        <img src="${d.foto}">
+        <img src="data:image/png;base64,${d.foto}">
         <div class="article-content">
         <h3>${d.judul}</h3>
         <p>${d.desk}</p>
@@ -21,3 +21,4 @@ onSnapshot(q, (snap) => {
     `;
   });
 });
+
