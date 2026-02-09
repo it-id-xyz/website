@@ -10,11 +10,14 @@ if (containerArtikel) {
             containerArtikel.innerHTML += `
                 <div class="news-card">
                     <img src="${art.foto}" style="width:100%; border-radius:8px;">
-                    <p><strong>ID:</strong> ${art.judul}</p>
-                    <p>${art.desk}</p>
-                    <p><small>Tgl: ${new Date(art.createdAt).toLocaleString('id-ID')}</small></p>
+                    <div class="news-content">
+                        <p><strong>${art.judul}</strong></p>
+                        <p>${art.desk}</p>
+                        <p><small>Tgl: ${new Date(art.createdAt).toLocaleString('id-ID')}</small></p>
+                    </div>
                 </div>`
             });
         });
     }
+
 
