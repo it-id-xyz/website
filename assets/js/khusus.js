@@ -143,106 +143,104 @@ requireAdmin().then(async (user) => {
     }
 
 
-    document.addEventListener("click", async (e) => {
-        const ui = {
-            form: document.getElementById("form-input"),
-            preview: document.getElementById("preview-post")
-        };
-        // POST ARTIKEL
-        if (e.target.id === "news-update") {
-            if (ui.form.innerHTML) return;
+ // Gabungkan semua listener klik di sini (di dalam requireAdmin)
+document.addEventListener("click", async (e) => {
+    const ui = {
+        form: document.getElementById("form-input"),
+        preview: document.getElementById("preview-post")
+    };
 
-            ui.form.innerHTML = `
+    // TOMBOL "BUAT ARTIKEL BARU"
+    if (e.target.id === "news-update") {
+        if (ui.form.innerHTML) return;
+        ui.form.innerHTML = `
             <h4>Masukan Judul Article</h4>
             <input id="judul-input" placeholder="Judul">
-            <h4>Masukan link Foto/Video/File</h4>
-            <input type="file" id="foto-input">
-            <p>Masukan file gambar</p>
+            <h4>Pilih File Gambar</h4>
+            <input type="file" id="foto-input" accept="image/*">
             <textarea id="desk-input" placeholder="Deskripsi"></textarea>
             <button id="cancel-btn">Cancel</button>
             <button id="preview-btn">Preview</button>
-            `;
-        }
+        `;
+    }
 
-        // PREVIEW
-        if (e.target.id === "preview-btn") {
-            const judul = document.getElementById("judul-input").value;
-            const foto  = document.getElementById("foto-input").value;
-            const desk  = document.getElementById("desk-input").value;
-            
-            if (!judul || !foto || !desk) {
-            alert("Lengkapi semua");
+    // TOMBOL PREVIEW
+    if (e.target.id === "preview-btn") {
+        const judul = document.getElementById("judul-input").value;
+        const desk = document.getElementById("desk-input").value;
+        const file = document.getElementById("foto-input").files[0];
+
+        if (!judul || !desk || !file) {
+            alert("Lengkapi semua data dan pilih foto!");
             return;
-            }
+        }
 
+        const reader = new FileReader();
+        reader.onload = (event) => {
             ui.preview.innerHTML = `
-            <img src="${foto}" style="max-width:300px">
-            <h3>${judul}</h3>
-            <p>${desk}</p>
-
-            <button id="post-btn">Post</button>
-            <button id="clear-btn">Hapus</button>
+                <div class="card-monitor">
+                    <img src="${event.target.result}" style="max-width:100%; border-radius:8px;">
+                    <h3>${judul}</h3>
+                    <p>${desk}</p>
+                    <button id="post-btn">Konfirmasi Post</button>
+                    <button id="clear-btn">Hapus Preview</button>
+                </div>
             `;
-        }
-
-        // POST
-        if (e.target.id === "post-btn") {
-            const judul = document.getElementById("judul-input").value;
-            const foto  = document.getElementById("foto-input");
-            const desk  = document.getElementById("desk-input").value;
-
-            const file = foto.files[0];
-            if(file) {    
-                const reader = new FileReader();
-            reader.onloadend = async () => {
-                    const base64String = reader.result;
-                    try {
-                        await addDoc(collection(db, "article"), {
-                            judul: judul,
-                            foto: base64String,
-                            desk: desk,
-                            createdAt: serverTimestamp()
-                        });
-                        alert("Artikel terbit!");
-                        await simpanLog("Menambah Artikel", judul);
-                        ui.form.innerHTML = "";
-                        ui.preview.innerHTML = "";
-                    } catch (err) {
-                        console.error(err);
-                    }
-                };
-                reader.readAsDataURL(file);
-            }
-        } else {
-            alert("Silakan pilih file gambar!");
         };
-            
-        // CANCEL / CLEAR
-        if (e.target.id === "cancel-btn" || e.target.id === "clear-btn") {
-            ui.form.innerHTML = "";
-            ui.preview.innerHTML = "";
+        reader.readAsDataURL(file);
+    }
+
+    // TOMBOL POST (FIXED)
+    if (e.target.id === "post-btn") {
+        const judul = document.getElementById("judul-input").value;
+        const desk = document.getElementById("desk-input").value;
+        const file = document.getElementById("foto-input").files[0];
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = async () => {
+                const base64String = reader.result;
+                try {
+                    await addDoc(collection(db, "article"), {
+                        judul: judul,
+                        foto: base64String,
+                        desk: desk,
+                        createdAt: serverTimestamp()
+                    });
+                    alert("Artikel berhasil terbit!");
+                    await simpanLog("Menambah Artikel", judul);
+                    ui.form.innerHTML = "";
+                    ui.preview.innerHTML = "";
+                } catch (err) {
+                    console.error("Gagal post:", err);
+                }
+            };
+            reader.readAsDataURL(file);
+        } else {
+            alert("Pilih file gambarnya dulu, Bro!");
         }
-    });
-    document.addEventListener("click", async (e) => {
-        const btn = e.target.closest(".delete-btn");
-        if (!btn) return;
-        const id = btn.dataset.id;
+    }
 
-        if (!confirm("Hapus artikel ini?")) return;
-
-        try {
-            await deleteDoc(doc(db, "article", id));
-            alert("Artikel dihapus");
-            btn.closest(".news-card").remove();
-        } catch (err) {
-            alert("Gagal hapus");
-            console.error(err);
+    // TOMBOL DELETE
+    const delBtn = e.target.closest(".delete-btn");
+    if (delBtn) {
+        const id = delBtn.dataset.id;
+        if (confirm("Yakin mau hapus artikel ini?")) {
+            try {
+                await deleteDoc(doc(db, "article", id));
+                await simpanLog("Menghapus Artikel", id);
+                alert("Artikel dihapus!");
+            } catch (err) {
+                alert("Gagal hapus!");
+            }
         }
-    });
+    }
 
-}).catch(err => {
-    console.error("Akses ditolak:", err);
-    window.location.href = "login.html";
+    // TOMBOL CANCEL
+    if (e.target.id === "cancel-btn" || e.target.id === "clear-btn") {
+        ui.form.innerHTML = "";
+        ui.preview.innerHTML = "";
+    }
 });
 
 const containerArtikel = document.getElementById('total-articles');
@@ -265,4 +263,5 @@ if (containerArtikel) {
             });
         });
     }
+
 
