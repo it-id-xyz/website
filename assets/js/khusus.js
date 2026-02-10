@@ -247,7 +247,7 @@ const containerArtikel = document.getElementById('total-articles');
 if (containerArtikel) {
     onSnapshot(collection(db,"article"), (snap) => {
     containerArtikel.innerHTML = "";            
-    snap.forEach(docSnap) => {
+    snap.forEach((docSnap) => {
         const art = docSnap.data();
         const docId = docSnap.id;
             containerArtikel.innerHTML += `
@@ -264,5 +264,6 @@ if (containerArtikel) {
         });
     }
 })
+
 
 
