@@ -6,7 +6,7 @@ const ul = {
     btnSubmit: document.getElementById('btn-submit')
 }
 
-async function getData() {
+const getData = () => {
     const nama = document.getElementById('nama').value;
     const kelas = document.getElementById('kelas').value;
     const email = document.getElementById('email').value;
@@ -33,7 +33,7 @@ async function getData() {
         console.log("Gagal daftar: " + err.message);
     }
 }
-ul.btnSubmit.addEventListener("click", getData());
+ul.btnSubmit.addEventListener("click", getData);
 
 
 
