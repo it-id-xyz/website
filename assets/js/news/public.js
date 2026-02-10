@@ -13,12 +13,13 @@ if (containerArtikel) {
                     <div class="news-content">
                         <p><strong>${art.judul}</strong></p>
                         <p>${art.desk}</p>
-                        <p><small>Tgl: ${new Date(art.createdAt).toLocaleString('id-ID')}</small></p>
+                        <p><small>Tgl: ${art.createdAt ? art.createdAt.toDate().toLocaleString('id-ID') : 'Memuat...'}</small></p>
                     </div>
                 </div>`
             });
         });
     }
+
 
 
 
