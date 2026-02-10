@@ -67,7 +67,7 @@ async function refreshDashboard() {
     }
 }
 
-setInterval(refreshDashboard, 1000);
+setInterval(refreshDashboard, 5000);
 window.onload = refreshDashboard;
 
 async function getIP() {
@@ -322,4 +322,5 @@ btnExport.onclick = async () => {
     XLSX.utils.book_append_sheet(wb, ws, "Data");
     XLSX.writeFile(wb, "Pendaftar_IT.xlsx");
 };
+
 
