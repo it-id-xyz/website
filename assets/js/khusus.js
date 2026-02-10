@@ -1,4 +1,4 @@
-import { addDoc, collection, serverTimestamp, query, limit, orderBy, onSnapshot, getDoc, doc, deleteDoc, getCountFromServer } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { addDoc, collection, serverTimestamp, query, limit, orderBy, onSnapshot, getDoc, doc, deleteDoc, updateDoc, getCountFromServer } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { updateOnlineStatus, requireAdmin } from "./role.js";
 import { auth, db } from "./firebase.js"; 
 const API_URL = 'https://api.it-smansaci.my.id/api/monitor';
@@ -322,5 +322,6 @@ btnExport.onclick = async () => {
     XLSX.utils.book_append_sheet(wb, ws, "Data");
     XLSX.writeFile(wb, "Pendaftar_IT.xlsx");
 };
+
 
 
