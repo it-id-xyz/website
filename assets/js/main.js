@@ -1,5 +1,5 @@
 import { db } from "./firebase.js"
-import { addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const ul = {
     statusUser: document.getElementById('project-status'),
@@ -36,6 +36,7 @@ const getData = async (e) => {
     }
 }
 ul.btnSubmit.addEventListener("click", getData);
+
 
 
 
