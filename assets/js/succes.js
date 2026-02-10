@@ -39,7 +39,7 @@ if (!regId) {
                     <p>Data kamu sedang diproses oleh pengurus IT, 5-30menit</p>
                     <div class="project-status">
                     <div class="spinner"></div>
-                    <small class="project-status"></small>
+                    <small class="project-status">Sedang di proses..</small>
                     </div>
                 </div>`;
         } 
@@ -48,7 +48,7 @@ if (!regId) {
                 <div class="card-success">
                     <h2>SELAMAT ${data.nama}! 🎉</h2>
                     <p>Pendaftaran kamu berhasil. Silakan klik tombol di bawah untuk info lebih lanjut.</p>
-                    <a href="https://wa.me/6287831166441?text=${chat}" class="btn-wa">Chat Pengurus</a>
+                    <a href="https://wa.me/6287831166441?text=${chat}" class="project-status"><i class="fa-solid fa-check"></i> Approved</a>
                 </div>`;
         } 
         else if (data.status === 'rejected') {
@@ -61,5 +61,6 @@ if (!regId) {
         }
     });
 }
+
 
 
