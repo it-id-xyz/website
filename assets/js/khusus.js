@@ -6,7 +6,7 @@ const API_URL = 'https://api.it-smansaci.my.id/api/monitor';
 async function refreshDashboard() {
     try {
         const response = await fetch(API_URL);
-        if (!response.ok) throw new Error('Server i3 tidak merespon');
+        if (!response.ok) throw new Error('Server Local tidak merespon');
         
         const data = await response.json();
         if (data.groq) {
@@ -265,5 +265,56 @@ if (containerArtikel) {
     }
 })
 
+const listAdmin = document.getElementById('user-list');
+const btnExport = document.getElementById('btn-export');
 
+// 1. Tampilkan List Pendaftar
+onSnapshot(query(collection(db, "regist"), orderBy("createdAt", "desc")), (snap) => {
+    listAdmin.innerHTML = "";
+    snap.forEach((docSnap) => {
+        const u = docSnap.data();
+        const id = docSnap.id;
+        if (u.status !== 'pending') return;
 
+        listAdmin.innerHTML += `
+            <div class="admin-card">
+                <p>${u.nama} (${u.wa})</p>
+                <button onclick="approveUser('${id}')">Approve</button>
+                <button onclick="denyUser('${id}')">Deny</button>
+            </div>`;
+    });
+});
+
+// 2. Fungsi Approve
+window.approveUser = async (id) => {
+    if (confirm("Terima anggota?")) {
+        await updateDoc(doc(db, "regist", id), { status: 'approved' });
+    }
+};
+
+// 3. Fungsi Deny (Dengan Alasan)
+window.denyUser = async (id) => {
+    const alasan = prompt("Alasan penolakan:");
+    if (alasan) {
+        await updateDoc(doc(db, "regist", id), { 
+            status: 'rejected', 
+            pesanAdmin: alasan 
+        });
+    }
+};
+
+// 4. Fungsi Export Excel
+btnExport.onclick = async () => {
+    const snap = await getDocs(collection(db, "regist"));
+    const data = snap.docs.map(d => ({
+        Nama: d.data().nama,
+        Status: d.data().status,
+        WA: d.data().wa,
+        Alasan: d.data().pesanAdmin
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Data");
+    XLSX.writeFile(wb, "Pendaftar_IT.xlsx");
+};
