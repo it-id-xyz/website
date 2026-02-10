@@ -31,11 +31,13 @@ const getData = async (e) => {
         localStorage.setItem("role", "visitor");
 
         window.location.href = '../succes.html';
-    } catch {
-        console.log("Gagal daftar: " + err.message);
+    } catch (err) {
+        console.log("Gagal daftar: ", err);
+        alert("Terjadi kesalahan: " + err.message);
     }
 }
 ul.btnSubmit.addEventListener("click", getData);
+
 
 
 
