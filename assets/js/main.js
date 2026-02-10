@@ -6,14 +6,14 @@ const ul = {
     btnSubmit: document.getElementById('btn-submit')
 }
 
-const getData = () => {
+const getData = async () => {
     const nama = document.getElementById('nama').value;
     const kelas = document.getElementById('kelas').value;
     const email = document.getElementById('email').value;
     const whatsapp = document.getElementById('whatsapp').value;
     const bidang = document.getElementById('bidang').value;
 
-    if (data.nama || data.kelas || data.email || data.whatsapp || data.bidang ) return alert('Harap di isi semua data');
+    if (!data.nama || !data.kelas || !data.email || !data.whatsapp || !data.bidang ) return alert('Harap di isi semua data');
     try {
         const docRef = await addDoc(collection(db, "regist"), {
             nama: nama,
@@ -34,6 +34,7 @@ const getData = () => {
     }
 }
 ul.btnSubmit.addEventListener("click", getData);
+
 
 
 
