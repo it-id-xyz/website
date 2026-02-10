@@ -7,22 +7,20 @@ const ul = {
 }
 
 async function getData() {
-    const data = {
-        nama: document.getElementById('nama').value,
-        kelas: document.getElementById('kelas').value,
-        email: document.getElementById('email').value,
-        whatsapp: document.getElementById('whatsapp').value,
-        bidang: document.getElementById('bidang').value
-    }
+    const nama: document.getElementById('nama').value;
+    const kelas: document.getElementById('kelas').value;
+    const email: document.getElementById('email').value;
+    const whatsapp: document.getElementById('whatsapp').value;
+    const bidang: document.getElementById('bidang').value;
 
     if (data.nama || data.kelas || data.email || data.whatsapp || data.bidang ) return alert('Harap di isi semua data');
     try {
         const docRef = await addDoc(collection(db, "regist"), {
-            nama: data.nama,
-            kelas: data.kelas,
-            email: data.email,
-            whatsapp: data.whatsapp,
-            bidang: data.bidang,
+            nama: nama,
+            kelas: kelas,
+            email: email,
+            whatsapp: whatsapp,
+            bidang: bidang,
             status: 'pending..',
             createdAt: serverTimestamp()
         });
@@ -36,4 +34,5 @@ async function getData() {
     }
 }
 ul.btnSubmit.addEventListener("click", getData());
+
 
