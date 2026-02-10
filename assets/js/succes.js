@@ -31,7 +31,7 @@ if (!regId) {
         }
         
         const data = snap.data();
-        const chat = `halo%20Kak,%20${sapaan}Aku%20${data.nama}%20dari%20kelas%20${data.kelas},%20aku%20kabar%20kalo%20pendaftaran%20aku%20diterima.%20Terimakasih%20kak.`;
+        const chat = `halo%20Kak,%20${sapaan(teks)}Aku%20${data.nama}%20dari%20kelas%20${data.kelas},%20aku%20kabar%20kalo%20pendaftaran%20aku%20diterima.%20Terimakasih%20kak.`;
         if (data.status === 'pending') {
             container.innerHTML = `
                 <div class="loading">
@@ -48,7 +48,7 @@ if (!regId) {
                 <div class="card-success">
                     <h2>SELAMAT ${data.nama}! 🎉</h2>
                     <p>Pendaftaran kamu berhasil. Silakan klik tombol di bawah untuk info lebih lanjut.</p>
-                    <a href="https://wa.me/6287831166441?text=${chat}" class="project-status"><i class="fa-solid fa-check"></i> Approved</a>
+                    <a href="https://wa.me/6287831166441?text=${chat}" class="project-status" ><i class="fa-solid fa-check"></i> Approved</a>
                 </div>`;
         } 
         else if (data.status === 'rejected') {
@@ -61,6 +61,7 @@ if (!regId) {
         }
     });
 }
+
 
 
 
