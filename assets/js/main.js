@@ -25,7 +25,7 @@ const getData = async (e) => {
             email: email,
             whatsapp: whatsapp,
             bidang: bidang,
-            status: 'pending..',
+            status: 'pending',
             createdAt: serverTimestamp()
         });
         console.log("3. Berhasil masuk! ID:", docRef.id);
@@ -42,6 +42,7 @@ const getData = async (e) => {
     }
 }
 ul.btnSubmit.addEventListener("click", getData);
+
 
 
 
