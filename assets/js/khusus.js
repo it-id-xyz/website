@@ -3,6 +3,10 @@ import { updateOnlineStatus, requireAdmin } from "./role.js";
 import { auth, db } from "./firebase.js"; 
 const API_URL = 'https://api.it-smansaci.my.id/api/monitor';
 
+requireAdmin().catch(() => {
+    window.location.href = "login.html";
+});
+
 async function refreshDashboard() {
     try {
         const response = await fetch(API_URL);
@@ -318,3 +322,4 @@ btnExport.onclick = async () => {
     XLSX.utils.book_append_sheet(wb, ws, "Data");
     XLSX.writeFile(wb, "Pendaftar_IT.xlsx");
 };
+
