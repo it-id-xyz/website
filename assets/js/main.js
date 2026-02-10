@@ -30,12 +30,13 @@ const getData = async () => {
         localStorage.setItem("it_reg_id", docRef.id);
         localStorage.setItem("role", "visitor");
 
-        window.location.href = 'succes.html';
+        window.location.href = '../succes.html';
     } catch {
         console.log("Gagal daftar: " + err.message);
     }
 }
 ul.btnSubmit.addEventListener("click", getData);
+
 
 
 
