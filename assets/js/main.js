@@ -1,4 +1,4 @@
-import { db } from "../firebase.js"
+import { db } from "./firebase.js"
 import { addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const ul = {
@@ -36,3 +36,4 @@ async function getData() {
     }
 }
 ul.btnSubmit.addEventListener("click", getData());
+
