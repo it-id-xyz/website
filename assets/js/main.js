@@ -7,6 +7,7 @@ const ul = {
 }
 
 const getData = async () => {
+    e.preventDefault();
     const nama = document.getElementById('nama').value;
     const kelas = document.getElementById('kelas').value;
     const email = document.getElementById('email').value;
@@ -34,6 +35,7 @@ const getData = async () => {
     }
 }
 ul.btnSubmit.addEventListener("click", getData);
+
 
 
 
