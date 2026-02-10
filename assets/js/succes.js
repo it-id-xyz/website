@@ -25,7 +25,10 @@ if (!regId) {
     window.location.href = "index.html"; 
 } else {
     onSnapshot(doc(db, "regist", regId), (snap) => {
-        if (!snap.exists()) return;
+        if (!snap.exists()) {
+            container.innerHTML = "<p>Data tidak ditemukan...</p>";
+            return;
+        }
         
         const data = snap.data();
         const chat = `halo%20Kak,%20${sapaan}Aku%20${data.nama}%20dari%20kelas%20${data.kelas},%20aku%20kabar%20kalo%20pendaftaran%20aku%20diterima.%20Terimakasih%20kak.`;
@@ -58,4 +61,5 @@ if (!regId) {
         }
     });
 }
+
 
