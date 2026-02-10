@@ -6,7 +6,7 @@ const ul = {
     btnSubmit: document.getElementById('btn-submit')
 }
 
-const getData = async () => {
+const getData = async (e) => {
     e.preventDefault();
     console.log("Tombol diklik, memulai proses...");
     const nama = document.getElementById('nama').value;
@@ -36,6 +36,7 @@ const getData = async () => {
     }
 }
 ul.btnSubmit.addEventListener("click", getData);
+
 
 
 
