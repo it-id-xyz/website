@@ -18,7 +18,8 @@ requireAdmin()
     initAdminFeatures(); 
   })
   .catch(() => {
-    // Jika bukan admin/guest, biarkan saja, jangan di-redirect
+    const cEl = document.getElementById('admin-only');
+    cEl.innerHTML = '';
     console.log("Bukan admin, fitur admin dinonaktifkan.");
   });
 
@@ -30,6 +31,7 @@ back.addEventListener('click', () => {
     navMenu.classList.add('hidden');
 
 });
+
 
 
 
