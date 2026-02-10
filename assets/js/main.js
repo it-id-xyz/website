@@ -17,6 +17,8 @@ const getData = async (e) => {
 
     if (!nama || !kelas || !email || !whatsapp || !bidang ) return alert('Harap di isi semua data');
     try {
+        ul.btnSubmit.innerText = "Loading...";
+        ul.btnSubmit.disabled = true;
         const docRef = await addDoc(collection(db, "regist"), {
             nama: nama,
             kelas: kelas,
@@ -26,17 +28,21 @@ const getData = async (e) => {
             status: 'pending..',
             createdAt: serverTimestamp()
         });
+        console.log("3. Berhasil masuk! ID:", docRef.id);
 
         localStorage.setItem("it_reg_id", docRef.id);
         localStorage.setItem("role", "visitor");
 
         window.location.href = '../succes.html';
     } catch (err) {
+        ul.btnSubmit.innerText = "Daftar Sekarang";
+        ul.btnSubmit.disabled = false;
         console.log("Gagal daftar: ", err);
         alert("Terjadi kesalahan: " + err.message);
     }
 }
 ul.btnSubmit.addEventListener("click", getData);
+
 
 
 
