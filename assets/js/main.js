@@ -8,13 +8,14 @@ const ul = {
 
 const getData = async () => {
     e.preventDefault();
+    console.log("Tombol diklik, memulai proses...");
     const nama = document.getElementById('nama').value;
     const kelas = document.getElementById('kelas').value;
     const email = document.getElementById('email').value;
     const whatsapp = document.getElementById('whatsapp').value;
     const bidang = document.getElementById('bidang').value;
 
-    if (!data.nama || !data.kelas || !data.email || !data.whatsapp || !data.bidang ) return alert('Harap di isi semua data');
+    if (!nama || !kelas || !email || !whatsapp || !bidang ) return alert('Harap di isi semua data');
     try {
         const docRef = await addDoc(collection(db, "regist"), {
             nama: nama,
@@ -35,6 +36,7 @@ const getData = async () => {
     }
 }
 ul.btnSubmit.addEventListener("click", getData);
+
 
 
 
