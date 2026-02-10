@@ -1,61 +1,38 @@
-const btnSubmit = document.getElementById('btn-submit');
-const textNama = document.getElementById('text-nama');
-const textKelas = document.getElementById('text-kelas');
-const textNomer = document.getElementById('text-nomer');
-const textBidang = document.getElementById('text-bidang');
+import { db } from "../firebase.js"
+import { addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-btnSubmit.addEventListener('click', () => {
-    const namaInput = document.getElementById('nama');
-    const whatsappInput = document.getElementById('whatsapp');
-    const kelasInput = document.getElementById('kelas');
-    const bidangInput = document.getElementById('bidang');
+const ul = {
+    statusUser: document.getElementById('project-status'),
+    btnSubmit: document.getElementById('btn-submit')
+}
 
-    const namaAnggota = namaInput.value.trim();
-    const nomerAnggota = whatsappInput.value.trim();
-    const kelasAnggota = kelasInput.value.trim();
-    const bidangAnggota = bidangInput.value.trim();
+async function getData() {
+    const data = {
+        nama: document.getElementById('nama').value,
+        kelas: document.getElementById('kelas').value,
+        email: document.getElementById('email').value,
+        whatsapp: document.getElementById('whatsapp').value,
+        bidang: document.getElementById('bidang').value
+    }
 
-    const oldData = JSON.parse(localStorage.getItem('user'));
+    if (data.nama || data.kelas || data.email || data.whatsapp || data.bidang ) return alert('Harap di isi semua data');
+    try {
+        const docRef = await addDoc(collection(db, "regist"), {
+            nama: data.nama,
+            kelas: data.kelas,
+            email: data.email,
+            whatsapp: data.whatsapp,
+            bidang: data.bidang,
+            status: 'pending..',
+            createdAt: serverTimestamp()
+        });
 
-    if(namaAnggota == "" ) {
-        textNama.classList.add('error');
-        return
-    } else {
-        textNama.classList.remove('error');
-    };
-    if(nomerAnggota == "") {
-        textNomer.classList.add('error');
-        return
-    } else {
-        textNomer.classList.remove('error')
-    };
-    if(kelasAnggota == "") {
-        textKelas.classList.add('error');
-        return
-    } else {
-        textKelas.classList.remove('error');
-    };
+        localStorage.setItem("it_reg_id", docRef.id);
+        localStorage.setItem("role", "visitor");
 
-    if(oldData) {
-        if(namaAnggota == oldData.nama) {
-        namaInput.classList.add('error')
-        textNama.classList.add('error');
-        textNama.innerHTML = 'Nama sudah ada';
-        return
-        }
-        else {
-            namaInput.classList.remove('error')
-            textNama.classList.remove('error');
-            textNama.innerHTML = 'Silahkkan masukan nama lengkap';
-            const inputData = {
-                nama : namaAnggota,
-                kelas : kelasAnggota,
-                nomer : nomerAnggota,
-                bidang : bidangAnggota
-                }
-            localStorage.setItem('user',JSON.stringify(inputData));
-            
-        };
         window.location.href = 'succes.html';
-    } 
-});
+    } catch {
+        console.log("Gagal daftar: " + err.message);
+    }
+}
+ul.btnSubmit.addEventListener("click", getData());
