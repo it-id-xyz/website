@@ -27,7 +27,6 @@ const getData = async (e) => {
         return;
     }
 
-        if (docu.id === )
     const nama = document.getElementById('nama').value;
     const kelas = document.getElementById('kelas').value;
     const email = document.getElementById('email').value;
@@ -68,6 +67,7 @@ const getData = async (e) => {
     }
 }
 ul.btnSubmit.addEventListener("click", getData);
+
 
 
 
