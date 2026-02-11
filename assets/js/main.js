@@ -33,6 +33,12 @@ const getData = async (e) => {
     const email = document.getElementById('email').value;
     const whatsapp = document.getElementById('whatsapp').value;
     const bidang = document.getElementById('bidang').value;
+    
+    const token = turnstile.getResponse();
+    if (!token) {
+        alert("Buktikan dulu kalau lu bukan bot, Bro!");
+        return;
+    }
            
     if (!nama || !kelas || !email || !whatsapp || !bidang ) return alert('Harap di isi semua data');
     try {
@@ -61,6 +67,7 @@ const getData = async (e) => {
     }
 }
 ul.btnSubmit.addEventListener("click", getData);
+
 
 
 
