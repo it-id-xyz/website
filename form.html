@@ -54,7 +54,7 @@
             </div>
             <div class="card-content">
                 <h3>Masukan Nomer Whatsapp</h3>
-                <input type="number" name="whatsapp" id="whatsapp" required>
+                <input type="tel" id="whatsapp" placeholder="Contoh: 628123456789" pattern="[0-9]*" inputmode="numeric" minlength="10" maxlength="13"oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
                 <p id="text-nomer">silahkan masukan nomer Whatsapp</p>
             </div>
             <div class="card-content">
@@ -119,6 +119,7 @@
 </body>
 
 </html>
+
 
 
 
