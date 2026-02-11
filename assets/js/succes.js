@@ -31,7 +31,7 @@ if (!regId) {
         }
         
         const data = snap.data();
-        const chat = `halo%20Kak,%20${sapaan}Aku%20${data.nama}%20dari%20kelas%20${data.kelas},%20aku%20kabar%20kalo%20pendaftaran%20aku%20diterima.%20Terimakasih%20kak.`;
+        const chat = `halo%20Kak,%20${sapaan()}Aku%20${data.nama}%20dari%20kelas%20${data.kelas},%20aku%20dapet%20kabar%20kalo%20pendaftaran%20aku%20diterima.%20Terimakasih%20kak.`;
         if (data.status === 'pending') {
             container.innerHTML = `
                 <div class="loading">
@@ -61,6 +61,7 @@ if (!regId) {
         }
     });
 }
+
 
 
 
