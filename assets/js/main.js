@@ -1,5 +1,5 @@
 import { db } from "./firebase.js"
-import { addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { addDoc, getDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const reg = (redirectUrl) => {
     const data = localStorage.getItem("role");
@@ -17,14 +17,23 @@ const ul = {
 
 const getData = async (e) => {
     e.preventDefault();
-   
     console.log("Tombol diklik, memulai proses...");
+    const q = query(collection(db, "regist"), where("whatsapp", "==", whatsapp));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+        alert("Nomor WA ini sudah terdaftar! Nggak bisa daftar dua kali.");
+        window.location.href = 'succes.html';
+        return;
+    }
+
+        if (docu.id === )
     const nama = document.getElementById('nama').value;
     const kelas = document.getElementById('kelas').value;
     const email = document.getElementById('email').value;
     const whatsapp = document.getElementById('whatsapp').value;
     const bidang = document.getElementById('bidang').value;
-
+           
     if (!nama || !kelas || !email || !whatsapp || !bidang ) return alert('Harap di isi semua data');
     try {
         ul.btnSubmit.innerText = "Loading...";
@@ -52,6 +61,7 @@ const getData = async (e) => {
     }
 }
 ul.btnSubmit.addEventListener("click", getData);
+
 
 
 
