@@ -1,4 +1,4 @@
-import { addDoc, collection, serverTimestamp, query, limit, orderBy, onSnapshot, getDoc, doc, deleteDoc, updateDoc, getCountFromServer } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { addDoc, collection, serverTimestamp, query, limit, orderBy, onSnapshot, getDocs, doc, deleteDoc, updateDoc, getCountFromServer } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { updateOnlineStatus, requireAdmin } from "./role.js";
 import { auth, db } from "./firebase.js"; 
 const API_URL = 'https://api.it-smansaci.my.id/api/monitor';
@@ -17,14 +17,14 @@ async function refreshDashboard() {
             const rpdUsed = data.groq.rpd_used;
             const tpdUsed = data.groq.tpd_used;
 
-            document.getElementById('total-posts-ai').innerText = `Req/Day: ${rpdUsed} / 1k`;
+            document.getElementById('total-posts-ai').innerText = `Req/Day: ${rpdUsed} / 3k`;
             
-            const tokenK = (tpdUsed / 1000).toFixed(1);
-            document.getElementById('total-tokens-ai').innerText = `Token/Day: ${tokenK}K / 100K`;
+            const tokenK = (tpdUsed / 500000).toFixed(1);
+            document.getElementById('total-tokens-ai').innerText = `Token/Day: ${tokenK}K / 500K`;
     
             const reqBar = document.getElementById('req-bar');
             if (reqBar) {
-                const percent = (rpdUsed / 1000) * 100;
+                const percent = (rpdUsed / 3000) * 100;
                 reqBar.style.width = `${percent}%`;
             }
         }
@@ -103,19 +103,6 @@ requireAdmin().then(async (user) => {
         document.getElementById("total-posts").innerText = `${totalArticle.data().count} Article Terbit`;
     }
     getTotal();
-
-    // Tampilkan Log Aktivitas
-    const qLogs = query(collection(db, "logs"), orderBy("time", "desc"), limit(10));
-    onSnapshot(qLogs, (snap) => {
-        const logList = document.getElementById("log-list");
-        if(!logList) return;
-        logList.innerHTML = "";
-        snap.forEach(docSnap => {
-            const data = docSnap.data();
-            const time = data.time?.toDate().toLocaleString('id-ID') || "...";
-            logList.innerHTML += `<li>[${time}] <b>${data.adminName}</b>: ${data.action} (${data.target})</li>`;
-        });
-    });
 
     // Tampilkan Admin Online
     const qOnline = query(collection(db, "users"), orderBy("lastSeen", "desc"));
@@ -282,7 +269,7 @@ onSnapshot(query(collection(db, "regist"), orderBy("createdAt", "desc")), (snap)
 
         listAdmin.innerHTML += `
             <div class="admin-card">
-                <p>${u.nama} (${u.wa})</p>
+                <p>${u.nama} (${u.whatsapp})</p>
                 <button onclick="approveUser('${id}')">Approve</button>
                 <button onclick="denyUser('${id}')">Deny</button>
             </div>`;
@@ -351,6 +338,7 @@ function getLogs() {
     });
 }
 getLogs();
+
 
 
 
