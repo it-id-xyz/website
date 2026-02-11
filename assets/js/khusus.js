@@ -328,7 +328,7 @@ function getLogs() {
     const q = query(logRef, orderBy('time', 'desc'), limit(10));
     
     onSnapshot(q, (snapshot) => {
-        const tableBody = document.getElementBydId('log-list-body');
+        const tableBody = document.getElementById('log-list-body');
         let html = ''
 
         snapshot.forEach((doc) => {
@@ -349,5 +349,6 @@ function getLogs() {
     });
 }
 getLogs();
+
 
 
