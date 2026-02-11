@@ -1,14 +1,14 @@
 import { db } from "./firebase.js"
 import { addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
- const reg = (redirectUrl = '.../succes.html') => {
+ const reg = (redirectUrl = './succes.html') => {
         const data = localStorage.getItem("role");
         if (data !== null ) {
             console.log('kamu sudah daftar')
             window.location.href = reg;
         }
  }
-reg('.../form.html');
+redirectUrl('./form.html');
 const ul = {
     statusUser: document.getElementById('project-status'),
     btnSubmit: document.getElementById('btn-submit')
@@ -51,6 +51,7 @@ const getData = async (e) => {
     }
 }
 ul.btnSubmit.addEventListener("click", getData);
+
 
 
 
