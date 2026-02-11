@@ -40,12 +40,6 @@ const getData = async (e) => {
         alert("Terjadi kesalahan koneksi, coba lagi."); 
         return;
     }
-    
-    const token = turnstile.getResponse();
-    if (!token) {
-        alert("Buktikan dulu kalau lu bukan bot, Bro!");
-        return;
-    }
            
     if (!nama || !kelas || !email || !whatsapp || !bidang ) return alert('Harap di isi semua data');
     try {
@@ -74,6 +68,7 @@ const getData = async (e) => {
     }
 }
 ul.btnSubmit.addEventListener("click", getData);
+
 
 
 
