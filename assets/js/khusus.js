@@ -333,15 +333,16 @@ function getLogs() {
 
         snapshot.forEach((doc) => {
             const log = doc.data();
-            const waktu = log.waktu ? log.waktu.toDate().toLocaleString(id-ID) : '-';
+            const waktu = log.time ? log.time.toDate().toLocaleString(id-ID) : '-';
             const aksiColor = log.action.toLowerCase().includes('Menghapus Artikel') ? 'color: #ff4d4d;' : log.action.toLowerCase().includes('Menambah Artikel') ? 'color: 2ecc71;' : '';
+            const detail = `Email: ${log.email} | Target: ${log.target}`;
 
             html += `
                 <tr>
                     <td><small>${waktu}</small></td>
-                    <td><strong>${log.admin}</strong></td>
+                    <td><strong>${log.adminName}</strong></td>
                     <td style="${aksiColor} font-weight: bold;">${log.action}</td>
-                    <td>${log.detail}</td>
+                    <td>${detail}</td>
                     <td><code style="background: #333; padding: 2px 5px; border-radius: 4px;">${log.ipAddress}</code></td>
                 </tr>`;
         });
@@ -349,6 +350,7 @@ function getLogs() {
     });
 }
 getLogs();
+
 
 
 
