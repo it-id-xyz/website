@@ -323,12 +323,11 @@ btnExport.onclick = async () => {
     XLSX.writeFile(wb, "Pendaftar_IT.xlsx");
 };
 
-
 function getLogs() {
-    db.collection('logs')
-    .orderBy('time', 'desc')
-    .limit(10)
-    .onSnapshot((snapshot) => {
+    const logRef = collection(db, 'logs');
+    const q = query(logRef, orderBy('time', 'desc'), limit(10));
+    
+    onSnapshot(q, (snapshot) => {
         const tableBody = document.getElementBydId('logs-list-body');
 
         let html = ''
@@ -351,3 +350,4 @@ function getLogs() {
     });
 }
 getLogs();
+
