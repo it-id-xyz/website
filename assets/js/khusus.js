@@ -62,7 +62,7 @@ async function refreshDashboard() {
 
     } catch (error) {
         console.error("Dashboard Error:", error);
-        document.getElementById('server-status').innerText = "Offline";
+        document.getElementById('server-status').innerText = "Server Offline";
         document.getElementById('server-status').style.color = "red";
     }
 }
@@ -351,6 +351,7 @@ function getLogs() {
     });
 }
 getLogs();
+
 
 
 
