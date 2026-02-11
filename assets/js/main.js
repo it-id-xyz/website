@@ -33,6 +33,13 @@ const getData = async (e) => {
     const email = document.getElementById('email').value;
     const whatsapp = document.getElementById('whatsapp').value;
     const bidang = document.getElementById('bidang').value;
+
+    const honeypot = document.getElementById('honeypot').value;
+    if (honeypot !== "") {
+        console.log("Bot detected!");
+        alert("Terjadi kesalahan koneksi, coba lagi."); 
+        return;
+    }
     
     const token = turnstile.getResponse();
     if (!token) {
@@ -67,6 +74,7 @@ const getData = async (e) => {
     }
 }
 ul.btnSubmit.addEventListener("click", getData);
+
 
 
 
