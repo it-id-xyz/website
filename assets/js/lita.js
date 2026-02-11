@@ -60,7 +60,7 @@ async function sendQuest() {
             bubbleElement.innerHTML = `${data.error} <span class="time">${jam}</span>`;
         } else {
             
-            const htmlJawaban = marked.parse(data.jawaban);
+            const htmlJawaban = data.jawaban;
             let index = 0;
             bubbleElement.innerHTML = `<div class="markdown-content"></div> <span class="time">${jam}</span>`;
             const contentDiv = bubbleElement.querySelector(".markdown-content");
@@ -68,7 +68,7 @@ async function sendQuest() {
             function typeWriter() {
                 if (index < htmlJawaban.length) {
                     index++;
-                    contentDiv.innerHTML = htmlJawaban.substring(0, index));
+                    contentDiv.innerHTML = marked.parse(htmlJawaban.substring(0, index));
                     chatBox.scrollTop = chatBox.scrollHeight;
                     setTimeout(typeWriter,10);
                 } else {
@@ -87,6 +87,7 @@ async function sendQuest() {
 } 
 
 btnSubmit.addEventListener('click', sendQuest);
+
 
 
 
