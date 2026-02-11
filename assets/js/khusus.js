@@ -329,5 +329,25 @@ function getLogs() {
     .orderBy('time', 'desc')
     .limit(10)
     .onSnapshot((snapshot) => {
-        const 
+        const tableBody = document.getElementBydId('logs-list-body');
 
+        let html = ''
+
+        snapshot.forEach((doc) => {
+            const log = doc.data();
+            const waktu = log.waktu ? log.waktu.toDate().toLocaleString(id-ID) : '-';
+            const aksiColor = log.aksi.toLowerCase().includes('hapus') ? 'color: #ff4d4d;' : log.aksi.toLowerCase().includes('tambah') ? 'color: 2ecc71;' : '';
+
+            html += `
+                <tr>
+                    <td><small>${waktu}</small></td>
+                    <td><strong>${log.admin}</strong></td>
+                    <td style="${aksiColor} font-weight: bold;">${log.aksi}</td>
+                    <td>${log.detail}</td>
+                    <td><code style="background: #333; padding: 2px 5px; border-radius: 4px;">${log.ipAddress}</code></td>
+                </tr>`;
+        });
+        tableBody.innerHTML = html;
+    });
+}
+getLogs();
