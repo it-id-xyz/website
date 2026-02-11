@@ -1,5 +1,5 @@
 const btnSubmit = document.getElementById('send-btn');
-const now = new Date();
+
 
 function btnCopy(block) {
     const button = document.createElement('button');
@@ -18,6 +18,7 @@ function btnCopy(block) {
 }
 
 async function sendQuest() {
+    const now = new Date();
     const jam = `${now.getHours().toString().padStart(2, '0')}.${now.getMinutes().toString().padStart(2, '0')}`;
     const inputText = document.getElementById('isi-text');
     const isiText = inputText.value;
@@ -43,7 +44,7 @@ async function sendQuest() {
             <span class="time">${jam}</span>
         </div>
     </div>`);
-
+    
     const lastMessage = chatBox.lastElementChild;
     const bubbleElement = lastMessage.querySelector(".bubble");
     try {
@@ -58,16 +59,17 @@ async function sendQuest() {
         if(data.error) {
             bubbleElement.innerHTML = `${data.error} <span class="time">${jam}</span>`;
         } else {
+            
             const htmlJawaban = marked.parse(data.jawaban);
             let index = 0;
             bubbleElement.innerHTML = `<div class="markdown-content"></div> <span class="time">${jam}</span>`;
             const contentDiv = bubbleElement.querySelector(".markdown-content");
             
             function typeWriter() {
-                if (index < fullText.length) {
+                if (index < htmlJawaban.length) {
                     index++;
-                    contentDiv.innerHTML = marked.parse(fullText.substring(0, index));
-                    chatBox.scrollTop =chatBox.scrollHeight;
+                    contentDiv.innerHTML = htmlJawaban.substring(0, index));
+                    chatBox.scrollTop = chatBox.scrollHeight;
                     setTimeout(typeWriter,10);
                 } else {
                     contentDiv.querySelectorAll('pre code').forEach((block) => {
@@ -85,6 +87,7 @@ async function sendQuest() {
 } 
 
 btnSubmit.addEventListener('click', sendQuest);
+
 
 
 
