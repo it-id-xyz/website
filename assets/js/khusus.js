@@ -332,15 +332,16 @@ function getLogs() {
         let html = ''
 
         snapshot.forEach((doc) => {
+            const logId = doc.id;
             const log = doc.data();
             const waktu = log.time?.toDate().toLocaleString(id-ID) || 'memuat...';
             const aksiColor = log.action.toLowerCase().includes('Menghapus Artikel') ? 'color: #ff4d4d;' : log.action.toLowerCase().includes('Menambah Artikel') ? 'color: 2ecc71;' : '';
             const detail = `Email: ${log.email} | Target: ${log.target}`;
 
             html += `
-                <tr>
+                <tr data-id="${logId}">
                     <td><small>${waktu}</small></td>
-                    <td><strong>${log.adminName}</strong></td>
+                    <td><strong>${log.adminName || 'System'}</strong></td>
                     <td style="${aksiColor} font-weight: bold;">${log.action}</td>
                     <td>${detail}</td>
                     <td><code style="background: #333; padding: 2px 5px; border-radius: 4px;">${log.ipAddress}</code></td>
@@ -350,4 +351,5 @@ function getLogs() {
     });
 }
 getLogs();
+
 
