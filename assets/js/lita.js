@@ -38,12 +38,14 @@ async function sendQuest() {
     
     chatBox.insertAdjacentHTML('beforeend',`
     <div class="message incoming">
-        <div class="bubble">Waiting for response..
+        <div class="bubble">
+        <div class="loading-pulse">Waiting for response..</div>
             <span class="time">${jam}</span>
         </div>
     </div>`);
 
     const lastMessage = chatBox.lastElementChild;
+    const bubbleElement = lastMessage.querySelector(".bubble");
     try {
         const response = await fetch('https://api.it-smansaci.my.id/chat',{
             method: 'POST',
@@ -54,22 +56,36 @@ async function sendQuest() {
         });
         const data = await response.json();
         if(data.error) {
-            lastMessage.querySelector(".bubble").innerHTML = `${data.error} <span class="time">${jam}</span>`;
+            bubbleElement.innerHTML = `${data.error} <span class="time">${jam}</span>`;
         } else {
             const htmlJawaban = marked.parse(data.jawaban);
-            lastMessage.querySelector(".bubble").innerHTML = `<div class="markdown-content">${htmlJawaban}</div> <span class="time">${jam}</span>`;
-            lastMessage.querySelectorAll('pre code').forEach((block) => {
-                hljs.highlightElement(block);
-                btnCopy(block);
-            });
+            let index = 0;
+            bubbleElement.innerHTML = `<div class="markdown-content"></div> <span class="time">${jam}</span>`;
+            const contentDiv = bubbleElement.querySelector(".markdown-content");
+            
+            function typeWriter() {
+                if (index < fullText.length) {
+                    index++;
+                    contentDiv.innerHTML = marked.parse(fullText.substring(0, index));
+                    chatBox.scrollTop =chatBox.scrollHeight;
+                    setTimeout(typeWriter,10);
+                } else {
+                    contentDiv.querySelectorAll('pre code').forEach((block) => {
+                        hljs.highlightElement(block);
+                        if (typeof btnCopy === "function") btnCopy(block);
+                    });
+                }
+            }
+            typeWriter();
         }
     } catch(error) {
-        lastMessage.querySelector(".bubble").innerHTML = `Error jaringan, silahkan coba lagi <span class="time">${jam}</span>`;
+        bubbleElement.innerHTML = `Error jaringan, silahkan coba lagi <span class="time">${jam}</span>`;
     }
     chatBox.scrollTop = chatBox.scrollHeight;
 } 
 
 btnSubmit.addEventListener('click', sendQuest);
+
 
 
 
