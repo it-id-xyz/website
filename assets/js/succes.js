@@ -48,7 +48,7 @@ if (!regId) {
                 <div class="card-success">
                     <h2>SELAMAT ${data.nama}! 🎉</h2>
                     <p>Pendaftaran kamu berhasil. Silakan klik tombol di bawah untuk info lebih lanjut.</p>
-                    <a href="https://wa.me/6287831166441?text=${chat}" class="project-status" ><i class="fa-solid fa-check"></i> Approved</a>
+                    <a href="https://wa.me/6287831166441?text=${chat}" class="project-status" target="_blank"><i class="fa-solid fa-check"></i> Approved</a>
                 </div>`;
         } 
         else if (data.status === 'rejected') {
@@ -61,6 +61,7 @@ if (!regId) {
         }
     });
 }
+
 
 
 
