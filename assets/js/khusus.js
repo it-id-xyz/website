@@ -324,4 +324,10 @@ btnExport.onclick = async () => {
 };
 
 
+function getLogs() {
+    db.collection('logs')
+    .orderBy('time', 'desc')
+    .limit(10)
+    .onSnapshot((snapshot) => {
+        const 
 
