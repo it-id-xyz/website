@@ -16,7 +16,7 @@
 
 body {
     background-color: var(--bg-main);
-    height: 100vh;
+    height: 85vh;
     display: flex;
     justify-content: center;
     overflow: hidden;
@@ -221,19 +221,18 @@ body {
     border-bottom-right-radius: 2px;
 }
 
-/* --- INPUT AREA --- */
 .chat-input-area {
-    padding: 15px;
+    padding: 15px 20px;
     background-color: var(--bg-main);
+    border-top: 1px solid var(--border);
     display: flex;
     align-items: center;
     gap: 10px;
-    border-top: 1px solid var(--border);
 }
 
 .chat-input-area input {
     flex: 1;
-    background-color: var(--bg-chat);
+    background: var(--bg-chat);
     border: 1px solid var(--border);
     padding: 12px 18px;
     border-radius: 25px;
@@ -242,21 +241,34 @@ body {
 }
 
 .send-btn {
-    background-color: var(--accent);
+    background: var(--accent);
     border: none;
-    width: 45px;
-    height: 45px;
+    width: 45px; height: 45px;
     border-radius: 50%;
     color: #0b0e14;
     cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: 0.2s;
 }
 
-.send-btn:hover { transform: scale(1.1); }
+/* --- RESPONSIVE DESKTOP (Layar > 1024px) --- */
+@media (min-width: 1024px) {
+    .sidebar {
+        position: relative; /* Bukan melayang lagi */
+        right: 0;
+        border-left: none;
+        border-right: 1px solid var(--border);
+        order: -1; /* Pindah ke KIRI */
+    }
 
+    .arrow-btn { display: none; } /* Panah gak butuh di desktop */
+
+    /* Fokus area chat di tengah */
+    .chat-box {
+        padding: 40px 15%;
+    }
+    .chat-input-area {
+        padding: 20px 15%;
+    }
+}
 /* --- MARKDOWN & CODE STYLING --- */
 .markdown-content pre {
     background: #000 !important;
@@ -290,4 +302,5 @@ body {
 
 .loading-pulse { opacity: 0.5; animation: blink 0.8s infinite alternate; }
 @keyframes blink { from { opacity: 0.3; } to { opacity: 1; } }
+
 
