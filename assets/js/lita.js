@@ -1,6 +1,15 @@
 // --- INITIAL STATE ---
 let allSessions = JSON.parse(localStorage.getItem('lita_v2_sessions')) || [];
 let currentSessionId = null;
+
+const ui = {
+    chatBox: document.getElementById('chat-box'),
+    input: document.getElementById('isi-text'),
+    sidebar: document.getElementById('sidebar'),
+    arrowToggle: document.getElementById('toggleSidebar'),
+    historyList: document.getElementById('history-list')
+});
+
 const savedState =
  localStorage.getItem('sidebar_state');
 
@@ -9,6 +18,14 @@ if(savedState === 'true'){
     ui.arrowToggle.innerText = '>';
 }
 
+ui.arrowToggle.addEventListener('click', () => {
+    ui.sidebar.classList.toggle('collapsed');
+    if (ui.sidebar.classList.contains('collapsed')) {
+        ui.arrowToggle.innerText = '>';
+    } else {
+        ui.arrowToggle.innerText = '<';
+    }
+ 
 const menuToggle = document.getElementById('menuToggle');
 
 if(menuToggle){
@@ -21,24 +38,6 @@ if(menuToggle){
 
     });
 }
-
-const ui = {
-    chatBox: document.getElementById('chat-box'),
-    input: document.getElementById('isi-text'),
-    sidebar: document.getElementById('sidebar'),
-    arrowToggle: document.getElementById('toggleSidebar'),
-    historyList: document.getElementById('history-list')
-
-ui.arrowToggle.addEventListener('click', () => {
-    ui.sidebar.classList.toggle('collapsed');
-    if (ui.sidebar.classList.contains('collapsed')) {
-        ui.arrowToggle.innerText = '>';
-    } else {
-        ui.arrowToggle.innerText = '<';
-    }
-
-});
-
 ui.chatBox.addEventListener('click', () => {
     if (window.innerWidth < 768) {
         ui.sidebar.classList.remove('active');
@@ -239,4 +238,5 @@ document.getElementById('send-btn').addEventListener('click', sendQuest);
 ui.input.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') sendQuest();
 });
+
 
