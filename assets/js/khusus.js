@@ -82,7 +82,7 @@ requireAdmin().then(async (user) => {
     const uid = user.uid; 
 
     // Ambil admin
-    const userSnap = await getDoc(doc(db, "users", uid));
+    const userSnap = await getDocs(doc(db, "users", uid));
     let namaAdmin = user.email;
 
     if (userSnap.exists()) {
@@ -338,6 +338,7 @@ function getLogs() {
     });
 }
 getLogs();
+
 
 
 
