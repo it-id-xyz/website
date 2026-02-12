@@ -1,88 +1,42 @@
-/* Reset & Base */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+/* --- lita.css --- */
 
-:root {
-    --bg-main: #151921;
-    --bg-chat: #0b0e14;
-    --bg-field: #2a3341; /* Warna kolom ketik ala WA */
-    --accent: #7aa2ff;
-    --border: #1f2633;
-    --text: #e1e1e1;
-}
-
-/* FIX: Pakai 100vh biar full layar, jangan 85vh */
+/* Reset body biar gak narik konten ke samping */
 body {
     background-color: var(--bg-main);
     height: 100vh;
-    display: flex;
+    display: block; /* UBAH DARI FLEX KE BLOCK */
     overflow: hidden;
 }
 
-/* Container Utama */
+/* Container utama di bawah navbar */
 .app-container {
     width: 100%;
-    height: 100vh; /* FIX: Full Height */
+    height: calc(100vh - 64px); /* Potong tinggi navbar (64px) */
     background-color: var(--bg-chat);
-    display: flex;
+    display: flex; /* Sidebar & Main Chat baru boleh flex di sini */
     position: relative;
     overflow: hidden;
 }
 
-/* Area Chat Utama */
+/* Sidebar Fix */
+.sidebar {
+    width: 300px;
+    height: 100%;
+    background: var(--bg-main);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    z-index: 10;
+}
+
 .main-chat {
     flex: 1;
     display: flex;
     flex-direction: column;
     height: 100%;
-    min-width: 0;
-    background-color: var(--bg-chat);
     position: relative;
-}
-
-/* Sidebar */
-.sidebar {
-    position: fixed;
-    right: -300px;
-    top: 0;
-    width: 300px;
-    height: 100%;
-    background: var(--bg-main);
-    border-left: 1px solid var(--border);
-    transition: all 0.3s ease-in-out;
-    z-index: 1000;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-}
-
-.sidebar.active {
-    right: 0;
-}
-
-/* Floating Arrow */
-.arrow-btn {
-    position: absolute;
-    left: -40px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 60px;
-    background: var(--bg-main);
-    color: var(--accent);
-    border: 1px solid var(--border);
-    border-right: none;
-    border-radius: 15px 0 0 15px;
-    cursor: pointer;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+    background-color: var(--bg-chat);
 }
 
 .chat-box {
@@ -91,167 +45,21 @@ body {
     padding: 20px;
     display: flex;
     flex-direction: column;
-    padding: 80px 20px 20px 20px
-    /* Jangan kasih justify-content: center di sini biar chat biasa gak ikut ke tengah */
+}
+
+/* Input nempel di bawah */
+.input-container {
+    padding: 20px;
+    background: var(--bg-chat);
+    border-top: 1px solid var(--border);
 }
 
 .welcome-card {
-    margin: auto; /* Trik sakti biar dia center sempurna di dalam flex container */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    margin: auto;
     text-align: center;
-    color: #ffffff;
-    padding: 20px;
-    max-width: 500px;
-    width: 100%;
-    animation: fadeIn 0.5s ease; /* Tambahin dikit biar halus */
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+.ai-logo {
+    width: 120px;
+    margin-bottom: 20px;
 }
-
-/* Grid panduan di dalem card */
-.guide-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    margin-top: 25px;
-    width: 100%;
-}
-
-.guide-item {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 15px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    font-size: 13px;
-    transition: 0.3s;
-}
-
-.guide-item:hover {
-    background: rgba(122, 162, 255, 0.1);
-    border-color: var(--accent);
-}
-/* --- FIX BUTTON SEND BIAR BULAT SEMPURNA --- */
-
-.send-btn {
-    width: 50px;          
-    height: 50px;         
-    background-color: var(--accent); 
-    border: none;
-    border-radius: 50%;   
-    color: #0b0e14;
-    cursor: pointer;
-    display: flex;        
-    justify-content: center;
-    align-items: center;
-    flex-shrink: 0;       
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 10px rgba(122, 162, 255, 0.3);
-}
-
-.send-btn:hover {
-    transform: scale(1.1);
-    background-color: #92b5ff;
-}
-
-.send-btn i {
-    font-size: 20px;
-    margin-left: 2px; 
-}
-
-.chat-input-area {
-    padding: 15px 20px;
-    background-color: var(--bg-main);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-.input-wrapper {
-    flex: 1;
-    background-color: var(--bg-field);
-    display: flex;
-    align-items: center;
-    padding: 5px 15px;
-    border-radius: 25px;
-    min-height: 45px;
-}
-
-.input-wrapper input {
-    flex: 1;
-    background: transparent;
-    border: none;
-    color: white;
-    padding: 10px;
-    outline: none;
-    font-size: 15px;
-}
-
-/* --- RESPONSIVE DESKTOP --- */
-@media (min-width: 1024px) {
-    .sidebar {
-        position: relative;
-        right: 0;
-        border-left: none;
-        border-right: 1px solid var(--border);
-        order: -1; /* Sidebar di KIRI */
-    }
-
-    .arrow-btn { display: none; }
-
-    .chat-box { padding: 40px 15%; }
-    .chat-input-area { padding: 20px 15% 30px 15%; }
-}
-
-/* Bubbles */
-.message { display: flex; width: 100%; }
-.bubble {
-    padding: 12px 18px;
-    border-radius: 18px;
-    max-width: 80%;
-    font-size: 14.5px;
-    line-height: 1.5;
-    word-wrap: break-word;
-}
-.incoming .bubble {
-    background-color: var(--bg-main);
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-bottom-left-radius: 2px;
-}
-.outgoing { justify-content: flex-end; }
-.outgoing .bubble {
-    background-color: var(--accent);
-    color: #0b0e14;
-    font-weight: 500;
-    border-bottom-right-radius: 2px;
-}
-
-/* Markdown & Code */
-.markdown-content pre {
-    background: #000 !important;
-    padding: 12px;
-    border-radius: 8px;
-    margin: 8px 0;
-    overflow-x: auto;
-    position: relative;
-}
-.copy-btn {
-    position: absolute;
-    top: 5px; right: 5px;
-    background: var(--accent);
-    border: none; padding: 2px 8px;
-    font-size: 10px; border-radius: 4px;
-    cursor: pointer;
-}
-
-.time { font-size: 10px; opacity: 0.5; margin-top: 5px; display: block; text-align: right; }
-.loading-pulse { opacity: 0.5; animation: blink 0.8s infinite alternate; }
-@keyframes blink { from { opacity: 0.3; } to { opacity: 1; } }
-
-
-
