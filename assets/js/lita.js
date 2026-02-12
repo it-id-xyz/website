@@ -11,28 +11,21 @@ const ui = {
 }
 
 const savedState = localStorage.getItem('sidebar_state');
-if(savedState === 'true'){
+if(savedState === 'true' && window.innerWidth < 768){
     ui.sidebar.classList.add('hide');
-    ui.arrowToggle.innerText = '>';
 }
 
 ui.arrowToggle.addEventListener('click', () => {
-    ui.sidebar.classList.toggle('hide');
-    if (ui.sidebar.classList.contains('hide')) {
-        ui.arrowToggle.innerText = '>';
+
+    // Mobile behavior
+    if(window.innerWidth < 768){
+        ui.sidebar.classList.toggle('active');
         localStorage.setItem('sidebar_state', ui.sidebar.classList.contains('hide'));
-    } else {
-        ui.arrowToggle.innerText = '<';
+        return;
     }
- });
-const sidebarToggle = document.getElementById('sidebarToggle');
 
-if(sidebarToggle){
-  sidebarToggle.addEventListener('click', ()=>{
-    ui.sidebar.classList.toggle('active');
-  });
-}
-
+    // Desktop behavior (optional — tapi lu bilang ga dipake)
+});
 const menuToggle = document.getElementById('menuToggle');
 const navMenu   = document.getElementById('navMenu');
 
@@ -73,18 +66,18 @@ function newChat() {
     currentSessionId = Date.now();
     ui.chatBox.innerHTML = `
         <div id="welcome-screen" class="welcome-card">
-            <img src="logo-it.png" class="ai-logo">
+            <img src="assets/img/it.png" class="ai-logo">
             <h1>Lita AI</h1>
-            <span class="ai-version">v2.5 Stable</span>
+            <span class="ai-version">Basic Llama 3.3 70b-Versatile</span>
+            <p class="tagline">AI Asisstant IT</p>
             <div class="guide-grid">
-                <div class="guide-item">Pintar</div>
-                <div class="guide-item">Cepat</div>
+                <div class="item">Cepat & Pintar</div>
+                <div class="item">Chat end to end</div>
             </div>
         </div>
     `;
     if(window.innerWidth < 768) {
         ui.sidebar.classList.remove('active');
-        ui.arrowIcon.innerText = '<';
     }
     renderHistory();
 }
@@ -221,7 +214,6 @@ function loadSession(id) {
     ui.chatBox.scrollTop = ui.chatBox.scrollHeight;
     if(window.innerWidth < 768) {
         ui.sidebar.classList.remove('active');
-        ui.arrowIcon.innerText = '<';
     }
     if (window.innerWidth < 768) {
     ui.sidebar.classList.remove('active');
@@ -234,6 +226,7 @@ document.getElementById('send-btn').addEventListener('click', sendQuest);
 ui.input.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') sendQuest();
 });
+
 
 
 
