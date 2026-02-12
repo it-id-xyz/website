@@ -9,6 +9,7 @@ ROOT & RESET
 --nav-bg: rgba(15, 23, 42, 0.95);
 }
 
+/* RESET */
 *,
 *::before,
 *::after {
@@ -27,25 +28,23 @@ font-family: 'Segoe UI', Arial, sans-serif;
 /* =====================
    NAVBAR
 ===================== */
+/* NAVBAR */
 .navbar {
-  position: sticky;
-  top:0;
-  left:0;
-  right:0;
-  grid-area: header;
   width: 100%;
   height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: auto;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
   padding: 0 20px;
   background: rgba(15, 23, 42, 0.8);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   z-index: 1000;
 }
-
 /* LOGO */
 .nav-logo {
   display: flex;
@@ -132,25 +131,33 @@ font-family: 'Segoe UI', Arial, sans-serif;
 /* =====================
    SIDEBAR MOBILE
 ===================== */
+/* MOBILE MENU */
 .nav-menu {
+  position: fixed;
   top: 60px;
-  height: calc(100vh - 60px);
   right: -260px;
   width: 240px;
+  height: calc(100vh - 60px);
   background: #151921;
   display: flex;
   flex-direction: column;
-  padding-top: 70px;
+  padding-top: 20px;
   transition: 0.3s ease;
   z-index: 1200;
-  box-shadow: -4px 0 12px rgba(0,0,0,0.4);
 }
 
+/* DESKTOP */
 @media (min-width:768px){
+
+  .navbar{
+    height:64px;
+  }
+
   .nav-menu{
     top:64px;
     height:calc(100vh - 64px);
   }
+
 }
 
 
