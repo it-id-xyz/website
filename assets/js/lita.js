@@ -25,13 +25,23 @@ ui.arrowToggle.addEventListener('click', () => {
         ui.arrowToggle.innerText = '<';
     }
  });
-const menuToggle = document.getElementById('menuToggle');
-if(menuToggle){
-    menuToggle.addEventListener('click', () => {
-   document.getElementById('navMenu').classList.toggle('show');
-    });
-       
+const sidebarToggle = document.getElementById('sidebarToggle');
+
+if(sidebarToggle){
+  sidebarToggle.addEventListener('click', ()=>{
+    ui.sidebar.classList.toggle('active');
+  });
 }
+
+const menuToggle = document.getElementById('menuToggle');
+const navMenu   = document.getElementById('navMenu');
+
+if(menuToggle){
+  menuToggle.addEventListener('click', ()=>{
+    navMenu.classList.toggle('active');
+  });
+}
+
 ui.chatBox.addEventListener('click', () => {
     if (window.innerWidth < 768) {
         ui.sidebar.classList.remove('active');
@@ -224,6 +234,7 @@ document.getElementById('send-btn').addEventListener('click', sendQuest);
 ui.input.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') sendQuest();
 });
+
 
 
 
