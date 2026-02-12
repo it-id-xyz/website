@@ -1,12 +1,75 @@
-const btnSubmit = document.getElementById('send-btn');
+// --- INITIAL STATE ---
+let allSessions = JSON.parse(localStorage.getItem('lita_v2_sessions')) || [];
+let currentSessionId = null;
 
+const ui = {
+    chatBox: document.getElementById('chat-box'),
+    input: document.getElementById('isi-text'),
+    sidebar: document.getElementById('sidebar-right'),
+    arrowToggle: document.getElementById('arrow-toggle'),
+    arrowIcon: document.getElementById('arrow-icon'),
+    historyList: document.getElementById('history-list')
+};
+
+ui.arrowToggle.addEventListener('click', () => {
+    ui.sidebar.classList.toggle('active');
+    ui.arrowIcon.innerText = ui.sidebar.classList.contains('active') ? '>' : '<';
+});
+
+ui.chatBox.addEventListener('click', () => {
+    if (ui.sidebar.classList.contains('active')) {
+        ui.sidebar.classList.remove('active');
+        ui.arrowIcon.innerText = '<';
+    }
+});
+
+function hideWelcome() {
+    const welcome = document.getElementById('welcome-screen');
+    if (welcome) welcome.remove();
+}
+
+// --- CORE FUNCTIONS ---
+
+function renderHistory() {
+    ui.historyList.innerHTML = allSessions.map(s => `
+        <div class="history-item" onclick="loadSession(${s.id})">
+            <i class="fa-regular fa-comment"></i> <span>${s.title}</span>
+        </div>
+    `).join('');
+}
+
+function newChat() {
+    currentSessionId = Date.now();
+    ui.chatBox.innerHTML = `
+        <div id="welcome-screen" class="welcome-card">
+            <img src="logo-it.png" class="ai-logo">
+            <h1>Lita AI</h1>
+            <span class="ai-version">v2.5 Stable</span>
+            <div class="guide-grid">
+                <div class="guide-item">Pintar</div>
+                <div class="guide-item">Cepat</div>
+            </div>
+        </div>
+    `;
+    if(window.innerWidth < 768) {
+        ui.sidebar.classList.remove('active');
+        ui.arrowIcon.innerText = '<';
+    }
+}
+
+function saveUserPersona() {
+    const name = prompt("Siapa nama kamu?");
+    const info = prompt("Ceritakan hobimu/hal yang ingin Lita tahu:");
+    if(name) {
+        localStorage.setItem('user_persona', JSON.stringify({ name, info }));
+        alert(`Halo ${name}, Lita siap mengingatmu!`);
+    }
+}
 
 function btnCopy(block) {
     const button = document.createElement('button');
     button.innerText = 'Copy';
     button.className = 'copy-btn';
-    
-    // Taruh tombol di atas blok kode
     block.parentNode.style.position = 'relative';
     block.parentNode.appendChild(button);
 
@@ -17,79 +80,121 @@ function btnCopy(block) {
     });
 }
 
+// --- SEND & CHAT LOGIC ---
+
 async function sendQuest() {
+    const msg = ui.input.value.trim();
+    if (!msg) return;
+
+    hideWelcome();
+    
     const now = new Date();
     const jam = `${now.getHours().toString().padStart(2, '0')}.${now.getMinutes().toString().padStart(2, '0')}`;
-    const inputText = document.getElementById('isi-text');
-    const isiText = inputText.value;
-    inputText.value = '';
-
-    if(isiText.trim() === '') {
-        alert('error, harap isi teks');
-        return;
-    }
-
-    const chatBox = document.getElementById('chat-box');
-    chatBox.insertAdjacentHTML('beforeend',`
-    <div class="message outgoing">
-        <div class="bubble">${isiText}
-            <span class="time">${jam}</span>
+    if (!currentSessionId) currentSessionId = Date.now();
+    ui.chatBox.insertAdjacentHTML('beforeend', `
+        <div class="message outgoing">
+            <div class="bubble">${msg}<span class="time">${jam}</span></div>
         </div>
-    </div>`);
+    `);
     
-    chatBox.insertAdjacentHTML('beforeend',`
-    <div class="message incoming">
-        <div class="bubble">
-        <div class="loading-pulse">Waiting for response..</div>
-            <span class="time">${jam}</span>
+    ui.input.value = '';
+    ui.chatBox.insertAdjacentHTML('beforeend', `
+        <div class="message incoming">
+            <div class="bubble">
+                <div class="loading-pulse">Lita sedang berpikir...</div>
+                <span class="time">${jam}</span>
+            </div>
         </div>
-    </div>`);
-    
-    const lastMessage = chatBox.lastElementChild;
-    const bubbleElement = lastMessage.querySelector(".bubble");
+    `);
+
+    const lastBubble = ui.chatBox.lastElementChild.querySelector(".bubble");
+    ui.chatBox.scrollTop = ui.chatBox.scrollHeight;
+
+    const persona = JSON.parse(localStorage.getItem('user_persona')) || null;
+
     try {
-        const response = await fetch('https://api.it-smansaci.my.id/chat',{
+        const response = await fetch('https://api.it-smansaci.my.id/chat', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({pesan: isiText})
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                pesan: msg,
+                context: persona 
+            })
         });
+
         const data = await response.json();
-        if(data.error) {
-            bubbleElement.innerHTML = `${data.error} <span class="time">${jam}</span>`;
+        
+        if (data.error) {
+            lastBubble.innerHTML = `${data.error} <span class="time">${jam}</span>`;
         } else {
-            
-            const htmlJawaban = data.jawaban;
+            const jawaban = data.jawaban;
             let index = 0;
-            bubbleElement.innerHTML = `<div class="markdown-content"></div> <span class="time">${jam}</span>`;
-            const contentDiv = bubbleElement.querySelector(".markdown-content");
-            
+            lastBubble.innerHTML = `<div class="markdown-content"></div> <span class="time">${jam}</span>`;
+            const contentDiv = lastBubble.querySelector(".markdown-content");
+
             function typeWriter() {
-                if (index < htmlJawaban.length) {
+                if (index <= jawaban.length) {
+                    contentDiv.innerHTML = marked.parse(jawaban.substring(0, index));
                     index++;
-                    contentDiv.innerHTML = marked.parse(htmlJawaban.substring(0, index));
-                    chatBox.scrollTop = chatBox.scrollHeight;
-                    setTimeout(typeWriter,10);
+                    ui.chatBox.scrollTop = ui.chatBox.scrollHeight;
+                    setTimeout(typeWriter, 10); 
                 } else {
                     contentDiv.querySelectorAll('pre code').forEach((block) => {
-                        hljs.highlightElement(block);
-                        if (typeof btnCopy === "function") btnCopy(block);
+                        if (typeof hljs !== 'undefined') hljs.highlightElement(block);
+                        btnCopy(block);
                     });
+                    saveSession(msg, jawaban);
                 }
             }
             typeWriter();
         }
-    } catch(error) {
-        bubbleElement.innerHTML = `Error jaringan, silahkan coba lagi <span class="time">${jam}</span>`;
+    } catch (error) {
+        lastBubble.innerHTML = `Gagal terhubung ke Lita. <span class="time">${jam}</span>`;
     }
-    chatBox.scrollTop = chatBox.scrollHeight;
-} 
+}
 
-btnSubmit.addEventListener('click', sendQuest);
+function saveSession(userMsg, aiMsg) {
+    let session = allSessions.find(s => s.id === currentSessionId);
+    if (!session) {
+        const title = userMsg.length > 25 ? userMsg.substring(0, 25) + '...' : userMsg;
+        session = { id: currentSessionId, title: title, messages: [] };
+        allSessions.unshift(session);
+    }
+    session.messages.push({ userMsg, aiMsg });
+    localStorage.setItem('lita_v2_sessions', JSON.stringify(allSessions));
+    renderHistory();
+}
 
+function loadSession(id) {
+    const session = allSessions.find(s => s.id === id);
+    if (!session) return;
+    
+    currentSessionId = id;
+    hideWelcome();
+    ui.chatBox.innerHTML = '';
+    
+    session.messages.forEach(m => {
+        ui.chatBox.insertAdjacentHTML('beforeend', `
+            <div class="message outgoing"><div class="bubble">${m.userMsg}</div></div>
+            <div class="message incoming"><div class="bubble">${marked.parse(m.aiMsg)}</div></div>
+        `);
+    });
+    
+    ui.chatBox.querySelectorAll('pre code').forEach(block => {
+        if (typeof hljs !== 'undefined') hljs.highlightElement(block);
+        btnCopy(block);
+    });
 
+    ui.chatBox.scrollTop = ui.chatBox.scrollHeight;
+    if(window.innerWidth < 768) {
+        ui.sidebar.classList.remove('active');
+        ui.arrowIcon.innerText = '<';
+    }
+}
 
-
-
-
+// --- EVENT LISTENERS ---
+document.getElementById('send-btn').addEventListener('click', sendQuest);
+ui.input.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendQuest();
+});
+renderHistory();
