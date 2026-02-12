@@ -136,17 +136,41 @@ body {
     background: rgba(122, 162, 255, 0.1);
     border-color: var(--accent);
 }
+/* --- FIX BUTTON SEND BIAR BULAT SEMPURNA --- */
 
-/* --- INPUT ALA WA (FIXED POSITION) --- */
-.chat-input-area {
-    padding: 10px 15px;
-    background-color: var(--bg-main);
-    border-top: 1px solid var(--border);
-    display: flex;
+.send-btn {
+    width: 50px;          
+    height: 50px;         
+    background-color: var(--accent); 
+    border: none;
+    border-radius: 50%;   
+    color: #0b0e14;
+    cursor: pointer;
+    display: flex;        
+    justify-content: center;
     align-items: center;
-    gap: 10px;
+    flex-shrink: 0;       
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 10px rgba(122, 162, 255, 0.3);
 }
 
+.send-btn:hover {
+    transform: scale(1.1);
+    background-color: #92b5ff;
+}
+
+.send-btn i {
+    font-size: 20px;
+    margin-left: 2px; 
+}
+
+.chat-input-area {
+    padding: 15px 20px;
+    background-color: var(--bg-main);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
 .input-wrapper {
     flex: 1;
     background-color: var(--bg-field);
@@ -166,23 +190,6 @@ body {
     outline: none;
     font-size: 15px;
 }
-
-.send-btn {
-    background: var(--accent);
-    border: none;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    color: #0b0e14;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-shrink: 0;
-    transition: 0.2s;
-}
-
-.send-btn:hover { transform: scale(1.05); }
 
 /* --- RESPONSIVE DESKTOP --- */
 @media (min-width: 1024px) {
@@ -245,5 +252,6 @@ body {
 .time { font-size: 10px; opacity: 0.5; margin-top: 5px; display: block; text-align: right; }
 .loading-pulse { opacity: 0.5; animation: blink 0.8s infinite alternate; }
 @keyframes blink { from { opacity: 0.3; } to { opacity: 1; } }
+
 
 
