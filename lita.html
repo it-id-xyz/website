@@ -39,42 +39,49 @@
             <a href="login.html"><button id="logout-btn"><i class="fa fa-sign-out"></i> Logout</button></a>
         </nav>
     </header>
-    <main id="chat-box" class="chat-box">
-    <div id="welcome-screen" class="welcome-card">
-        <div class="welcome-content">
-            <img src="logo-it.png" alt="Logo IT SMANSACI" class="ai-logo">
-            <h1>Lita AI</h1>
-            <span class="ai-version">Basic llama 3.3 70b Versatile</span>
-            
-            <div class="guide-grid">
-                <div class="guide-item">
-                    <i class="fa-solid fa-bolt"></i>
-                    <p>Cepat & Pintar</p>
-                </div>
-                <div class="guide-item">
-                    <i class="fa-solid fa-shield-halved"></i>
-                    <p>chat end to end</p>
-                </div>
+    <div class="app-container">
+    <aside id="sidebar-right" class="sidebar">
+        <button id="arrow-toggle" class="arrow-btn"><span id="arrow-icon">&lt;</span></button>
+        
+        <div class="sidebar-content">
+            <div class="menu-top">
+                <button onclick="newChat()" class="btn-side"><i class="fa-solid fa-plus"></i> Chat Baru</button>
+                <button onclick="showGuide()" class="btn-side"><i class="fa-solid fa-circle-info"></i> Panduan</button>
+                <button onclick="saveUserPersona()" class="btn-side"><i class="fa-solid fa-user-gear"></i> Profil AI</button>
             </div>
+            <hr class="divider">
+            <p class="history-label">Riwayat Chat</p>
+            <div id="history-list" class="history-list"></div>
+        </div>
+    </aside>
 
-            <div class="guide-text">
-                <p>Halo! Saya asisten AI dari Ekstrakurikuler IT SMANSACI. Tanya apa saja seputar it, mulai dari coding sampai tugas sekolah!</p>
+    <main class="main-chat">
+        <div id="chat-box" class="chat-box">
+            <div id="welcome-screen" class="welcome-card">
+                <img src="logo-it.png" class="ai-logo">
+                <h1>Lita AI</h1>
+                <span class="ai-version">Basic Llama 3.3 70b-Versatile</span>
+                <p class="tagline">AI Asisstant IT</p>
+                <div class="guide-grid">
+                    <div class="item">Cepat & Pintar</div>
+                    <div class="item">Chat end to end</div>
+                </div>
             </div>
         </div>
-    </div>
+
+        <div class="input-container">
+            <div class="cf-turnstile" data-sitekey="SITE_KEY_LU" data-size="flexible"></div>
+            <div class="input-wrapper">
+                <input type="text" id="isi-text" placeholder="Tanya sesuatu ke Lita...">
+                <button id="send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
     </main>
-    <footer class="chat-input-area">
-            <input type="text" placeholder="Ketik pesan di sini..." id="isi-text">
-            <button id="send-btn" class="send-btn">
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
-                </svg>
-            </button>
-        </footer>
 <script src="assets/js/lita.js"></script>
 </body>
 
 </html>
+
 
 
 
