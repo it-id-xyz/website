@@ -9,39 +9,42 @@
 :root {
     --bg-main: #151921;
     --bg-chat: #0b0e14;
+    --bg-field: #2a3341; /* Warna kolom ketik ala WA */
     --accent: #7aa2ff;
     --border: #1f2633;
     --text: #e1e1e1;
 }
 
+/* FIX: Pakai 100vh biar full layar, jangan 85vh */
 body {
     background-color: var(--bg-main);
-    height: 85vh;
+    height: 100vh;
     display: flex;
-    justify-content: center;
     overflow: hidden;
 }
 
 /* Container Utama */
 .app-container {
     width: 100%;
-    height: 80vh;
+    height: 100vh; /* FIX: Full Height */
     background-color: var(--bg-chat);
     display: flex;
-    flex-direction: row-reverse;
     position: relative;
     overflow: hidden;
 }
+
+/* Area Chat Utama */
 .main-chat {
     flex: 1;
     display: flex;
     flex-direction: column;
     height: 100%;
+    min-width: 0;
     background-color: var(--bg-chat);
     position: relative;
-    z-index: 1;
 }
 
+/* Sidebar */
 .sidebar {
     position: fixed;
     right: -300px;
@@ -53,62 +56,15 @@ body {
     transition: all 0.3s ease-in-out;
     z-index: 1000;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .sidebar.active {
     right: 0;
 }
 
-/* --- MEDIA QUERIES UNTUK DESKTOP (Layar Lebar) --- */
-@media (min-width: 1024px) {
-    .app-container {
-        flex-direction: row;
-    }
-
-    .sidebar {
-        position: relative;
-        right: 0;
-        width: 350px; 
-        background: var(--bg-main);
-        border-right: 1px solid var(--border);
-        border-left: none;
-    }
-
-    /* Sembunyikan tombol panah di desktop karena sidebar sudah permanen */
-    .arrow-btn {
-        display: none;
-    }
-
-    .chat-box {
-        padding: 40px 15% 20px 15%; 
-    }
-
-    .chat-input-area {
-        padding: 20px 15%; 
-    }
-}
-
-/* --- MEDIA QUERIES UNTUK TABLET (iPad/Tab) --- */
-@media (min-width: 768px) and (max-width: 1023px) {
-    .sidebar {
-        width: 280px;
-    }
-    
-    .chat-box {
-        padding: 20px 5%;
-    }
-}
-
-.welcome-card {
-    max-width: 600px;
-    margin: auto;
-}
-
-.guide-grid {
-    grid-template-columns: repeat(2, 1fr); 
-    width: 100%;
-}
-
+/* Floating Arrow */
 .arrow-btn {
     position: absolute;
     left: -40px;
@@ -129,90 +85,95 @@ body {
     box-shadow: -5px 0 15px rgba(0,0,0,0.3);
 }
 
-.sidebar-content h4 {
-    color: var(--accent);
-    font-size: 12px;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.btn-side {
-    width: 100%;
-    padding: 12px;
-    background: var(--bg-chat);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: white;
-    text-align: left;
-    margin-bottom: 10px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.btn-side:hover {
-    border-color: var(--accent);
-}
-
-/* --- WELCOME CARD (CENTER) --- */
-.welcome-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    text-align: center;
-    color: #ffffff;
-    padding: 20px;
-}
-
-.ai-logo {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 15px;
-    filter: drop-shadow(0 0 10px var(--accent));
-}
-
-.ai-version {
-    background: #333;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    color: var(--accent);
-}
-
-/* --- CHAT BOX --- */
+/* Chat Box */
 .chat-box {
-    flex: 1;
-    min-height: 0;
-    padding: 20px;
+    flex: 1; /* Tarik ruang sisa */
     overflow-y: auto;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-.chat-box::-webkit-scrollbar { width: 5px; }
-.chat-box::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
-
-.message { display: flex; width: 100%; }
-.bubble {
+/* --- INPUT ALA WA (FIXED POSITION) --- */
+.chat-input-area {
     padding: 10px 15px;
-    border-radius: 15px;
-    max-width: 85%;
-    font-size: 14px;
-    line-height: 1.5;
-    position: relative;
-    word-wrap: break-word;
+    background-color: var(--bg-main);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
+.input-wrapper {
+    flex: 1;
+    background-color: var(--bg-field);
+    display: flex;
+    align-items: center;
+    padding: 5px 15px;
+    border-radius: 25px;
+    min-height: 45px;
+}
+
+.input-wrapper input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 10px;
+    outline: none;
+    font-size: 15px;
+}
+
+.send-btn {
+    background: var(--accent);
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    color: #0b0e14;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    transition: 0.2s;
+}
+
+.send-btn:hover { transform: scale(1.05); }
+
+/* --- RESPONSIVE DESKTOP --- */
+@media (min-width: 1024px) {
+    .sidebar {
+        position: relative;
+        right: 0;
+        border-left: none;
+        border-right: 1px solid var(--border);
+        order: -1; /* Sidebar di KIRI */
+    }
+
+    .arrow-btn { display: none; }
+
+    .chat-box { padding: 40px 15%; }
+    .chat-input-area { padding: 20px 15% 30px 15%; }
+}
+
+/* Bubbles */
+.message { display: flex; width: 100%; }
+.bubble {
+    padding: 12px 18px;
+    border-radius: 18px;
+    max-width: 80%;
+    font-size: 14.5px;
+    line-height: 1.5;
+    word-wrap: break-word;
+}
 .incoming .bubble {
     background-color: var(--bg-main);
     color: var(--text);
-    border-bottom-left-radius: 2px;
     border: 1px solid var(--border);
+    border-bottom-left-radius: 2px;
 }
-
 .outgoing { justify-content: flex-end; }
 .outgoing .bubble {
     background-color: var(--accent);
@@ -221,87 +182,24 @@ body {
     border-bottom-right-radius: 2px;
 }
 
-.chat-input-area {
-    padding: 15px 20px;
-    background-color: var(--bg-main);
-    border-top: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.chat-input-area input {
-    flex: 1;
-    background: var(--bg-chat);
-    border: 1px solid var(--border);
-    padding: 12px 18px;
-    border-radius: 25px;
-    color: white;
-    outline: none;
-}
-
-.send-btn {
-    background: var(--accent);
-    border: none;
-    width: 45px; height: 45px;
-    border-radius: 50%;
-    color: #0b0e14;
-    cursor: pointer;
-}
-
-/* --- RESPONSIVE DESKTOP (Layar > 1024px) --- */
-@media (min-width: 1024px) {
-    .sidebar {
-        position: relative; /* Bukan melayang lagi */
-        right: 0;
-        border-left: none;
-        border-right: 1px solid var(--border);
-        order: -1; /* Pindah ke KIRI */
-    }
-
-    .arrow-btn { display: none; } /* Panah gak butuh di desktop */
-
-    /* Fokus area chat di tengah */
-    .chat-box {
-        padding: 40px 15%;
-    }
-    .chat-input-area {
-        padding: 20px 15%;
-    }
-}
-/* --- MARKDOWN & CODE STYLING --- */
+/* Markdown & Code */
 .markdown-content pre {
     background: #000 !important;
     padding: 12px;
     border-radius: 8px;
     margin: 8px 0;
     overflow-x: auto;
-    border: 1px solid var(--border);
     position: relative;
 }
-
-.markdown-content code {
-    font-family: 'Consolas', monospace;
-    font-size: 13px;
-}
-
 .copy-btn {
     position: absolute;
-    top: 5px;
-    right: 5px;
+    top: 5px; right: 5px;
     background: var(--accent);
-    border: none;
-    border-radius: 4px;
-    padding: 2px 8px;
-    font-size: 10px;
+    border: none; padding: 2px 8px;
+    font-size: 10px; border-radius: 4px;
     cursor: pointer;
-    font-weight: bold;
 }
 
 .time { font-size: 10px; opacity: 0.5; margin-top: 5px; display: block; text-align: right; }
-
 .loading-pulse { opacity: 0.5; animation: blink 0.8s infinite alternate; }
 @keyframes blink { from { opacity: 0.3; } to { opacity: 1; } }
-
-
-
