@@ -84,6 +84,16 @@ width: 70px;
 .sidebar-inner {
   padding: 20px;
 }
+/* Desktop always show */
+@media (min-width: 769px) {
+  .sidebar {
+    transform: translateX(0) !important;
+  }
+
+  .sidebar-arrow {
+    display: none;
+  }
+}
 
 @media (max-width:767px){
 
@@ -159,17 +169,23 @@ width: 70px;
 
 /* Arrow toggle */
 .arrow-btn {
-position: absolute;
-top: 20px;
-right: -15px;
-width: 30px;
-height: 30px;
-background: var(--accent);
-border: none;
-border-radius: 50%;
-cursor: pointer;
-color: #000;
-font-weight: bold;
+  position: fixed;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  background: #0f172a;
+  border: 2px solid white;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  z-index: 1100;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.arrow-btn:hover {
+  background: white;
+  color: #0f172a;
 }
 
 /* =====================
@@ -381,6 +397,7 @@ DESKTOP POLISH
 
 
 }
+
 
 
 
