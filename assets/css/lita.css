@@ -32,7 +32,7 @@ APP LAYOUT
 ===================== */
 .app-container {
 display: flex;
-height: 100vh;
+height:calc(100vh - 60px); 
 width: 100%;
 background: var(--bg-chat);
 overflow: hidden;
@@ -42,7 +42,8 @@ overflow: hidden;
 SIDEBAR
 ===================== */
 .sidebar {
-width: 300px;
+width:260px;
+height:100%;
 background: var(--bg-main);
 border-right: 1px solid var(--border);
 transition: all 0.3s ease;
@@ -54,6 +55,9 @@ flex-shrink: 0;
 /* Collapse desktop */
 .sidebar.collapsed {
 width: 70px;
+}
+.sidebar.hide{
+  transform:translateX(-100%);
 }
 
 .sidebar-inner {
@@ -336,5 +340,6 @@ DESKTOP POLISH
 
 
 }
+
 
 
