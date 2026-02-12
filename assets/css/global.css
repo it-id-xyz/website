@@ -9,10 +9,12 @@ ROOT & RESET
 --nav-bg: rgba(15, 23, 42, 0.95);
 }
 
-{
-box-sizing: border-box;
-margin: 0;
-padding: 0;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html, body {
@@ -26,16 +28,18 @@ font-family: 'Segoe UI', Arial, sans-serif;
    NAVBAR
 ===================== */
 .navbar {
+  position: sticky;
+  top:0;
+  left:0;
+  right:0;
   grid-area: header;
   width: 100%;
   height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: sticky;
-  top: 0;
   margin: auto;
-  padding: 0 16px;
+  padding: 0 20px;
   background: rgba(15, 23, 42, 0.8);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -50,6 +54,7 @@ font-family: 'Segoe UI', Arial, sans-serif;
 }
 
 .logo {
+  min-width: 0;
   width: 36px;
   height: auto;
 }
@@ -128,11 +133,10 @@ font-family: 'Segoe UI', Arial, sans-serif;
    SIDEBAR MOBILE
 ===================== */
 .nav-menu {
-  position: fixed;
-  top: 0;
-  right: -260px; /* hidden default */
+  top: 60px;
+  height: calc(100vh - 60px);
+  right: -260px;
   width: 240px;
-  height: 100vh;
   background: #151921;
   display: flex;
   flex-direction: column;
@@ -141,6 +145,14 @@ font-family: 'Segoe UI', Arial, sans-serif;
   z-index: 1200;
   box-shadow: -4px 0 12px rgba(0,0,0,0.4);
 }
+
+@media (min-width:768px){
+  .nav-menu{
+    top:64px;
+    height:calc(100vh - 64px);
+  }
+}
+
 
 /* ACTIVE STATE */
 .nav-menu.active {
@@ -178,6 +190,12 @@ font-family: 'Segoe UI', Arial, sans-serif;
   cursor: pointer;
   font-size: 1rem;
 }
+@media (max-width:767px){
+  #back{
+    display:none;
+  }
+}
+
 
 /* =====================
    HERO (UNCHANGED)
