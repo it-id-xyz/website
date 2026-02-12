@@ -27,33 +27,34 @@ body {
     overflow: hidden;
 }
 
-/* Container utama di bawah navbar */
+/* =====================
+APP LAYOUT FIX
+===================== */
+
 .app-container {
-    width: 100%;
-    height: calc(100vh - 64px); /* Potong tinggi navbar (64px) */
-    background-color: var(--bg-chat);
-    display: flex; /* Sidebar & Main Chat baru boleh flex di sini */
-    position: relative;
-    overflow: hidden;
+width: 100%;
+height: calc(100vh - 64px);
+background-color: var(--bg-chat);
+display: flex;
+overflow: hidden;
 }
 
-/* Sidebar Fix */
+/* Sidebar tetap */
 .sidebar {
-    width: 300px;
-    height: 100%;
-    background: var(--bg-main);
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    z-index: 10;
+width: 300px;
+height: 100%;
+background: var(--bg-main);
+border-right: 1px solid var(--border);
+flex-shrink: 0;
 }
 
-/* Pastikan area utama chat memakan sisa layar */
+/* Chat area isi sisa layar */
 .main-chat {
-    display: flex;
-    flex-direction: column;
-    height: 100%; /* Full dari container */
+flex: 1;              
+display: flex;
+flex-direction: column;
+height: 100%;
+min-width: 0;        
 }
 
 .chat-box {
@@ -222,3 +223,4 @@ body {
 }
 
 .time { font-size: 10px; opacity: 0.5; margin-top: 5px; display: block; text-align: right; }
+
