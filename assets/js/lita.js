@@ -8,11 +8,9 @@ const ui = {
     sidebar: document.getElementById('sidebar'),
     arrowToggle: document.getElementById('toggleSidebar'),
     historyList: document.getElementById('history-list')
-});
+}
 
-const savedState =
- localStorage.getItem('sidebar_state');
-
+const savedState = localStorage.getItem('sidebar_state');
 if(savedState === 'true'){
     ui.sidebar.classList.add('collapsed');
     ui.arrowToggle.innerText = '>';
@@ -25,24 +23,18 @@ ui.arrowToggle.addEventListener('click', () => {
     } else {
         ui.arrowToggle.innerText = '<';
     }
- 
+ });
 const menuToggle = document.getElementById('menuToggle');
-
 if(menuToggle){
     menuToggle.addEventListener('click', () => {
         ui.sidebar.classList.toggle('active');
-        localStorage.setItem(
-          'sidebar_state',
-          ui.sidebar.classList.contains('collapsed')
-        );
-
+        localStorage.setItem('sidebar_state', ui.sidebar.classList.contains('collapsed'));
     });
 }
 ui.chatBox.addEventListener('click', () => {
     if (window.innerWidth < 768) {
         ui.sidebar.classList.remove('active');
     }
-
 });
 
 ui.chatBox.addEventListener('click', () => {
@@ -238,5 +230,6 @@ document.getElementById('send-btn').addEventListener('click', sendQuest);
 ui.input.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') sendQuest();
 });
+
 
 
