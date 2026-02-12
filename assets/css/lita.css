@@ -19,37 +19,94 @@ body {
     height: 100vh;
     display: flex;
     justify-content: center;
-    overflow: hidden; /* Mencegah scroll body karena sidebar */
+    overflow: hidden;
 }
 
 /* Container Utama */
 .app-container {
     width: 100%;
-    max-width: 450px; /* Sesuai request lu sebelumnya */
     height: 100vh;
     background-color: var(--bg-chat);
     display: flex;
-    flex-direction: column;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    flex-direction: row-reverse;
     position: relative;
+    overflow: hidden;
+}
+.main-chat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: var(--bg-chat);
+    position: relative;
+    z-index: 1;
 }
 
-/* --- SIDEBAR & FLOATING ARROW --- */
 .sidebar {
-    position: absolute;
-    right: -280px; /* Sembunyi ke kanan */
+    position: fixed;
+    right: -300px;
     top: 0;
-    width: 280px;
+    width: 300px;
     height: 100%;
     background: var(--bg-main);
     border-left: 1px solid var(--border);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.3s ease-in-out;
     z-index: 1000;
     padding: 20px;
 }
 
 .sidebar.active {
     right: 0;
+}
+
+/* --- MEDIA QUERIES UNTUK DESKTOP (Layar Lebar) --- */
+@media (min-width: 1024px) {
+    .app-container {
+        flex-direction: row;
+    }
+
+    .sidebar {
+        position: relative;
+        right: 0;
+        width: 350px; 
+        background: var(--bg-main);
+        border-right: 1px solid var(--border);
+        border-left: none;
+    }
+
+    /* Sembunyikan tombol panah di desktop karena sidebar sudah permanen */
+    .arrow-btn {
+        display: none;
+    }
+
+    .chat-box {
+        padding: 40px 15% 20px 15%; 
+    }
+
+    .chat-input-area {
+        padding: 20px 15%; 
+    }
+}
+
+/* --- MEDIA QUERIES UNTUK TABLET (iPad/Tab) --- */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .sidebar {
+        width: 280px;
+    }
+    
+    .chat-box {
+        padding: 20px 5%;
+    }
+}
+
+.welcome-card {
+    max-width: 600px;
+    margin: auto;
+}
+
+.guide-grid {
+    grid-template-columns: repeat(2, 1fr); 
+    width: 100%;
 }
 
 .arrow-btn {
@@ -233,3 +290,4 @@ body {
 
 .loading-pulse { opacity: 0.5; animation: blink 0.8s infinite alternate; }
 @keyframes blink { from { opacity: 0.3; } to { opacity: 1; } }
+
