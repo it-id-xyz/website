@@ -6,34 +6,98 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+:root {
+    --bg-main: #151921;
+    --bg-chat: #0b0e14;
+    --accent: #7aa2ff;
+    --border: #1f2633;
+    --text: #e1e1e1;
+}
+
 body {
-    background-color: #151921; 
+    background-color: var(--bg-main);
     height: 100vh;
     display: flex;
     justify-content: center;
+    overflow: hidden; /* Mencegah scroll body karena sidebar */
 }
 
-.chat-container {
-    padding-top: 20px;
+/* Container Utama */
+.app-container {
     width: 100%;
-    max-width: 450px;
-    height: 90vh;
-    background-color: #0b0e14; 
+    max-width: 450px; /* Sesuai request lu sebelumnya */
+    height: 100vh;
+    background-color: var(--bg-chat);
     display: flex;
     flex-direction: column;
     box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    border-radius: 12px;
-    overflow: hidden;
     position: relative;
 }
 
-/* Header */
-.chat-header {
-    background-color: #151921;
-    padding: 15px;
-    border-bottom: 1px solid #1f2633;
+/* --- SIDEBAR & FLOATING ARROW --- */
+.sidebar {
+    position: absolute;
+    right: -280px; /* Sembunyi ke kanan */
+    top: 0;
+    width: 280px;
+    height: 100%;
+    background: var(--bg-main);
+    border-left: 1px solid var(--border);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1000;
+    padding: 20px;
 }
 
+.sidebar.active {
+    right: 0;
+}
+
+.arrow-btn {
+    position: absolute;
+    left: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 60px;
+    background: var(--bg-main);
+    color: var(--accent);
+    border: 1px solid var(--border);
+    border-right: none;
+    border-radius: 15px 0 0 15px;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+}
+
+.sidebar-content h4 {
+    color: var(--accent);
+    font-size: 12px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-side {
+    width: 100%;
+    padding: 12px;
+    background: var(--bg-chat);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: white;
+    text-align: left;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-side:hover {
+    border-color: var(--accent);
+}
+
+/* --- WELCOME CARD (CENTER) --- */
 .welcome-card {
     display: flex;
     flex-direction: column;
@@ -49,39 +113,18 @@ body {
     width: 80px;
     height: 80px;
     margin-bottom: 15px;
-    filter: drop-shadow(0 0 10px #7aa2ff);
+    filter: drop-shadow(0 0 10px var(--accent));
 }
 
 .ai-version {
     background: #333;
     padding: 3px 10px;
     border-radius: 20px;
-    font-size: 12px;
-    color: #7aa2ff;
+    font-size: 11px;
+    color: var(--accent);
 }
 
-.guide-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin: 25px 0;
-}
-
-.guide-item {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 15px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.guide-text {
-    max-width: 400px;
-    font-size: 14px;
-    opacity: 0.8;
-    line-height: 1.6;
-}
-
-/* Chat Box */
+/* --- CHAT BOX --- */
 .chat-box {
     flex: 1;
     min-height: 0;
@@ -89,87 +132,60 @@ body {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     gap: 15px;
-    overflow-anchor: none;
-}
-.chat-box::-webkit-scrollbar {
-    width: 6px;
-}
-.chat-box::-webkit-scrollbar-thumb {
-    background-color: #1f2633;
-    border-radius: 10px;
 }
 
-.message {
-    display: flex;
-    width: 100%;
-}
+.chat-box::-webkit-scrollbar { width: 5px; }
+.chat-box::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
 
+.message { display: flex; width: 100%; }
 .bubble {
     padding: 10px 15px;
     border-radius: 15px;
-    max-width: 75%;
+    max-width: 85%;
     font-size: 14px;
-    line-height: 1.4;
+    line-height: 1.5;
     position: relative;
     word-wrap: break-word;
-    overflow-wrap: break-word;
 }
 
 .incoming .bubble {
-    background-color: #151921;
-    color: #e1e1e1;
+    background-color: var(--bg-main);
+    color: var(--text);
     border-bottom-left-radius: 2px;
+    border: 1px solid var(--border);
 }
 
-.outgoing {
-    justify-content: flex-end;
-}
-
+.outgoing { justify-content: flex-end; }
 .outgoing .bubble {
-    background-color: #7aa2ff; 
+    background-color: var(--accent);
     color: #0b0e14;
     font-weight: 500;
     border-bottom-right-radius: 2px;
 }
 
-.time {
-    display: block;
-    font-size: 10px;
-    margin-top: 5px;
-    text-align: right;
-    opacity: 0.7;
-}
-
-/* Input Area */
+/* --- INPUT AREA --- */
 .chat-input-area {
-    flex-shrink: 0;
     padding: 15px;
-    background-color: #151921;
+    background-color: var(--bg-main);
     display: flex;
     align-items: center;
     gap: 10px;
+    border-top: 1px solid var(--border);
 }
 
-input {
+.chat-input-area input {
     flex: 1;
-    background-color: #0b0e14;
-    border: 1px solid #1f2633;
-    padding: 12px 15px;
+    background-color: var(--bg-chat);
+    border: 1px solid var(--border);
+    padding: 12px 18px;
     border-radius: 25px;
     color: white;
     outline: none;
-    border-top: 1px solid #1f2633; 
-    flex-shrink: 0;
-}
-
-input::placeholder {
-    color: #4b5563;
 }
 
 .send-btn {
-    background-color: #7aa2ff; 
+    background-color: var(--accent);
     border: none;
     width: 45px;
     height: 45px;
@@ -179,60 +195,41 @@ input::placeholder {
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform 0.2s;
+    transition: 0.2s;
 }
 
-.send-btn:hover {
-    transform: scale(1.05);
-    background-color: #6a91f0;
+.send-btn:hover { transform: scale(1.1); }
 
-}
-
-/* Styling buat blok kode */
+/* --- MARKDOWN & CODE STYLING --- */
 .markdown-content pre {
-    max-width: 100%;
-    background: #0b0e14 !important;
-    padding: 15px;
+    background: #000 !important;
+    padding: 12px;
     border-radius: 8px;
-    margin: 10px 0;
+    margin: 8px 0;
     overflow-x: auto;
-    border: 1px solid #1f2633;
+    border: 1px solid var(--border);
+    position: relative;
 }
 
 .markdown-content code {
-    font-family: 'Fira Code', monospace;
+    font-family: 'Consolas', monospace;
     font-size: 13px;
 }
 
-/* Tombol Copy */
 .copy-btn {
     position: absolute;
     top: 5px;
     right: 5px;
-    background: #7aa2ff;
+    background: var(--accent);
     border: none;
     border-radius: 4px;
     padding: 2px 8px;
     font-size: 10px;
     cursor: pointer;
-    color: #0b0e14;
+    font-weight: bold;
 }
 
-/* Biar list (bullet point) kelihatan */
-.markdown-content ul, .markdown-content ol {
-    padding-left: 20px;
-    margin: 10px 0;
-}
+.time { font-size: 10px; opacity: 0.5; margin-top: 5px; display: block; text-align: right; }
 
-.loading-pulse {
-    opacity: 0.5;
-    animation: blink 1s infinite alternate;
-}
-
-@keyframes blink {
-    from { opacity: 0.3; }
-    to { opacity: 1; }
-}
-
-
-
+.loading-pulse { opacity: 0.5; animation: blink 0.8s infinite alternate; }
+@keyframes blink { from { opacity: 0.3; } to { opacity: 1; } }
