@@ -29,7 +29,7 @@ overflow: hidden;
 
 /* =====================
 APP LAYOUT
-===================== /
+===================== */
 .app-container {
 width: 100%;
 height: calc(100vh - 64px); / tinggi navbar global */
@@ -55,6 +55,62 @@ flex-shrink: 0;
 .sidebar.collapsed {
 width: 70px;
 }
+
+.sidebar-inner {
+  padding: 20px;
+}
+
+/* BUTTON SIDE */
+.btn-side {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  background: #151921;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 15px;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-side:hover {
+  background: white;
+  color: black;
+}
+
+/* DIVIDER */
+.divider {
+  border: none;
+  height: 1px;
+  background: rgba(255,255,255,0.1);
+  margin: 20px 0;
+}
+
+/* HISTORY */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.history-item {
+  padding: 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.history-item:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+/* ACTIVE CHAT */
+.history-item.active {
+  background: var(--accent);
+  color: black;
+}
+
 
 /* Arrow toggle */
 .arrow-btn {
@@ -278,3 +334,4 @@ DESKTOP POLISH
 
 
 }
+
