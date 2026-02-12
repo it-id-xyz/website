@@ -1,3 +1,22 @@
+/* =====================
+   RESET & BASE
+   ===================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+    --bg-main: #151921;
+    --bg-chat: #0b0e14;
+    --bg-field: #2a3341; /* Warna kolom ketik ala WA */
+    --accent: #7aa2ff;
+    --border: #1f2633;
+    --text: #e1e1e1;
+}
+
 /* --- lita.css --- */
 
 /* Reset body biar gak narik konten ke samping */
@@ -30,13 +49,52 @@ body {
     z-index: 10;
 }
 
+/* Pastikan area utama chat memakan sisa layar */
 .main-chat {
-    flex: 1;
     display: flex;
     flex-direction: column;
-    height: 100%;
-    position: relative;
-    background-color: var(--bg-chat);
+    height: 100%; /* Full dari container */
+}
+
+.chat-box {
+    flex: 1; /* Ini bakal dorong footer ke bawah */
+    overflow-y: auto;
+    padding: 20px;
+}
+
+/* Styling Footer Input ala WhatsApp/ChatGPT */
+.chat-input-area {
+    background-color: var(--bg-main);
+    padding: 15px 20px;
+    border-top: 1px solid var(--border);
+    /* Biar nempel di bawah meskipun chat-box di-scroll */
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+}
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: var(--bg-field);
+    padding: 8px 15px;
+    border-radius: 25px;
+    max-width: 1000px; /* Biar gak terlalu lebar di monitor gede */
+    margin: 0 auto;    /* Biar di tengah */
+}
+
+.input-wrapper input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: white;
+    outline: none;
+    padding: 10px;
+}
+.ai-logo {
+    width: 120px;
+    margin-bottom: 20px;
 }
 
 .chat-box {
@@ -45,21 +103,122 @@ body {
     padding: 20px;
     display: flex;
     flex-direction: column;
+    /* Memberi ruang agar tidak tertutup header saat scroll */
+    padding-top: 20px; 
 }
-
-/* Input nempel di bawah */
-.input-container {
-    padding: 20px;
-    background: var(--bg-chat);
-    border-top: 1px solid var(--border);
-}
-
+/* Welcome Card */
 .welcome-card {
-    margin: auto;
+    margin: auto; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-align: center;
+    color: #ffffff;
+    padding: 20px;
+    max-width: 500px;
+    width: 100%;
+    animation: fadeIn 0.5s ease;
 }
 
-.ai-logo {
-    width: 120px;
-    margin-bottom: 20px;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
+
+/* Grid panduan di dalem card */
+.guide-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 25px;
+    width: 100%;
+}
+
+.item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    font-size: 13px;
+    transition: 0.3s;
+}
+
+.item:hover {
+    background: rgba(122, 162, 255, 0.1);
+    border-color: var(--accent);
+}
+
+/* --- FIX BUTTON SEND --- */
+.send-btn {
+    width: 45px;          
+    height: 45px;         
+    background-color: var(--accent); 
+    border: none;
+    border-radius: 50%;   
+    color: #0b0e14;
+    cursor: pointer;
+    display: flex;        
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;       
+    transition: all 0.2s ease;
+}
+
+.send-btn:hover {
+    transform: scale(1.1);
+    background-color: #92b5ff;
+}
+
+
+/* --- RESPONSIVE DESKTOP --- */
+@media (min-width: 1024px) {
+    .sidebar {
+        position: relative;
+        right: 0;
+        border-left: none;
+        border-right: 1px solid var(--border);
+        order: -1; /* Sidebar pindah ke kiri */
+    }
+
+    .arrow-btn { display: none; }
+
+    .chat-box { padding: 40px 15%; }
+    .input-container { padding: 20px 15% 30px 15%; }
+}
+
+/* Bubbles */
+.message { display: flex; width: 100%; margin-bottom: 15px; }
+.bubble {
+    padding: 12px 18px;
+    border-radius: 18px;
+    max-width: 80%;
+    font-size: 14.5px;
+    line-height: 1.5;
+    word-wrap: break-word;
+}
+.incoming .bubble {
+    background-color: var(--bg-main);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-bottom-left-radius: 2px;
+}
+.outgoing { justify-content: flex-end; }
+.outgoing .bubble {
+    background-color: var(--accent);
+    color: #0b0e14;
+    font-weight: 500;
+    border-bottom-right-radius: 2px;
+}
+
+/* Markdown & Code */
+.markdown-content pre {
+    background: #000 !important;
+    padding: 12px;
+    border-radius: 8px;
+    margin: 8px 0;
+    overflow-x: auto;
+    position: relative;
+}
+
+.time { font-size: 10px; opacity: 0.5; margin-top: 5px; display: block; text-align: right; }
