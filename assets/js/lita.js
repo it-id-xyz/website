@@ -1,19 +1,49 @@
 // --- INITIAL STATE ---
 let allSessions = JSON.parse(localStorage.getItem('lita_v2_sessions')) || [];
 let currentSessionId = null;
+const savedState =
+ localStorage.getItem('sidebar_state');
+
+if(savedState === 'true'){
+    ui.sidebar.classList.add('collapsed');
+    ui.arrowToggle.innerText = '>';
+}
+
+const menuToggle = document.getElementById('menuToggle');
+
+if(menuToggle){
+    menuToggle.addEventListener('click', () => {
+        ui.sidebar.classList.toggle('active');
+        localStorage.setItem(
+          'sidebar_state',
+          ui.sidebar.classList.contains('collapsed')
+        );
+
+    });
+}
 
 const ui = {
     chatBox: document.getElementById('chat-box'),
     input: document.getElementById('isi-text'),
-    sidebar: document.getElementById('sidebar-right'),
-    arrowToggle: document.getElementById('arrow-toggle'),
-    arrowIcon: document.getElementById('arrow-icon'),
+    sidebar: document.getElementById('sidebar'),
+    arrowToggle: document.getElementById('toggleSidebar'),
     historyList: document.getElementById('history-list')
-};
 
 ui.arrowToggle.addEventListener('click', () => {
-    ui.sidebar.classList.toggle('active');
-    ui.arrowIcon.innerText = ui.sidebar.classList.contains('active') ? '>' : '<';
+    ui.sidebar.classList.toggle('collapsed');
+    if (ui.sidebar.classList.contains('collapsed')) {
+        ui.arrowToggle.innerText = '>';
+    } else {
+        ui.arrowToggle.innerText = '<';
+    }
+
+});
+
+ui.chatBox.addEventListener('click', () => {
+    if (window.innerWidth < 768) {
+        ui.sidebar.classList.remove('active');
+    }
+
 });
 
 ui.chatBox.addEventListener('click', () => {
@@ -29,14 +59,20 @@ function hideWelcome() {
 }
 
 // --- CORE FUNCTIONS ---
-
 function renderHistory() {
-    ui.historyList.innerHTML = allSessions.map(s => `
-        <div class="history-item" onclick="loadSession(${s.id})">
-            <i class="fa-regular fa-comment"></i> <span>${s.title}</span>
+    ui.historyList.innerHTML = allSessions.map(s => {
+        const activeClass =
+            s.id === currentSessionId ? 'active' : '';
+        return `
+        <div class="history-item ${activeClass}"
+             onclick="loadSession(${s.id})">
+            <i class="fa-regular fa-comment"></i>
+            <span>${s.title}</span>
         </div>
-    `).join('');
+        `;
+    }).join('');
 }
+
 
 function newChat() {
     currentSessionId = Date.now();
@@ -55,6 +91,7 @@ function newChat() {
         ui.sidebar.classList.remove('active');
         ui.arrowIcon.innerText = '<';
     }
+    renderHistory();
 }
 
 function saveUserPersona() {
@@ -184,12 +221,17 @@ function loadSession(id) {
         if (typeof hljs !== 'undefined') hljs.highlightElement(block);
         btnCopy(block);
     });
+    renderHistory();
 
     ui.chatBox.scrollTop = ui.chatBox.scrollHeight;
     if(window.innerWidth < 768) {
         ui.sidebar.classList.remove('active');
         ui.arrowIcon.innerText = '<';
     }
+    if (window.innerWidth < 768) {
+    ui.sidebar.classList.remove('active');
+    }
+
 }
 
 // --- EVENT LISTENERS ---
@@ -197,4 +239,4 @@ document.getElementById('send-btn').addEventListener('click', sendQuest);
 ui.input.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') sendQuest();
 });
-renderHistory();
+
