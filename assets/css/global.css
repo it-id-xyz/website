@@ -1,160 +1,449 @@
-/* =================================================
-   GLOBAL VARIABLES & RESET
-   ================================================= */
+Oke, sekarang gua kasih FULL FIX versi copas — bukan tambal sulam lagi.
+
+Gua udah:
+
+Rapihin konflik CSS
+
+Hilangin duplikat rule
+
+Fix sticky bug
+
+Tambahin sidebar collapse
+
+Tambahin mobile off-canvas
+
+Sync tinggi navbar global (64px)
+
+Bikin responsive desktop / tablet / mobile stabil
+
+Lu tinggal replace file lama.
+
+✅ lita.css — FULL FIX
+
+/* =====================
+RESET & ROOT
+===================== */
+
+{
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 :root {
-    --bg-dark: #151921;
-    --bg-main: #0b0e14;
-    --text-light: #ffffff;
-    --bg-button: #7aa2ff;
-    --shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-    --nav-bg: rgba(15, 23, 42, 0.95); /* Sedikit lebih pekat biar konten gak tembus */
-}
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-html, body {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    background-color: var(--bg-main);
-    color: var(--text-light);
-    font-family: 'Segoe UI', Arial, sans-serif;
+--bg-main: #151921;
+--bg-chat: #0b0e14;
+--bg-field: #2a3341;
+--accent: #7aa2ff;
+--border: #1f2633;
+--text: #e1e1e1;
 }
 
 /* =====================
-   NAVBAR (FIXED WIDTH)
+BODY
 ===================== */
-/* --- global.css --- */
-
-.navbar {
-    width: 100%; /* Jangan pake 100vw biar gak muncul scroll horizontal */
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 24px;
-    background: var(--nav-bg);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    position: relative; /* Ganti sticky ke relative biar gak ganggu calc h-screen */
-    z-index: 2000;
+body {
+background-color: var(--bg-main);
+height: 100vh;
+overflow: hidden;
 }
 
-/* Styling Tombol di Navbar */
-.nav-btn {
-    display: flex;
-    gap: 10px;
-    align-items: center;
+/* =====================
+APP LAYOUT
+===================== /
+.app-container {
+width: 100%;
+height: calc(100vh - 64px); / tinggi navbar global */
+display: flex;
+background: var(--bg-chat);
+overflow: hidden;
 }
 
-.nav-btn a {
-    text-decoration: none;
+/* =====================
+SIDEBAR
+===================== */
+.sidebar {
+width: 300px;
+background: var(--bg-main);
+border-right: 1px solid var(--border);
+transition: all 0.3s ease;
+position: relative;
+z-index: 100;
+flex-shrink: 0;
 }
 
-.nav-btn button {
-    background: rgba(255, 255, 255, 0.05);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 8px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+/* Collapse desktop */
+.sidebar.collapsed {
+width: 70px;
 }
 
-.nav-btn button:hover {
-    background: var(--bg-button);
-    color: #000;
+/* Arrow toggle */
+.arrow-btn {
+position: absolute;
+top: 20px;
+right: -15px;
+width: 30px;
+height: 30px;
+background: var(--accent);
+border: none;
+border-radius: 50%;
+cursor: pointer;
+color: #000;
+font-weight: bold;
 }
 
-#logout-btn {
-    background: rgba(229, 57, 53, 0.2);
-    border-color: rgba(229, 57, 53, 0.4);
+/* =====================
+MAIN CHAT
+===================== */
+.main-chat {
+flex: 1;
+display: flex;
+flex-direction: column;
+height: 100%;
+min-width: 0;
 }
 
-#logout-btn:hover {
-    background: #e53935;
-    color: white;
+/* Chat scroll area */
+.chat-box {
+flex: 1;
+overflow-y: auto;
+padding: 20px;
+display: flex;
+flex-direction: column;
 }
 
-/* =================================================
-   MOBILE STYLING (HAMBURGER)
-   ================================================= */
-.hamburger {
-    display: none;
-    font-size: 1.8rem;
-    background: none;
-    color: white;
-    border: none;
-    cursor: pointer;
+/* =====================
+INPUT AREA
+===================== */
+.chat-input-area {
+background: var(--bg-main);
+padding: 15px 20px;
+border-top: 1px solid var(--border);
+}
+
+.input-wrapper {
+display: flex;
+align-items: center;
+gap: 12px;
+background: var(--bg-field);
+padding: 8px 15px;
+border-radius: 25px;
+max-width: 1000px;
+margin: 0 auto;
+}
+
+.input-wrapper input {
+flex: 1;
+background: transparent;
+border: none;
+color: white;
+outline: none;
+padding: 10px;
+}
+
+/* Send button */
+.send-btn {
+width: 45px;
+height: 45px;
+background: var(--accent);
+border: none;
+border-radius: 50%;
+color: #0b0e14;
+cursor: pointer;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-shrink: 0;
+transition: 0.2s;
+}
+
+.send-btn:hover {
+transform: scale(1.1);
+background: #92b5ff;
+}
+
+/* =====================
+WELCOME
+===================== */
+.welcome-card {
+margin: auto;
+text-align: center;
+max-width: 500px;
+animation: fadeIn 0.5s ease;
+}
+
+.ai-logo {
+width: 120px;
+margin-bottom: 20px;
+}
+
+.guide-grid {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 15px;
+margin-top: 25px;
+}
+
+.item {
+background: rgba(255,255,255,0.05);
+padding: 15px;
+border-radius: 12px;
+border: 1px solid var(--border);
+font-size: 13px;
+transition: 0.3s;
+}
+
+.item:hover {
+background: rgba(122,162,255,0.1);
+border-color: var(--accent);
+}
+
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(10px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+/* =====================
+CHAT BUBBLES
+===================== */
+.message {
+display: flex;
+width: 100%;
+margin-bottom: 15px;
+}
+
+.bubble {
+padding: 12px 18px;
+border-radius: 18px;
+max-width: 80%;
+font-size: 14.5px;
+line-height: 1.5;
+word-wrap: break-word;
+}
+
+.incoming .bubble {
+background: var(--bg-main);
+border: 1px solid var(--border);
+border-bottom-left-radius: 2px;
+}
+
+.outgoing {
+justify-content: flex-end;
+}
+
+.outgoing .bubble {
+background: var(--accent);
+color: #0b0e14;
+font-weight: 500;
+border-bottom-right-radius: 2px;
+}
+
+/* Code block */
+.markdown-content pre {
+background: #000;
+padding: 12px;
+border-radius: 8px;
+margin: 8px 0;
+overflow-x: auto;
+}
+
+/* Time */
+.time {
+font-size: 10px;
+opacity: 0.5;
+margin-top: 5px;
+display: block;
+text-align: right;
+}
+
+/* =====================
+MOBILE SIDEBAR
+===================== */
+.sidebar-overlay {
+position: fixed;
+inset: 0;
+background: rgba(0,0,0,0.5);
+z-index: 1400;
+display: none;
+}
+
+.sidebar-overlay.active {
+display: block;
 }
 
 @media (max-width: 768px) {
-    .hamburger {
-        display: block;
-    }
 
-    .nav-menu {
-        display: none; /* Sembunyikan menu di mobile */
-        /* Kalau lu mau menu mobile muncul pas diklik, tambahkan class .active via JS */
-    }
+.sidebar {
+    position: fixed;
+    left: -300px;
+    top: 64px;
+    height: calc(100vh - 64px);
+    z-index: 1500;
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+
+}
+
+/* =====================
+DESKTOP POLISH
+===================== */
+@media (min-width: 1024px) {
+
+.chat-box {
+    padding: 40px 15%;
+}
+
+
+}
+
+✅ global.css — FULL FIX NAVBAR + MOBILE MENU
+
+/* =================================================
+ROOT & RESET
+================================================= */
+:root {
+--bg-dark: #151921;
+--bg-main: #0b0e14;
+--text-light: #ffffff;
+--bg-button: #7aa2ff;
+--nav-bg: rgba(15, 23, 42, 0.95);
+}
+
+{
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+
+html, body {
+width: 100%;
+background: var(--bg-main);
+color: var(--text-light);
+font-family: 'Segoe UI', Arial, sans-serif;
 }
 
 /* =================================================
-   FOOTER
-   ================================================= */
-.footer {
-    width: 100%;
-    background: #0f172a;
-    color: #cbd5f5;
-    padding: 60px 5% 20px 5%;
-    margin-top: 50px;
+NAVBAR
+================================================= */
+.navbar {
+width: 100%;
+height: 64px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 0 24px;
+background: var(--nav-bg);
+backdrop-filter: blur(10px);
+border-bottom: 1px solid rgba(255,255,255,0.1);
+position: relative;
+z-index: 2000;
 }
 
-.footer-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 40px;
-    max-width: 1400px;
-    margin: 0 auto;
+/* Logo */
+.nav-logo {
+display: flex;
+align-items: center;
+gap: 12px;
 }
 
-.footer-section h4 {
-    color: var(--bg-button);
-    margin-bottom: 20px;
-    font-size: 1rem;
-    text-transform: uppercase;
+.logo {
+width: 40px;
 }
 
-.footer-section ul {
-    list-style: none;
+/* Desktop menu */
+.nav-btn {
+display: flex;
+gap: 10px;
 }
 
-.footer-section ul li {
-    margin-bottom: 12px;
+.nav-btn button {
+background: rgba(255,255,255,0.05);
+color: white;
+border: 1px solid rgba(255,255,255,0.1);
+padding: 8px 16px;
+border-radius: 8px;
+cursor: pointer;
+font-size: 14px;
+display: flex;
+gap: 8px;
+align-items: center;
+transition: 0.3s;
 }
 
-.footer-section a {
-    text-decoration: none;
-    color: #94a3b8;
-    transition: 0.3s;
+.nav-btn button:hover {
+background: var(--bg-button);
+color: #000;
 }
 
-.footer-section a:hover {
-    color: white;
+/* Logout */
+#logout-btn {
+background: rgba(229,57,53,0.2);
+border-color: rgba(229,57,53,0.4);
 }
 
-.footer-bottom {
-    text-align: center;
-    margin-top: 50px;
-    padding-top: 25px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    font-size: 0.85rem;
+#logout-btn:hover {
+background: #e53935;
+}
+
+/* =================================================
+HAMBURGER
+================================================= */
+.hamburger {
+display: none;
+font-size: 1.8rem;
+background: none;
+color: white;
+border: none;
+cursor: pointer;
+}
+
+/* Mobile dropdown */
+.nav-menu {
+position: absolute;
+top: 64px;
+right: 20px;
+background: var(--bg-dark);
+border: 1px solid rgba(255,255,255,0.1);
+border-radius: 12px;
+padding: 10px;
+display: none;
+flex-direction: column;
+min-width: 200px;
+z-index: 2500;
+}
+
+.nav-menu a {
+padding: 10px;
+text-decoration: none;
+color: white;
+border-radius: 8px;
+}
+
+.nav-menu a:hover {
+background: rgba(255,255,255,0.05);
+}
+
+.nav-menu.active {
+display: flex;
+}
+
+/* =================================================
+MOBILE
+================================================= */
+@media (max-width: 768px) {
+
+.nav-btn {
+    display: none;
+}
+
+.hamburger {
+    display: block;
+}
+
+
 }
