@@ -28,69 +28,60 @@ html, body {
 /* =====================
    NAVBAR (FIXED WIDTH)
 ===================== */
+/* --- global.css --- */
+
 .navbar {
-    width: 100vw; /* Pakai vw biar bener-bener mentok kiri kanan */
+    width: 100%; /* Jangan pake 100vw biar gak muncul scroll horizontal */
     height: 64px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 5%; /* Padding samping biar gak terlalu nempel tembok */
+    padding: 0 24px;
     background: var(--nav-bg);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    position: sticky;
-    top: 0;
+    position: relative; /* Ganti sticky ke relative biar gak ganggu calc h-screen */
     z-index: 2000;
 }
 
-.nav-logo {
+/* Styling Tombol di Navbar */
+.nav-btn {
     display: flex;
+    gap: 10px;
     align-items: center;
-    gap: 12px;
-    flex-shrink: 0;
 }
 
-.logo {
-    width: 40px;
-    height: auto;
-}
-
-.nav-logo h1 {
-    font-size: 1.1rem;
-    font-weight: bold;
-    letter-spacing: 0.5px;
-}
-
-/* NAV MENU (Sejajar ke Samping) */
-.nav-menu {
-    display: flex;
-    align-items: center;
-    gap: 15px; /* Jarak antar link */
-}
-
-.nav-menu a {
+.nav-btn a {
     text-decoration: none;
-    color: var(--text-light);
-    font-size: 0.95rem;
-    padding: 8px 12px;
-    transition: 0.3s ease;
-    white-space: nowrap; /* Biar teks gak patah ke bawah */
 }
 
-.nav-menu a:hover {
-    color: var(--bg-button);
+.nav-btn button {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.nav-menu .cta {
+.nav-btn button:hover {
     background: var(--bg-button);
     color: #000;
-    border-radius: 8px;
-    font-weight: bold;
 }
 
-.nav-menu .cta:hover {
-    background: #ffffff;
-    color: var(--bg-button);
+#logout-btn {
+    background: rgba(229, 57, 53, 0.2);
+    border-color: rgba(229, 57, 53, 0.4);
+}
+
+#logout-btn:hover {
+    background: #e53935;
+    color: white;
 }
 
 /* =================================================
