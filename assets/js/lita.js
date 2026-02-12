@@ -12,14 +12,15 @@ const ui = {
 
 const savedState = localStorage.getItem('sidebar_state');
 if(savedState === 'true'){
-    ui.sidebar.classList.add('collapsed');
+    ui.sidebar.classList.add('hide');
     ui.arrowToggle.innerText = '>';
 }
 
 ui.arrowToggle.addEventListener('click', () => {
-    ui.sidebar.classList.toggle('collapsed');
-    if (ui.sidebar.classList.contains('collapsed')) {
+    ui.sidebar.classList.toggle('hide');
+    if (ui.sidebar.classList.contains('hide')) {
         ui.arrowToggle.innerText = '>';
+        localStorage.setItem('sidebar_state', ui.sidebar.classList.contains('hide'));
     } else {
         ui.arrowToggle.innerText = '<';
     }
@@ -27,20 +28,13 @@ ui.arrowToggle.addEventListener('click', () => {
 const menuToggle = document.getElementById('menuToggle');
 if(menuToggle){
     menuToggle.addEventListener('click', () => {
-        ui.sidebar.classList.toggle('active');
-        localStorage.setItem('sidebar_state', ui.sidebar.classList.contains('collapsed'));
+   document.getElementById('navMenu').classList.toggle('show');
     });
+       
 }
 ui.chatBox.addEventListener('click', () => {
     if (window.innerWidth < 768) {
         ui.sidebar.classList.remove('active');
-    }
-});
-
-ui.chatBox.addEventListener('click', () => {
-    if (ui.sidebar.classList.contains('active')) {
-        ui.sidebar.classList.remove('active');
-        ui.arrowIcon.innerText = '<';
     }
 });
 
@@ -230,6 +224,7 @@ document.getElementById('send-btn').addEventListener('click', sendQuest);
 ui.input.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') sendQuest();
 });
+
 
 
 
