@@ -15,46 +15,59 @@
 </head>
 <body>
     <header class="navbar">
-        <div class="nav-logo">
+    
+      <div class="nav-logo">
         <img src="assets/img/it.png" class="logo">
         <h1>Information and Technology</h1>
+      </div>
+    
+      <!-- MOBILE -->
+      <nav class="nav-btn-mobile">
+        <button class="hamburger" id="menuToggle">
+          <i class="fa fa-bars"></i>
+        </button>
+    
+        <div class="nav-menu" id="navMenu">
+          <a href="index.html"><i class="fa fa-home"></i> Home</a>
+          <a href="news.html"><i class="fa fa-newspaper"></i> News</a>
+          <a href="contact.html"><i class="fa fa-envelope"></i> Contact</a>
+          <a href="itservice.html"><i class="fa fa-cogs"></i> Service</a>
+          <a href="form.html"><i class="fa fa-rocket"></i> Join Now</a>
         </div>
-        <nav class="nav-btn-mobile">
-            <button class="hamburger" id="menuToggle"><i class="fa fa-bars"></i></button>
-
-            <div class="nav-menu hidden" id="navMenu">
-                <a href="index.html"><i class="fa fa-home"></i> Home</a>
-                <a href="news.html"><i class="fa fa-newspaper"></i> News</a>
-                <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a>
-                <a href="itservice.html"><i class="fa fa-cogs"></i> Service</a>
-                <a href="form.html"><i class="fa fa-rocket"></i> Join Now</a>
-                <a id="back"><i class="fa fa-arrow-right"></i> Showless</a>
-            </div>
-        </nav>
-        <nav class="nav-btn">
-            <a href="index.html"><button id="btn-home"><i class="fa fa-home"></i> Home</button></a>
-            <a href="news.html"><button id="btn-news"><i class="fa fa-newspaper"></i> News</button></a>
-            <a href="contact.html"><button id="btn-contact"><i class="fa-solid fa-envelope"> </i>Contact</button></a>
-            <a href="itservice.html"><button id="btn-service"><i class="fa fa-cogs"></i> Service</button></a>
-            <a href="form.html"><button id="btn-join-now"><i class="fa fa-rocket"></i> Join now</button></a>
-        </nav>
+      </nav>
+    
+      <!-- DESKTOP -->
+      <nav class="nav-btn">
+        <a href="index.html"><button><i class="fa fa-home"></i> Home</button></a>
+        <a href="news.html"><button><i class="fa fa-newspaper"></i> News</button></a>
+        <a href="contact.html"><button><i class="fa fa-envelope"></i> Contact</button></a>
+        <a href="itservice.html"><button><i class="fa fa-cogs"></i> Service</button></a>
+        <a href="form.html"><button><i class="fa fa-rocket"></i> Join Now</button></a>
+      </nav>
+    
     </header>
+
     <div class="app-container">
-    <aside id="sidebar-right" class="sidebar">
-        <button id="arrow-toggle" class="arrow-btn"><span id="arrow-icon">&lt;</span></button>
-        
-        <div class="sidebar-content">
+        <aside class="sidebar" id="sidebar">
+          <button class="arrow-btn" id="toggleSidebar"><</button>
+          <div class="sidebar-inner">
             <div class="menu-top">
-                <button onclick="newChat()" class="btn-side"><i class="fa-solid fa-plus"></i> Chat Baru</button>
-                <button onclick="showGuide()" class="btn-side"><i class="fa-solid fa-circle-info"></i> Panduan</button>
-                <button onclick="saveUserPersona()" class="btn-side"><i class="fa-solid fa-user-gear"></i> Profil AI</button>
+              <button onclick="newChat()" class="btn-side">
+                <i class="fa fa-plus"></i> Chat Baru
+              </button>
+              <button onclick="showGuide()" class="btn-side">
+                <i class="fa fa-circle-info"></i> Panduan
+              </button>
+              <button onclick="saveUserPersona()" class="btn-side">
+                <i class="fa fa-user-gear"></i> Profil AI
+              </button>
             </div>
             <hr class="divider">
             <p class="history-label">Riwayat Chat</p>
             <div id="history-list" class="history-list"></div>
-        </div>
-    </aside>
-
+          </div>
+        </aside>
+        
     <main class="main-chat">
         <div id="chat-box" class="chat-box">
             <div id="welcome-screen" class="welcome-card">
@@ -81,6 +94,7 @@
 </body>
 
 </html>
+
 
 
 
