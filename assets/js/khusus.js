@@ -29,7 +29,20 @@ async function refreshDashboard() {
             }
         }
         // Tampilkan Status Server & Firebase
-        const ramRaw = data.server.ram;
+        const cpuLoad = data.hardware.cpu.load;
+        const cpuTemp = data.hardware.cpu.temp;
+        const cpuAvg = data.hardware.cpu.loadAvg;
+        document.getElementById('cpu_load').innerText = cpuLoad;
+        document.getElementById('cpu_temp').innerText = cpuTemp;
+        document.getElementById('cpu_avg').innerText = cpuAvg;
+        
+        const ramRaw = data.server.process_ram;
+        const ramUsed = data.hardware.memory.used;
+        const ramTotal = data.hardware.memory.total;
+        const ramSwap = data.hardware.memory.swap;
+        document.getElementById('ram-used').innerText = ramUsed;
+        document.getElementById('ram-total').innerText = ramTotal;
+        document.getElementById('ram-swap').innerText = ramSwap;
         const ram = parseFloat(ramRaw);
         document.getElementById('server-ram').innerText = `${ram}MB / 2048MB`;
         
@@ -38,6 +51,26 @@ async function refreshDashboard() {
                 const percent = (ram / 2048) * 100;
                 ramBar.style.width = `${percent}%`;
         }
+
+        const diskPercent = data.hardware.storage.used_percent;
+        const diskFree = data.hardware.storage.free;
+        document.getElementById('disk_percent').innerText = diskpercent;
+        document.getElementById('disk_free').innerText = diskFree;
+
+        const powerData = data.hardware.power;
+        let powerStatusLabel;
+        let statusColor;
+
+        if (powerData.is_bypass) {
+            powerStatusLabel = "⚡ Bypass (Direct AC)";
+            statusColor = "text-blue-500";
+        } else {
+            powerStatusLabel = powerData.is_charging ? "🔌 Charging" : "🔋 On Battery";
+            statusColor = powerData.is_charging ? "text-green-500" : "text-yellow-500";
+        }
+        document.getElementById('power-status').innerText = powerStatusLabel;
+        document.getElementById('power-status').className = statusColor;
+
         const secondsRaw = data.server.uptime;
         const seconds = parseFloat(secondsRaw);
         function formatUptime(seconds) {
@@ -338,6 +371,7 @@ function getLogs() {
     });
 }
 getLogs();
+
 
 
 
