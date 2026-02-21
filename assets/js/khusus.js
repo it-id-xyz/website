@@ -40,10 +40,10 @@ async function refreshDashboard() {
         const ramUsed = data.hardware.memory.used;
         const ramTotal = data.hardware.memory.total;
         const ramSwap = data.hardware.memory.swap;
-        document.getElementById('ram-used').innerText = `Ram Usage: ${ramUsed} / ${ramTotal}`;
-        document.getElementById('ram-swap').innerText = ramSwap;
+        document.getElementById('ram-used').innerText = `${ramUsed} / ${ramTotal}`;
+        document.getElementById('swap-used').innerText = ramSwap;
         const ram = parseFloat(ramRaw);
-        document.getElementById('server-ram').innerText = `Server Used: ${ram}MB / ${ramTotal}`;
+        document.getElementById('server-ram').innerText = `${ram}MB / ${ramTotal}`;
         
         const ramBar = document.getElementById('ram-bar');
         if (ramBar) {
@@ -370,6 +370,7 @@ function getLogs() {
     });
 }
 getLogs();
+
 
 
 
