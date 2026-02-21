@@ -53,8 +53,8 @@ async function refreshDashboard() {
 
         const diskPercent = data.hardware.storage.used_percent;
         const diskFree = data.hardware.storage.free;
-        document.getElementById('disk_percent').innerText = diskpercent;
-        document.getElementById('disk_free').innerText = diskFree;
+        document.getElementById('storage-used').innerText = diskpercent;
+        document.getElementById('storage-free').innerText = `Free: ${diskFree}`;
 
         const powerData = data.hardware.power;
         let powerStatusLabel;
@@ -67,8 +67,8 @@ async function refreshDashboard() {
             powerStatusLabel = powerData.is_charging ? "🔌 Charging" : "🔋 On Battery";
             statusColor = powerData.is_charging ? "text-green-500" : "text-yellow-500";
         }
-        document.getElementById('power-status').innerText = powerStatusLabel;
-        document.getElementById('power-status').className = statusColor;
+        document.getElementById('power-status-label').innerText = powerStatusLabel;
+        document.getElementById('power-status-label').className = statusColor;
 
         const secondsRaw = data.server.uptime;
         const seconds = parseFloat(secondsRaw);
@@ -370,6 +370,7 @@ function getLogs() {
     });
 }
 getLogs();
+
 
 
 
