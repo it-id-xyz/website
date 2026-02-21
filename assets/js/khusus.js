@@ -32,9 +32,9 @@ async function refreshDashboard() {
         const cpuLoad = data.hardware.cpu.load;
         const cpuTemp = data.hardware.cpu.temp;
         const cpuAvg = data.hardware.cpu.loadAvg;
-        document.getElementById('cpu-load').innerText = cpuLoad;
+        document.getElementById('cpu-load-text').innerText = cpuLoad;
         document.getElementById('cpu-temp').innerText = cpuTemp;
-        document.getElementById('cpu-avg').innerText = cpuAvg;
+        document.getElementById('load-avg').innerText = cpuAvg;
         
         const ramRaw = data.server.process_ram;
         const ramUsed = data.hardware.memory.used;
@@ -370,6 +370,7 @@ function getLogs() {
     });
 }
 getLogs();
+
 
 
 
