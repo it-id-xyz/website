@@ -94,6 +94,44 @@
                 </div>
                 <small style="font-size: 9px; color: #888;">*Limit otomatis dari Groq Cloud</small>
             </div>
+            <div class="stat-card">
+                <h3><i class="fa fa-temperature-half"></i> CPU Temp & Load</h3>
+                <div style="font-size: 11px; line-height: 1.6;">
+                    <p>Suhu: <span id="cpu-temp" style="color: #ff5252; font-weight: bold;">0°C</span></p>
+                    <p>Load Avg: <span id="load-avg" style="color: #7aa2ff;">0.00</span></p>
+                </div>
+                <div class="ram-container" style="margin-top: 10px; background: #eee;">
+                    <div id="cpu-usage-bar" style="width: 0%; background: #ff9800; height: 100%; transition: width 0.5s;"></div>
+                </div>
+                <small id="cpu-load-text" style="font-size: 9px;">Usage: 0%</small>
+            </div>
+            <div class="stat-card">
+                <h3><i class="fa fa-memory"></i> Swap Memory (HDD)</h3>
+                <p id="swap-used" style="color: #7aa2ff;">0 GB</p>
+                <div class="ram-container">
+                    <div id="swap-bar" style="width: 0%; background: #9c27b0; height: 100%; transition: width 0.5s;"></div>
+                </div>
+                <small style="font-size: 9px;">Penting untuk RAM 4GB</small>
+            </div>
+            <div class="stat-card">
+                <h3><i class="fa fa-plug"></i> Power System</h3>
+                <div style="font-size: 11px; line-height: 1.6;">
+                    <p id="power-status-label" style="font-weight: bold;">Checking...</p>
+                    <p>Source: <span id="power-source" style="color: #7aa2ff;">-</span></p>
+                </div>
+                <div class="ram-container" style="margin-top: 10px; height: 15px; border-radius: 4px;">
+                    <div id="power-level-bar" style="width: 100%; background: #2196f3; height: 100%;"></div>
+                </div>
+                <small id="power-note" style="font-size: 9px;">Bypass Mode Active</small>
+            </div>
+            <div class="stat-card">
+                <h3><i class="fa fa-hard-drive"></i> HDD Storage</h3>
+                <p id="storage-used" style="color: #7aa2ff;">0%</p>
+                <div class="ram-container">
+                    <div id="storage-bar" style="width: 0%; background: #607d8b; height: 100%; transition: width 0.5s;"></div>
+                </div>
+                <small id="storage-free" style="font-size: 9px;">Sisa: 0 GB</small>
+            </div>
         </div>
 
         <div class="stat-card">
@@ -135,6 +173,7 @@
     <script type="module" src="assets/js/khusus.js"></script>
 </body>
 </html>
+
 
 
 
