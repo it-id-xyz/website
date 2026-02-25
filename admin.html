@@ -63,10 +63,13 @@
                 <h3><i class="fa fa-microchip"></i> Server RAM</h3>
                 <p>Server Used: </p>
                 <small id="server-ram" style="color: #7aa2ff;">0 MB / 0 GB</small>
+                <div class="ram-container">
+                    <div id="ram-bar" style="width: 100%; background: #4caf50; height: 100%;"></div>
+                </div>
                 <p>Ram Usage: </p>
                 <small id="ram-used" style="color: #7aa2ff;">0 MB / 0 GB</small>
                 <div class="ram-container">
-                    <div id="ram-bar" style="width: 100%; background: #4caf50; height: 100%;"></div>
+                    <div id="ram-usage" style="width: 100%; background: #4caf50; height: 100%;"></div>
                 </div>
             </div>
 
@@ -90,11 +93,15 @@
                 <div style="font-size: 11px; line-height: 1.6;">
                     <p style="color: #7aa2ff;">Llama 3.3 70b</p>
                     <span id="total-posts-ai">0</span>
+                    <div class="ram-container" style="margin-top: 10px;">
+                        <div id="reqbar" style="width: 100%; background: #4caf50; height: 100%;"></div>
+                    </div>
                     <span id="total-tokens-ai">0</span>
+                    <div class="ram-container">
+                        <div id="tokenBar" style="width: 100%; background: #4caf50; height: 100%;"></div>
+                    </div>
                 </div>
-                <div class="ram-container" style="margin-top: 10px;">
-                    <div id="reqbar" style="width: 100%; background: #4caf50; height: 100%;"></div>
-                </div>
+                
                 <small style="font-size: 9px; color: #888;">*Limit otomatis dari Groq Cloud</small>
             </div>
             <div class="stat-card">
@@ -114,16 +121,11 @@
                 <div class="ram-container">
                     <div id="swap-bar" style="width: 0%; background: #9c27b0; height: 100%; transition: width 0.5s;"></div>
                 </div>
-                <small style="font-size: 9px;">Penting untuk RAM 4GB</small>
             </div>
             <div class="stat-card">
                 <h3><i class="fa fa-plug"></i> Power System</h3>
-                <div style="font-size: 11px; line-height: 1.6;">
+                <div style="font-size: 8px; line-height: 1.6;">
                     <p id="power-status-label" style="font-weight: bold;">Checking...</p>
-                    <p>Source: <span id="power-source" style="color: #7aa2ff;">-</span></p>
-                </div>
-                <div class="ram-container" style="margin-top: 10px; height: 15px; border-radius: 4px;">
-                    <div id="power-level-bar" style="width: 100%; background: #2196f3; height: 100%;"></div>
                 </div>
                 <small id="power-note" style="font-size: 9px;">Bypass Mode Active</small>
             </div>
@@ -176,6 +178,7 @@
     <script type="module" src="assets/js/khusus.js"></script>
 </body>
 </html>
+
 
 
 
