@@ -1,4 +1,4 @@
-import { addDoc, collection, serverTimestamp, query, limit, orderBy, onSnapshot, getDocs, doc, deleteDoc, updateDoc, getCountFromServer } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { addDoc, collection, serverTimestamp, query, limit, orderBy, onSnapshot, getDoc, doc, deleteDoc, updateDoc, getCountFromServer } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { updateOnlineStatus, requireAdmin } from "./role.js";
 import { auth, db } from "./firebase.js"; 
 const API_URL = 'https://api.it-smansaci.my.id/api/monitor';
@@ -110,11 +110,15 @@ async function getIP() {
     } catch { return "IP Unknown"; }
 }
 
+// IMPORT tambahkan getDoc di baris paling atas (jangan lupa tambahin di daftar import lu)
+// import { getDoc, ... } from "..."
+
 requireAdmin().then(async (user) => {
     const uid = user.uid; 
 
-    // Ambil admin
-    const userSnap = await getDocs(doc(db, "users", uid));
+    const docRef = doc(db, "users", uid);
+    const userSnap = await getDoc(docRef); 
+    
     let namaAdmin = user.email;
 
     if (userSnap.exists()) {
@@ -126,6 +130,8 @@ requireAdmin().then(async (user) => {
             displayLabel.innerText = `Halo, ${namaAdmin}!`;
         }
     }
+    
+    // ... sisa kode lu di bawahnya (updateOnlineStatus, dll)
     updateOnlineStatus(uid);
 
     // Tampilkan Total Article
@@ -370,6 +376,7 @@ function getLogs() {
     });
 }
 getLogs();
+
 
 
 
