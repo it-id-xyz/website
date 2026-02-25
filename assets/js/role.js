@@ -55,3 +55,25 @@ export async function updateOnlineStatus(uid) {
     console.error("Gagal update status: ", err);
   }
 }
+export async function updateOnlineStatus(uid) {
+  const userRef = doc(db, "users", uid);
+  
+  try {
+    await updateDoc(userRef, {
+      status: "online",
+      lastSeen: serverTimestamp()
+    });
+
+    window.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "hidden") {
+        updateDoc(userRef, { status: "offline" });
+      } else {
+        updateDoc(userRef, { status: "online" });
+      }
+    });
+
+    console.log("Status online diperbarui");
+  } catch (err) {
+    console.error("Gagal update status: ", err);
+  }
+}
