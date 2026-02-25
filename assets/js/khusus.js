@@ -51,10 +51,13 @@ async function refreshDashboard() {
                 ramBar.style.width = `${percent}%`;
         }
 
+        const storageBar = document.getElementById('storage-bar');
         const diskPercent = data.hardware.storage.used_percent;
         const diskFree = data.hardware.storage.free;
         document.getElementById('storage-used').innerText = diskPercent;
         document.getElementById('storage-free').innerText = `Free: ${diskFree}`;
+        if (storageBar) {
+            storageBar.style.width = diskPercent;
 
         const powerData = data.hardware.power;
         let powerStatusLabel;
@@ -376,6 +379,7 @@ function getLogs() {
     });
 }
 getLogs();
+
 
 
 
