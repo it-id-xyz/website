@@ -27,7 +27,11 @@ async function refreshDashboard() {
                 const percent = (rpdUsed / 3000) * 100;
                 reqBar.style.width = `${percent}%`;
             }
-        }
+            const tokenBar = document.getElementById('token-bar');
+            if (tokenBar) {
+                const percent = (tpdUsed / 500000) * 100;
+                tokenBar.style.width = `${percent}%`;
+            }
         // Tampilkan Status Server & Firebase
         const cpuLoad = data.hardware.cpu.load;
         const cpuTemp = data.hardware.cpu.temp;
@@ -35,6 +39,11 @@ async function refreshDashboard() {
         document.getElementById('cpu-load-text').innerText = cpuLoad;
         document.getElementById('cpu-temp').innerText = cpuTemp;
         document.getElementById('load-avg').innerText = cpuAvg;
+
+        const cpuBar = document.getElementById('cpu-usage-bar');
+        if (cpuBar) {
+            cpuBar.style.width = `${cpuLoad}`
+        }
         
         const ramRaw = data.server.process_ram;
         const ramUsed = data.hardware.memory.used;
@@ -47,8 +56,18 @@ async function refreshDashboard() {
         
         const ramBar = document.getElementById('ram-bar');
         if (ramBar) {
-                const percent = (ram / 2048) * 100;
+                const percent = (ram / ramTotal) * 100;
                 ramBar.style.width = `${percent}%`;
+        }
+        const usageBar = document.getElementById('ram-usage');
+        if (usageBar) {
+            const percent = (ramUsed / ramTotal) * 100;
+            usageBar.style.width = `${percent}%`;
+        }
+        const swapBar = document.getElementById('swap-bar');
+        if (swapBar) {
+            const Percent = (ramSwap / 500) * 100;
+            swapBar.style.width = `${percent}%`;
         }
 
         const storageBar = document.getElementById('storage-bar');
@@ -65,7 +84,7 @@ async function refreshDashboard() {
         let statusColor;
 
         if (powerData.is_bypass) {
-            powerStatusLabel = "⚡ Bypass (Direct AC)";
+            powerStatusLabel = "Bypass (Direct AC)";
             statusColor = "text-blue-500";
         } else {
             powerStatusLabel = powerData.is_charging ? "🔌 Charging" : "🔋 On Battery";
@@ -380,6 +399,7 @@ function getLogs() {
     });
 }
 getLogs();
+
 
 
 
