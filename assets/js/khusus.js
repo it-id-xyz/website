@@ -42,7 +42,7 @@ async function refreshDashboard() {
 
         const cpuBar = document.getElementById('cpu-usage-bar');
         if (cpuBar) {
-            cpuBar.style.width = `${cpuLoad}`
+            cpuBar.style.width = cpuLoad;
         }
         
         const ramRaw = data.server.process_ram;
@@ -56,8 +56,8 @@ async function refreshDashboard() {
         
         const ramBar = document.getElementById('ram-bar');
         if (ramBar) {
-                const percent = (ram / ramTotal) * 100;
-                ramBar.style.width = `${percent}%`;
+            const percent = (ram / ramTotal) * 100;
+            ramBar.style.width = `${percent}%`;
         }
         const usageBar = document.getElementById('ram-usage');
         if (usageBar) {
@@ -115,12 +115,14 @@ async function refreshDashboard() {
             githubAut.innerText = `Oleh ${data.github.author}`
         } 
 
+    }
     } catch (error) {
         console.error("Dashboard Error:", error);
         document.getElementById('server-status').innerText = "Server Offline";
         document.getElementById('server-status').style.color = "red";
     }
 }
+
 
 setInterval(refreshDashboard, 5000);
 window.onload = refreshDashboard;
@@ -398,21 +400,5 @@ function getLogs() {
         tableBody.innerHTML = html;
     });
 }
+
 getLogs();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
