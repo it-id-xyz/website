@@ -66,7 +66,7 @@ async function refreshDashboard() {
         }
         const swapBar = document.getElementById('swap-bar');
         if (swapBar) {
-            const Percent = (ramSwap / 500) * 100;
+            const percent = (ramSwap / 500) * 100;
             swapBar.style.width = `${percent}%`;
         }
 
@@ -402,3 +402,4 @@ function getLogs() {
 }
 
 getLogs();
+
