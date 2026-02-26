@@ -1,7 +1,7 @@
 // --- INITIAL STATE ---
 let allSessions = JSON.parse(localStorage.getItem('lita_v2_sessions')) || [];
 let currentSessionId = null;
-renderHistory()
+
 
 const ui = {
     chatBox: document.getElementById('chat-box'),
@@ -10,7 +10,7 @@ const ui = {
     arrowToggle: document.getElementById('toggleSidebar'),
     historyList: document.getElementById('history-list')
 }
-
+renderHistory()
 const savedState = localStorage.getItem('sidebar_state');
 if(savedState === 'true' && window.innerWidth < 768){
     ui.sidebar.classList.add('hide');
@@ -252,6 +252,7 @@ document.getElementById('send-btn').addEventListener('click', sendQuest);
 ui.input.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') sendQuest();
 });
+
 
 
 
