@@ -24,13 +24,15 @@ async function refreshDashboard() {
     
             const reqBar = document.getElementById('req-bar');
             if (reqBar) {
-                const percent = Math.round((rpdUsed / 3000) * 100);
+                const rawPercent = (rpdUsed / 3000) * 100;
+                const percent = rawPercent.toFixed(2);
                 reqBar.style.width = `${percent}%`;
-                const reqText = document.getElementById('req-text').innerText = `Usage: ${percent}$`
+                const reqText = document.getElementById('req-text').innerText = `Usage: ${percent}%`
             }
             const tokenBar = document.getElementById('token-bar');
             if (tokenBar) {
-                const percent = Math.round((tpdUsed / 500000) * 100);
+                const rawPercent = (tpdUsed / 500000) * 100;
+                const percent = rawPercent.toFixed(2);
                 tokenBar.style.width = `${percent}%`;
                 const tokenText = document.getElementById('token-text').innerText = `Usage: ${percent}%`
             }
@@ -61,19 +63,22 @@ async function refreshDashboard() {
         
         const ramBar = document.getElementById('ram-bar');
         if (ramBar) {
-            const percent = Math.round((ram / 3680) * 100);
+            const rawPercent = (ram / 3680) * 100;
+            const percent = rawPercent.toFixed(2);
             ramBar.style.width = `${percent}%`;
             const usedText = document.getElementById('used-text').innerText = `Usage: ${percent}%`
         }
         const usageBar = document.getElementById('ram-usage');
         if (usageBar) {
-            const percent = Math.round((used / total) * 100);
+            const rawPercent = (used / total) * 100;
+            const percent = rawPercent.toFixed(2);
             usageBar.style.width = `${percent}%`;
             const usageText = document.getElementById('usage-text').innerText = `Usage: ${percent}%`
         }
         const swapBar = document.getElementById('swap-bar');
         if (swapBar) {
-            const percent = Math.round((swap / 500) * 100);
+            const rawPercent = (swap / 500) * 100;
+            const percent = rawPercent.toFixed(2);
             swapBar.style.width = `${percent}%`;
             const swapText = document.getElementById('swap-text').innerText = `Usage: ${percent}%`
         }
@@ -410,6 +415,7 @@ function getLogs() {
 }
 
 getLogs();
+
 
 
 
