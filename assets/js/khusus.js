@@ -26,17 +26,19 @@ async function refreshDashboard() {
             if (reqBar) {
                 const percent = (rpdUsed / 3000) * 100;
                 reqBar.style.width = `${percent}%`;
+                const reqText = document.getElementById('req-text').innerText = `Usage: ${percent}$`
             }
             const tokenBar = document.getElementById('token-bar');
             if (tokenBar) {
                 const percent = (tpdUsed / 500000) * 100;
                 tokenBar.style.width = `${percent}%`;
+                const tokenText = document.getElementById('token-text').innerText = `Usage: ${percent}%`
             }
         // Tampilkan Status Server & Firebase
         const cpuLoad = data.hardware.cpu.load;
         const cpuTemp = data.hardware.cpu.temp;
         const cpuAvg = data.hardware.cpu.loadAvg;
-        document.getElementById('cpu-load-text').innerText = cpuLoad;
+        document.getElementById('cpu-load-text').innerText = `Usage: ${cpuLoad}`;
         document.getElementById('cpu-temp').innerText = cpuTemp;
         document.getElementById('load-avg').innerText = cpuAvg;
 
@@ -44,7 +46,7 @@ async function refreshDashboard() {
         if (cpuBar) {
             cpuBar.style.width = cpuLoad;
         }
-        
+
         const ramRaw = data.server.process_ram;
         const ramUsed = data.hardware.memory.used;
         const ramTotal = data.hardware.memory.total;
@@ -59,20 +61,21 @@ async function refreshDashboard() {
         
         const ramBar = document.getElementById('ram-bar');
         if (ramBar) {
-            const percent = (ram / 3680) * 100;
+            const percent = math.round((ram / 3680) * 100);
             ramBar.style.width = `${percent}%`;
-            console.log(percent);
+            const usedText = document.getElementById('used-text').innerText = `Usage: ${percent}%`
         }
         const usageBar = document.getElementById('ram-usage');
         if (usageBar) {
-            const percent = (used / total) * 100;
+            const percent = math.round((used / total) * 100);
             usageBar.style.width = `${percent}%`;
-            console.log(percent)
+            const usageText = document.getElementById('usage-text').innerText = `Usage: ${percent}%`
         }
         const swapBar = document.getElementById('swap-bar');
         if (swapBar) {
-            const percent = (swap / 500) * 100;
+            const percent = math.round((swap / 500) * 100);
             swapBar.style.width = `${percent}%`;
+            const swapText = document.getElementById('swap-text').innerText = `Usage: ${percent}%`
         }
 
         const storageBar = document.getElementById('storage-bar');
@@ -407,6 +410,7 @@ function getLogs() {
 }
 
 getLogs();
+
 
 
 
