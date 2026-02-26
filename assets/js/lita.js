@@ -63,7 +63,7 @@ function renderHistory() {
                 </button>
         
                 <div class="options-menu hidden">
-                    <button onclick="deleteHistory(event, s.id)" class="delete-btn">
+                    <button onclick="deleteHistory(event, ${s.id})" class="delete-btn">
                         <i class="fa-solid fa-trash"></i> Hapus
                     </button>
                 </div>
@@ -252,6 +252,7 @@ document.getElementById('send-btn').addEventListener('click', sendQuest);
 ui.input.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') sendQuest();
 });
+
 
 
 
