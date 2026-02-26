@@ -50,20 +50,6 @@ SIDEBAR
   z-index: 1100;
 }
 
-@media (min-width:768px){
-  .sidebar{
-    transform:none !important;
-  }
-
-  .arrow-btn{
-    display:none; 
-  }
-}
-@media (max-width: 768px) {
-  .arrow-btn {
-    display:block;
-  }
-}
 .sidebar-toggle{
   display:none;
   background:none;
@@ -209,26 +195,36 @@ width: 70px;
   color: black;
 }
 
-
 /* Arrow toggle */
 .arrow-btn {
+  display: none;
   position: fixed;
   top: 50%;
-  left: 10px;
+  left: 20px;
   transform: translateY(-50%);
-  background: #0f172a;
+  background: #7aa2ff; 
   border: 2px solid white;
-  color: white;
-  width: 40px;
-  height: 40px;
+  color: #0b0e14;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
-  z-index: 1100;
+  z-index: 2500;
   cursor: pointer;
   transition: 0.3s;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
 }
-.arrow-btn:hover {
-  background: white;
-  color: #0f172a;
+
+@media (max-width: 768px) {
+  .arrow-btn {
+    display: flex; 
+  }
+  
+  
+  .sidebar.active ~ .arrow-btn {
+    left: 270px; 
+  }
 }
 
 /* =====================
@@ -440,6 +436,7 @@ DESKTOP POLISH
 
 
 }
+
 
 
 
