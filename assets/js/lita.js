@@ -56,11 +56,36 @@ function renderHistory() {
              onclick="loadSession(${s.id})">
             <i class="fa-regular fa-comment"></i>
             <span>${s.title}</span>
+            <div class="menu-history">
+                <button class="menu-dot-btn" onclick="toggleChatMenu(event, this)">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button>
+        
+                <div class="options-menu hidden">
+                    <button onclick="deleteHistory(event, `${s.id}`)" class="delete-btn">
+                        <i class="fa-solid fa-trash"></i> Hapus
+                    </button>
+                </div>
+            </div>
         </div>
         `;
     }).join('');
 }
-
+function toggleChatMenu(event, btn) {
+    event.stopPropagation();
+    const currentMenu = btn.nextElementSibling;
+    document.querySelectorAll('.options-menu').forEach(menu => {
+        if (menu !== currentMenu) {
+            menu.classList.add('hidden');
+        }
+    });
+    currentMenu.classList.toggle('hidden');
+}
+document.addEventListener('click', () => {
+    document.querySelectorAll('.options-menu').forEach(menu => {
+        menu.classList.add('hidden');
+    });
+});   
 
 function newChat() {
     currentSessionId = Date.now();
@@ -226,6 +251,7 @@ document.getElementById('send-btn').addEventListener('click', sendQuest);
 ui.input.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') sendQuest();
 });
+
 
 
 
