@@ -47,10 +47,10 @@ async function refreshDashboard() {
             cpuBar.style.width = cpuLoad;
         }
 
-        const ramRaw = data.server.process_ram;
-        const ramUsed = data.hardware.memory.used;
-        const ramTotal = data.hardware.memory.total;
-        const ramSwap = data.hardware.memory.swap;
+        const ramRaw = data.server.process_ram || 0;
+        const ramUsed = data.hardware.memory.used || 0;
+        const ramTotal = data.hardware.memory.total || 0;
+        const ramSwap = data.hardware.memory.swap || 0;
         document.getElementById('ram-used').innerText = `${ramUsed} / ${ramTotal}`;
         document.getElementById('swap-used').innerText = ramSwap;
         const used = parseFloat(ramUsed);
@@ -61,19 +61,19 @@ async function refreshDashboard() {
         
         const ramBar = document.getElementById('ram-bar');
         if (ramBar) {
-            const percent = math.round((ram / 3680) * 100);
+            const percent = Math.round((ram / 3680) * 100);
             ramBar.style.width = `${percent}%`;
             const usedText = document.getElementById('used-text').innerText = `Usage: ${percent}%`
         }
         const usageBar = document.getElementById('ram-usage');
         if (usageBar) {
-            const percent = math.round((used / total) * 100);
+            const percent = Math.round((used / total) * 100);
             usageBar.style.width = `${percent}%`;
             const usageText = document.getElementById('usage-text').innerText = `Usage: ${percent}%`
         }
         const swapBar = document.getElementById('swap-bar');
         if (swapBar) {
-            const percent = math.round((swap / 500) * 100);
+            const percent = Math.round((swap / 500) * 100);
             swapBar.style.width = `${percent}%`;
             const swapText = document.getElementById('swap-text').innerText = `Usage: ${percent}%`
         }
@@ -410,6 +410,7 @@ function getLogs() {
 }
 
 getLogs();
+
 
 
 
