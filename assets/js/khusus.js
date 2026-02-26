@@ -59,7 +59,7 @@ async function refreshDashboard() {
         
         const ramBar = document.getElementById('ram-bar');
         if (ramBar) {
-            const percent = (ram / total) * 100;
+            const percent = (ram / 3680) * 100;
             ramBar.style.width = `${percent}%`;
             console.log(percent);
         }
@@ -407,6 +407,7 @@ function getLogs() {
 }
 
 getLogs();
+
 
 
 
