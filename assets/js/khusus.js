@@ -21,6 +21,8 @@ async function refreshDashboard() {
             
             const tokenK = (tpdUsed / 500000).toFixed(1);
             document.getElementById('total-tokens-ai').innerText = `Token/Day: ${tokenK}K / 500K`;
+            console.log(rpdUsed);
+            console.log(tpdUsed);
     
             const reqBar = document.getElementById('req-bar');
             if (reqBar) {
@@ -402,4 +404,5 @@ function getLogs() {
 }
 
 getLogs();
+
 
