@@ -58,11 +58,13 @@ async function refreshDashboard() {
         if (ramBar) {
             const percent = (ram / ramTotal) * 100;
             ramBar.style.width = `${percent}%`;
+            console.log(percent);
         }
         const usageBar = document.getElementById('ram-usage');
         if (usageBar) {
             const percent = (ramUsed / ramTotal) * 100;
             usageBar.style.width = `${percent}%`;
+            console.log(percent)
         }
         const swapBar = document.getElementById('swap-bar');
         if (swapBar) {
@@ -402,6 +404,7 @@ function getLogs() {
 }
 
 getLogs();
+
 
 
 
