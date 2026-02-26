@@ -24,13 +24,13 @@ async function refreshDashboard() {
     
             const reqBar = document.getElementById('req-bar');
             if (reqBar) {
-                const percent = (rpdUsed / 3000) * 100;
+                const percent = Math.round((rpdUsed / 3000) * 100);
                 reqBar.style.width = `${percent}%`;
                 const reqText = document.getElementById('req-text').innerText = `Usage: ${percent}$`
             }
             const tokenBar = document.getElementById('token-bar');
             if (tokenBar) {
-                const percent = (tpdUsed / 500000) * 100;
+                const percent = Math.round((tpdUsed / 500000) * 100);
                 tokenBar.style.width = `${percent}%`;
                 const tokenText = document.getElementById('token-text').innerText = `Usage: ${percent}%`
             }
@@ -410,6 +410,7 @@ function getLogs() {
 }
 
 getLogs();
+
 
 
 
