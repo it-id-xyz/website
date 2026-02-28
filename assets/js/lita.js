@@ -10,7 +10,7 @@ const ui = {
     arrowToggle: document.getElementById('toggleSidebar'),
     historyList: document.getElementById('history-list')
 }
-renderHistory()
+
 const savedState = localStorage.getItem('sidebar_state');
 if(savedState === 'true' && window.innerWidth < 768){
     ui.sidebar.classList.add('hide');
@@ -86,7 +86,7 @@ document.addEventListener('click', () => {
     document.querySelectorAll('.options-menu').forEach(menu => {
         menu.classList.add('hidden');
     });
-});   
+});  
 
 function newChat() {
     currentSessionId = Date.now();
@@ -247,18 +247,23 @@ function loadSession(id) {
 
 }
 
+function deleteHistory(event, id) {
+    event.stopPropagation();
+    if (!confirm("Hapus riwayat chat ini?")) return;
+    allSessions = allSessions.filter(s => s.id !== id);
+    localStorage.setItem('lita_v2_sessions', JSON.stringify(allSessions));
+    if (currentSessionId === id) {
+        newChat(); 
+    } else {
+        renderHistory();
+    }
+}
+
+window.deleteHistory = deleteHistory;
 // --- EVENT LISTENERS ---
 document.getElementById('send-btn').addEventListener('click', sendQuest);
 ui.input.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') sendQuest();
 });
 
-
-
-
-
-
-
-
-
-
+renderHistory()
