@@ -1,10 +1,10 @@
 import { auth, db } from "./firebase.js";
-import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, GithubAuthProvider, MicrosoftAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { onAuthStateChanged, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, GithubAuthProvider, OAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 const ggprovider = new GoogleAuthProvider();
 const fbProvider = new FacebookAuthProvider();
 const ghProvider = new GithubAuthProvider();
-const msProvider = new MicrosoftAuthProvider();
+const msProvider = new OAuthProvider('microsoft.com');
 
 document.getElementById("btn-login-gg").addEventListener("click", async () => {
     try {
@@ -32,16 +32,25 @@ document.getElementById("btn-login-gh").addEventListener("click", async () => {
 });
 document.getElementById("btn-login-ms").addEventListener("click", async () => {
     try {
+        msProvider.setCustomParameters({
+          prompt: 'select_account'
+        });
         await signInWithPopup(auth, msProvider);
         alert("Login berhasil");
     } catch (err) {
         alert("Login gagal");
     }
 });
-const user = auth.currentUser;
-if (!user) {
-    document.getElementById('form-input').style.display = 'none'
-} 
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        console.log("User terdeteksi:", user.displayName);
+        // Di sini lu bisa arahin user ke halaman pendaftaran
+        // window.location.href = "daftar.html";
+    } else {
+        console.log("Belum ada user yang login");
+        document.getElementById('form-input').style.display = 'none'
+    }
+});
 const ul = {
     statusUser: document.getElementById('project-status'),
     btnSubmit: document.getElementById('btn-submit')
@@ -92,6 +101,7 @@ const getData = async (e) => {
     }
 };
 ul.btnSubmit.addEventListener("click", getData);
+
 
 
 
