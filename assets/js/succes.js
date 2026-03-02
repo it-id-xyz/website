@@ -41,8 +41,8 @@ if (!regId) {
             return;
         }
         const timer = setInterval(() => {
-          const countdown = getCountdown(data.createdAt);
           const data = snap.data();
+          const countdown = getCountdown(data.createdAt);
           const chat = `halo%20Kak,%20${sapaan()}Aku%20${data.nama}%20dari%20kelas%20${data.kelas},%20aku%20dapet%20kabar%20kalo%20pendaftaran%20aku%20diterima.%20Terimakasih%20kak.`;
           if (data.status === 'pending') {
               container.innerHTML = `
@@ -76,6 +76,7 @@ if (!regId) {
         }
     });
 }
+
 
 
 
