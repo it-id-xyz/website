@@ -52,21 +52,19 @@ document.getElementById("btn-login-ms").addEventListener("click", async () => {
 });
 onAuthStateChanged(auth, (user) => {
     console.log("Firebase Auth State Changed. User:", user); 
-
+    const loginMenu = document.getElementById('login-menu');
     const formElement = document.getElementById('form-input');
-    
-    if (formElement) {
-        if (user) {
-            console.log("Login Terdeteksi: ", user.displayName || user.email);
-            formElement.style.setProperty('display', 'block', 'important');
-        } else {
-            console.log("Status: Guest (Null)");
-            formElement.style.setProperty('display', 'none', 'important');
-        }
+    if (user) {
+        console.log("Login Terdeteksi: ", user.displayName || user.email);
+        formElement.style.setProperty('display', 'block', 'important');
+        loginMenu.style.setProperty('display', 'none', 'important');
     } else {
-        console.error("Error: Element #form-input tidak ditemukan di HTML!");
+        console.log("Status: Guest (Null)");
+        formElement.style.setProperty('display', 'none', 'important');
+        loginMenu.style.setProperty('display', 'block', 'important');
     }
-});ul = {
+});
+const ul = {
     statusUser: document.getElementById('project-status'),
     btnSubmit: document.getElementById('btn-submit')
 }
@@ -116,6 +114,7 @@ const getData = async (e) => {
     }
 };
 ul.btnSubmit.addEventListener("click", getData);
+
 
 
 
