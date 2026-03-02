@@ -3,19 +3,18 @@ import { db } from "./firebase.js";
 
 const container = document.getElementById('status-container');
 const regId = localStorage.getItem("it_reg_id");
-const countdown = (createdAt) => {
+const getCountdown = (createdAt) => {
   const end = createdAt.toDate().getTime() + (30 * 60 * 1000);
   const now = Date.now();
   const diff = end - now;
-
+        
   if (diff <= 0) return "Waktu habis";
-
+        
   const minutes = Math.floor(diff / 60000);
   const seconds = Math.floor((diff % 60000) / 1000);
-
+        
   return `${minutes}m ${seconds}s`;
 };
-
 const sapaan = () => {
   const jam = new Date().getHours();
   let teks;
@@ -41,21 +40,25 @@ if (!regId) {
             container.innerHTML = "<p>Data tidak ditemukan...</p>";
             return;
         }
-        
-        const data = snap.data();
-        const chat = `halo%20Kak,%20${sapaan()}Aku%20${data.nama}%20dari%20kelas%20${data.kelas},%20aku%20dapet%20kabar%20kalo%20pendaftaran%20aku%20diterima.%20Terimakasih%20kak.`;
-        if (data.status === 'pending') {
-            container.innerHTML = `
-                <div class="loading">
-                    <h3>Halo ${data.nama}!</h3>
-                    <p>Data kamu sedang diproses oleh pengurus IT, 5-30menit</p>
-                    <div class="project-status">
-                      <small class="project-status">Sedang di proses..</small>
-                      <p>Sisa waktu estimasi: ${countdown(createdAt)}</p>
-                    </div>
-                </div>`;
-        } 
-        else if (data.status === 'approved') {
+        const timer = setInterval(() => {
+          const countdown = getCountdown(data.createdAt);
+          const data = snap.data();
+          const chat = `halo%20Kak,%20${sapaan()}Aku%20${data.nama}%20dari%20kelas%20${data.kelas},%20aku%20dapet%20kabar%20kalo%20pendaftaran%20aku%20diterima.%20Terimakasih%20kak.`;
+          if (data.status === 'pending') {
+              container.innerHTML = `
+                  <div class="loading">
+                      <h3>Halo ${data.nama}!</h3>
+                      <p>Data kamu sedang diproses oleh pengurus IT, 5-30menit</p>
+                      <div class="project-status">
+                        <small class="project-status">Sedang di proses..</small>
+                        <p>Sisa waktu estimasi: ${countdown}</p>
+                      </div>
+                  </div>`;
+          } 
+          if (countdown === "Waktu habis") {
+            clearInterval(timer)};
+        }, 1000);
+        if (data.status === 'approved') {
             container.innerHTML = `
                 <div class="card-success">
                     <h2>SELAMAT ${data.nama}! 🎉</h2>
@@ -73,6 +76,7 @@ if (!regId) {
         }
     });
 }
+
 
 
 
