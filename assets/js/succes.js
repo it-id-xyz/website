@@ -52,8 +52,8 @@ if (!regId) {
                       <p>Data kamu sedang diproses oleh pengurus IT, 5-30menit</p>
                       <div class="project-status">
                         <small class="project-status">Sedang di proses..</small>
-                        <p>Sisa waktu estimasi: ${countdown}</p>
                       </div>
+                      <p>Sisa waktu estimasi: ${countdown}</p>
                   </div>`;
           } 
           if (countdown === "Waktu habis") {
@@ -77,6 +77,7 @@ if (!regId) {
         }
     });
 }
+
 
 
 
