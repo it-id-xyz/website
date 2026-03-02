@@ -1,12 +1,14 @@
 import { auth, db } from "./firebase.js";
-import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, GithubAuthProvider, MicrosoftAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-const provider = new GoogleAuthProvider();
+const ggprovider = new GoogleAuthProvider();
 const fbProvider = new FacebookAuthProvider();
+const ghProvider = new FacebookAuthProvider();
+const msProvider = new FacebookAuthProvider();
 
-document.getElementById("btn-login").addEventListener("click", async () => {
+document.getElementById("btn-login-gg").addEventListener("click", async () => {
     try {
-        await signInWithPopup(auth, provider);
+        await signInWithPopup(auth, ggprovider);
         alert("Login berhasil");
     } catch (err) {
         alert("Login gagal");
@@ -15,6 +17,22 @@ document.getElementById("btn-login").addEventListener("click", async () => {
 document.getElementById("btn-login-fb").addEventListener("click", async () => {
     try {
         await signInWithPopup(auth, fbProvider);
+        alert("Login berhasil");
+    } catch (err) {
+        alert("Login gagal");
+    }
+});
+document.getElementById("btn-login-gh").addEventListener("click", async () => {
+    try {
+        await signInWithPopup(auth, ghProvider);
+        alert("Login berhasil");
+    } catch (err) {
+        alert("Login gagal");
+    }
+});
+document.getElementById("btn-login-ms").addEventListener("click", async () => {
+    try {
+        await signInWithPopup(auth, msProvider);
         alert("Login berhasil");
     } catch (err) {
         alert("Login gagal");
@@ -74,5 +92,6 @@ const getData = async (e) => {
     }
 };
 ul.btnSubmit.addEventListener("click", getData);
+
 
 
