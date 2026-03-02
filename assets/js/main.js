@@ -3,8 +3,8 @@ import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, GithubAuthPr
 import { addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 const ggprovider = new GoogleAuthProvider();
 const fbProvider = new FacebookAuthProvider();
-const ghProvider = new FacebookAuthProvider();
-const msProvider = new FacebookAuthProvider();
+const ghProvider = new GithubAuthProvider();
+const msProvider = new MicrosoftAuthProvider();
 
 document.getElementById("btn-login-gg").addEventListener("click", async () => {
     try {
@@ -92,6 +92,7 @@ const getData = async (e) => {
     }
 };
 ul.btnSubmit.addEventListener("click", getData);
+
 
 
 
