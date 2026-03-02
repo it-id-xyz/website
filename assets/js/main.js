@@ -11,6 +11,10 @@ document.getElementById("btn-login").addEventListener("click", async () => {
         alert("Login gagal");
     }
 });
+const user = auth.currentUser;
+if (!user) {
+    document.getElementById('form-input').style.display = 'none'
+} 
 const ul = {
     statusUser: document.getElementById('project-status'),
     btnSubmit: document.getElementById('btn-submit')
@@ -61,3 +65,4 @@ const getData = async (e) => {
     }
 };
 ul.btnSubmit.addEventListener("click", getData);
+
