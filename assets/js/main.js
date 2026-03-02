@@ -51,15 +51,22 @@ document.getElementById("btn-login-ms").addEventListener("click", async () => {
     }
 });
 onAuthStateChanged(auth, (user) => {
-    if (!user) {
-        console.log("Belum ada user yang login");
-        document.getElementById('form-input').style.display = 'none';
+    console.log("Firebase Auth State Changed. User:", user); 
+
+    const formElement = document.getElementById('form-input');
+    
+    if (formElement) {
+        if (user) {
+            console.log("Login Terdeteksi: ", user.displayName || user.email);
+            formElement.style.setProperty('display', 'block', 'important');
+        } else {
+            console.log("Status: Guest (Null)");
+            formElement.style.setProperty('display', 'none', 'important');
+        }
     } else {
-        console.log("User terdeteksi:", user.displayName);
-        document.getElementById('form-input').style.display = 'block';
+        console.error("Error: Element #form-input tidak ditemukan di HTML!");
     }
-});
-const ul = {
+});ul = {
     statusUser: document.getElementById('project-status'),
     btnSubmit: document.getElementById('btn-submit')
 }
