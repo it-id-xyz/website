@@ -3,6 +3,18 @@ import { db } from "./firebase.js";
 
 const container = document.getElementById('status-container');
 const regId = localStorage.getItem("it_reg_id");
+const countdown = (createdAt) => {
+  const end = createdAt.toDate().getTime() + (30 * 60 * 1000);
+  const now = Date.now();
+  const diff = end - now;
+
+  if (diff <= 0) return "Waktu habis";
+
+  const minutes = Math.floor(diff / 60000);
+  const seconds = Math.floor((diff % 60000) / 1000);
+
+  return `${minutes}m ${seconds}s`;
+};
 
 const sapaan = () => {
   const jam = new Date().getHours();
@@ -35,11 +47,11 @@ if (!regId) {
         if (data.status === 'pending') {
             container.innerHTML = `
                 <div class="loading">
-                    <h3>Halo ${data.nama}!</h2>
+                    <h3>Halo ${data.nama}!</h3>
                     <p>Data kamu sedang diproses oleh pengurus IT, 5-30menit</p>
                     <div class="project-status">
-                    <div class="spinner"></div>
-                    <small class="project-status">Sedang di proses..</small>
+                      <small class="project-status">Sedang di proses..</small>
+                      <p>Sisa waktu estimasi: ${cd}</p>
                     </div>
                 </div>`;
         } 
@@ -61,6 +73,7 @@ if (!regId) {
         }
     });
 }
+
 
 
 
