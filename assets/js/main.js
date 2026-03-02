@@ -51,7 +51,7 @@ document.getElementById("btn-login-ms").addEventListener("click", async () => {
     }
 });
 onAuthStateChanged(auth, (user) => {
-    if (user === null) {
+    if (!user) {
         console.log("Belum ada user yang login");
         document.getElementById('form-input').style.display = 'none';
     } else {
@@ -109,6 +109,7 @@ const getData = async (e) => {
     }
 };
 ul.btnSubmit.addEventListener("click", getData);
+
 
 
 
