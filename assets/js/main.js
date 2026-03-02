@@ -3,15 +3,21 @@ import { onAuthStateChanged, signInWithPopup, GoogleAuthProvider, FacebookAuthPr
 import { addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 const ggprovider = new GoogleAuthProvider();
 const fbProvider = new FacebookAuthProvider();
+    fbProvider.addScope('email');
 const ghProvider = new GithubAuthProvider();
+    ghProvider.addScope('user:email');
 const msProvider = new OAuthProvider('microsoft.com');
+    msProvider.addScope('openid');
+    msProvider.addScope('profile');
+    msProvider.addScope('email');
 
 document.getElementById("btn-login-gg").addEventListener("click", async () => {
     try {
         await signInWithPopup(auth, ggprovider);
         alert("Login berhasil");
     } catch (err) {
-        alert("Login gagal");
+        console.error(err); 
+        alert("Login gagal: " + err.message);
     }
 });
 document.getElementById("btn-login-fb").addEventListener("click", async () => {
@@ -19,7 +25,8 @@ document.getElementById("btn-login-fb").addEventListener("click", async () => {
         await signInWithPopup(auth, fbProvider);
         alert("Login berhasil");
     } catch (err) {
-        alert("Login gagal");
+        console.error(err); 
+        alert("Login gagal: " + err.message);
     }
 });
 document.getElementById("btn-login-gh").addEventListener("click", async () => {
@@ -27,7 +34,8 @@ document.getElementById("btn-login-gh").addEventListener("click", async () => {
         await signInWithPopup(auth, ghProvider);
         alert("Login berhasil");
     } catch (err) {
-        alert("Login gagal");
+        console.error(err); 
+        alert("Login gagal: " + err.message);
     }
 });
 document.getElementById("btn-login-ms").addEventListener("click", async () => {
@@ -38,17 +46,17 @@ document.getElementById("btn-login-ms").addEventListener("click", async () => {
         await signInWithPopup(auth, msProvider);
         alert("Login berhasil");
     } catch (err) {
-        alert("Login gagal");
+        console.error(err); 
+        alert("Login gagal: " + err.message);
     }
 });
 onAuthStateChanged(auth, (user) => {
-    if (user) {
+    if (user != null) {
         console.log("User terdeteksi:", user.displayName);
-        // Di sini lu bisa arahin user ke halaman pendaftaran
-        // window.location.href = "daftar.html";
+        document.getElementById('form-input').style.display = 'block';
     } else {
         console.log("Belum ada user yang login");
-        document.getElementById('form-input').style.display = 'none'
+        document.getElementById('form-input').style.display = 'none';
     }
 });
 const ul = {
@@ -61,7 +69,7 @@ const getData = async (e) => {
 
     const user = auth.currentUser;
     if (!user) {
-        alert("Login Google dulu.");
+        alert("Silahkan login dulu.");
         return;
     }
 
@@ -101,6 +109,7 @@ const getData = async (e) => {
     }
 };
 ul.btnSubmit.addEventListener("click", getData);
+
 
 
 
