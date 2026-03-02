@@ -1,11 +1,20 @@
 import { auth, db } from "./firebase.js";
-import { signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 const provider = new GoogleAuthProvider();
+const fbProvider = new FacebookAuthProvider();
 
 document.getElementById("btn-login").addEventListener("click", async () => {
     try {
         await signInWithPopup(auth, provider);
+        alert("Login berhasil");
+    } catch (err) {
+        alert("Login gagal");
+    }
+});
+document.getElementById("btn-login-fb").addEventListener("click", async () => {
+    try {
+        await signInWithPopup(auth, fbProvider);
         alert("Login berhasil");
     } catch (err) {
         alert("Login gagal");
@@ -65,4 +74,5 @@ const getData = async (e) => {
     }
 };
 ul.btnSubmit.addEventListener("click", getData);
+
 
