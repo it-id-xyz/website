@@ -17,28 +17,26 @@ const API_BASE_URL = "https://api.it-smansaci.my.id"
 document.getElementById("btn-login-gg").addEventListener("click", async () => {
     try {
         await signInWithPopup(auth, ggprovider);
-        alert("Login berhasil");
+        console.log("Login berhasil");
     } catch (err) {
         console.error(err); 
-        alert("Login gagal: " + err.message);
+        console.log("Login gagal: " + err.message);
     }
 });
 document.getElementById("btn-login-fb").addEventListener("click", async () => {
     try {
         await signInWithPopup(auth, fbProvider);
-        alert("Login berhasil");
+        console.log("Login berhasil");
     } catch (err) {
         console.error(err); 
-        alert("Login gagal: " + err.message);
     }
 });
 document.getElementById("btn-login-gh").addEventListener("click", async () => {
     try {
         await signInWithPopup(auth, ghProvider);
-        alert("Login berhasil");
+        console.log("Login berhasil");
     } catch (err) {
         console.error(err); 
-        alert("Login gagal: " + err.message);
     }
 });
 document.getElementById("btn-login-ms").addEventListener("click", async () => {
@@ -47,10 +45,9 @@ document.getElementById("btn-login-ms").addEventListener("click", async () => {
           prompt: 'select_account'
         });
         await signInWithPopup(auth, msProvider);
-        alert("Login berhasil");
+        console.logt("Login berhasil");
     } catch (err) {
         console.error(err); 
-        alert("Login gagal: " + err.message);
     }
 });
 onAuthStateChanged(auth, (user) => {
@@ -105,9 +102,9 @@ document.getElementById('btn-submit').addEventListener('click', async (e) => {
             currentUid = result.uid;
             formInput.style.display = 'none';
             formOtp.style.display = 'block';
-            alert("OTP terkirim ke WhatsApp!");
+            console.log("OTP terkirim ke WhatsApp!");
         } else {
-            alert("Gagal: " + result.error);
+           console.logt("Gagal: " + result.error);
         }
         formOtp.style.setProperty('display','block','important');
         formElement.style.setProperty('display', 'none', 'important');
@@ -155,6 +152,7 @@ document.getElementById('verify-otp').addEventListener('click', async (e) => {
         statusText.innerText = "⚠️ Gangguan koneksi server.";
     }
 });
+
 
 
 
