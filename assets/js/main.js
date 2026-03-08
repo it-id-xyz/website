@@ -12,7 +12,8 @@ const msProvider = new OAuthProvider('microsoft.com');
     msProvider.addScope('email');
 const otpInputs = document.querySelectorAll('.otp-inputs input');
 const statusText = document.getElementById('status');
-const API_BASE_URL = "https://api.it-smansaci.my.id"
+const API_BASE_URL = "https://api.it-smansaci.my.id";
+let currentUid = "";
 
 document.getElementById("btn-login-gg").addEventListener("click", async () => {
     try {
@@ -152,6 +153,7 @@ document.getElementById('verify-otp').addEventListener('click', async (e) => {
         statusText.innerText = "⚠️ Gangguan koneksi server.";
     }
 });
+
 
 
 
