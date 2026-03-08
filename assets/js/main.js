@@ -54,72 +54,101 @@ onAuthStateChanged(auth, (user) => {
     console.log("Firebase Auth State Changed. User:", user); 
     const loginMenu = document.getElementById('login-menu');
     const formElement = document.getElementById('form-input');
+    const formOtp = document.getElementById('form-otp');
     if (user) {
         console.log("Login Terdeteksi: ", user.displayName || user.email);
         formElement.style.setProperty('display', 'block', 'important');
         loginMenu.style.setProperty('display', 'none', 'important');
+        formOtp.style.setProperty('display','none','important');
     } else {
         console.log("Status: Guest (Null)");
         formElement.style.setProperty('display', 'none', 'important');
+        formOtp.style.setProperty('display','none','important');
         loginMenu.style.setProperty('display', 'block', 'important');
     }
 });
-const ul = {
-    statusUser: document.getElementById('project-status'),
-    btnSubmit: document.getElementById('btn-submit')
-}
 
-const getData = async (e) => {
+document.getElementById('btn-submit').addEventListener('click', async (e) => {
     e.preventDefault();
-
+    
     const user = auth.currentUser;
     if (!user) {
         alert("Silahkan login dulu.");
         return;
     }
-
-    const nama = document.getElementById('nama').value;
-    const kelas = document.getElementById('kelas').value;
-    const whatsapp = document.getElementById('whatsapp').value;
-    const bidang = document.getElementById('bidang').value;
-
     const honeypot = document.getElementById('honeypot').value;
     if (honeypot !== "") return;
 
-    if (!nama || !kelas || !whatsapp || !bidang)
-        return alert("Isi semua data");
+    const payload = {
+        nama: document.getElementById('nama').value,
+        kelas: document.getElementById('kelas').value,
+        whatsapp: document.getElementById('whatsapp').value,
+        bidang: document.getElementById('bidang').value,
+        email: userEmail
+    };
+
+    if(!payload.nama || !payload.whatsapp) return alert("Lengkapi data dulu!");
 
     try {
-        ul.btnSubmit.innerText = "Loading...";
-        ul.btnSubmit.disabled = true;
-
-        const docRef = await addDoc(collection(db, "regist"), {
-            uid: user.uid,
-            nama,
-            kelas,
-            email: user.email,
-            whatsapp,
-            bidang,
-            status: "pending",
-            waAttempts: 0,
-            lastWaSentAt: null,
-            createdAt: serverTimestamp()
+        const response = await fetch(`${API_BASE_URL}/api/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
         });
-        localStorage.setItem("it_reg_id", docRef.id);
-        window.location.href = "../succes.html";
-    } catch (err) {
-        ul.btnSubmit.innerText = "Daftar Sekarang";
-        ul.btnSubmit.disabled = false;
-        alert(err.message);
+
+        const result = await response.json();
+
+        if (result.success) {
+            currentUid = result.uid;
+            formInput.style.display = 'none';
+            formOtp.style.display = 'block';
+            alert("OTP terkirim ke WhatsApp!");
+        } else {
+            alert("Gagal: " + result.error);
+        }
+        formOtp.style.setProperty('display','block','important');
+        formElement.style.setProperty('display', 'none', 'important');
+    } catch (error) {
+        alert("Server tidak merespon.");
     }
-};
-ul.btnSubmit.addEventListener("click", getData);
+});
 
+otpInputs.forEach((input, index) => {
+    input.addEventListener('input', (e) => {
+        if (e.target.value.length === 1 && index < otpInputs.length - 1) {
+            otpInputs[index + 1].focus();
+        }
+    });
 
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !e.target.value && index > 0) {
+            otpInputs[index - 1].focus();
+        }
+    });
+});
 
+document.getElementById('verify-otp').addEventListener('click', async (e) => {
+    e.preventDefault();
+    const otpValue = Array.from(otpInputs).map(i => i.value).join('');
 
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/verify-otp`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ uid: currentUid, otp: otpValue })
+        });
 
+        const result = await response.json();
 
-
-
-
+        if (result.success) {
+            statusText.innerText = "✅ Verifikasi Berhasil! Selamat Datang.";
+            statusText.style.color = "#4ade80";
+            setTimeout(() => { window.location.href = "index.html"; }, 2000);
+        } else {
+            statusText.innerText = "❌ OTP Salah: " + result.error;
+            statusText.style.color = "#f87171";
+        }
+    } catch (error) {
+        statusText.innerText = "⚠️ Gangguan koneksi server.";
+    }
+});
