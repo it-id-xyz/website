@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="assets/css/otp.css">
     <link rel="icon" sizes="192x192" href="assets/img/it.png">
     <link rel="icon" href="assets/favicon.ico">
     <title>Dashboard - IT Pendaftaran</title>
@@ -65,7 +66,6 @@
                 <h3>Masukan kode otp</h3>
                 <input type="tel" id="otp-code" placeholder="123456" pattern="[0-9]" inputmode="numeric" minlength="6" maxlength="6" required>
                 <p>Silahkan klik button send OTP. Cek di wa, lalu masukan disini</p>
-                <button id="send-otp">Send OTP</button>
             </div>
             <div class="card-content">
                 <h3>Peminatan Bidang</h3>
@@ -81,6 +81,27 @@
                 </div>
             </div>
             <button id="btn-submit">Submit</button>
+        </form>
+        <form>
+            <div class="container">
+                <h2>Verifikasi OTP</h2>
+                <p>Masukkan kode OTP yang dikirim ke WhatsApp</p>
+                <div class="otp-inputs">
+                    <input type="text" maxlength="1">
+                    <input type="text" maxlength="1">
+                    <input type="text" maxlength="1">
+                    <input type="text" maxlength="1">
+                    <input type="text" maxlength="1">
+                    <input type="text" maxlength="1">
+                </div>
+                <button id="verify-otp">Verify OTP</button>               
+                <div class="resend">
+                Tidak menerima kode? <span id="resend-otp">Kirim ulang</span>
+                </div>
+                
+                <p id="status"></p>
+            
+            </div>
         </form>
     </main>
     <div class="line">
@@ -132,6 +153,7 @@
 </body>
 
 </html>
+
 
 
 
