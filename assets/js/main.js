@@ -10,6 +10,8 @@ const msProvider = new OAuthProvider('microsoft.com');
     msProvider.addScope('openid');
     msProvider.addScope('profile');
     msProvider.addScope('email');
+const otpInputs = document.querySelectorAll('.otp-inputs input');
+const statusText = document.getElementById('status');
 
 document.getElementById("btn-login-gg").addEventListener("click", async () => {
     try {
@@ -152,3 +154,4 @@ document.getElementById('verify-otp').addEventListener('click', async (e) => {
         statusText.innerText = "⚠️ Gangguan koneksi server.";
     }
 });
+
