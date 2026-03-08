@@ -144,7 +144,7 @@ document.getElementById('verify-otp').addEventListener('click', async (e) => {
         if (result.success) {
             statusText.innerText = "✅ Verifikasi Berhasil! Selamat Datang.";
             statusText.style.color = "#4ade80";
-            setTimeout(() => { window.location.href = "index.html"; }, 2000);
+            setTimeout(() => { window.location.href = "succes.html"; }, 1500);
         } else {
             statusText.innerText = "❌ OTP Salah: " + result.error;
             statusText.style.color = "#f87171";
@@ -153,6 +153,7 @@ document.getElementById('verify-otp').addEventListener('click', async (e) => {
         statusText.innerText = "⚠️ Gangguan koneksi server.";
     }
 });
+
 
 
 
