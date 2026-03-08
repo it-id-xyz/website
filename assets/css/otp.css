@@ -1,3 +1,12 @@
+body{
+    font-family: Arial, sans-serif;
+    background:#0f172a;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
 .container{
     text-align:center;
     background:#1e293b;
