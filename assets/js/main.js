@@ -86,7 +86,7 @@ document.getElementById('btn-submit').addEventListener('click', async (e) => {
         kelas: document.getElementById('kelas').value,
         whatsapp: document.getElementById('whatsapp').value,
         bidang: document.getElementById('bidang').value,
-        email: userEmail
+        email: user.email
     };
 
     if(!payload.nama || !payload.whatsapp) return alert("Lengkapi data dulu!");
@@ -154,4 +154,5 @@ document.getElementById('verify-otp').addEventListener('click', async (e) => {
         statusText.innerText = "⚠️ Gangguan koneksi server.";
     }
 });
+
 
