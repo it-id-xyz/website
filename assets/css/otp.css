@@ -1,0 +1,53 @@
+.container{
+    text-align:center;
+    background:#1e293b;
+    padding:40px;
+    border-radius:12px;
+    width:320px;
+}
+
+.otp-inputs{
+    display:flex;
+    justify-content:space-between;
+    margin:25px 0;
+}
+
+.otp-inputs input{
+    width:45px;
+    height:55px;
+    font-size:24px;
+    text-align:center;
+    border:none;
+    border-radius:8px;
+    background:#334155;
+    color:white;
+}
+
+.otp-inputs input:focus{
+    outline:2px solid #38bdf8;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#38bdf8;
+    color:black;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover{
+    opacity:0.9;
+}
+
+.resend{
+    margin-top:15px;
+    font-size:14px;
+}
+
+.resend span{
+    color:#38bdf8;
+    cursor:pointer;
+}
