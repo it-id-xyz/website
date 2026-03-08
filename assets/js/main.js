@@ -14,6 +14,9 @@ const otpInputs = document.querySelectorAll('.otp-inputs input');
 const statusText = document.getElementById('status');
 const API_BASE_URL = "https://api.it-smansaci.my.id";
 let currentUid = "";
+const loginMenu = document.getElementById('login-menu');
+const formElement = document.getElementById('form-input');
+const formOtp = document.getElementById('form-otp');
 
 document.getElementById("btn-login-gg").addEventListener("click", async () => {
     try {
@@ -53,9 +56,6 @@ document.getElementById("btn-login-ms").addEventListener("click", async () => {
 });
 onAuthStateChanged(auth, (user) => {
     console.log("Firebase Auth State Changed. User:", user); 
-    const loginMenu = document.getElementById('login-menu');
-    const formElement = document.getElementById('form-input');
-    const formOtp = document.getElementById('form-otp');
     if (user) {
         console.log("Login Terdeteksi: ", user.displayName || user.email);
         formElement.style.setProperty('display', 'block', 'important');
@@ -153,6 +153,7 @@ document.getElementById('verify-otp').addEventListener('click', async (e) => {
         statusText.innerText = "⚠️ Gangguan koneksi server.";
     }
 });
+
 
 
 
