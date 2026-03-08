@@ -111,7 +111,7 @@ document.getElementById('btn-submit').addEventListener('click', async (e) => {
         formOtp.style.setProperty('display','block','important');
         formElement.style.setProperty('display', 'none', 'important');
     } catch (error) {
-        alert("Server tidak merespon.");
+        console.log("Server tidak merespon." + error.message);
     }
 });
 
@@ -154,5 +154,6 @@ document.getElementById('verify-otp').addEventListener('click', async (e) => {
         statusText.innerText = "⚠️ Gangguan koneksi server.";
     }
 });
+
 
 
