@@ -164,9 +164,10 @@ document.getElementById('verify-otp').addEventListener('click', async (e) => {
     try {
         btn.disabled = true; 
         btn.innerText = "Loading...";
+        const idToken = await user.getIdToken();
         const response = await fetch(`${API_BASE_URL}/api/verify-otp`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${idToken}` },
             body: JSON.stringify({ uid: currentUid, otp: otpValue })
         });
 
@@ -216,6 +217,7 @@ document.getElementById('resend-otp').addEventListener('click', async (e) => {
         btn.innerText = "Kirim Ulang";
     }
 });
+
 
 
 
