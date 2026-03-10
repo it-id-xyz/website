@@ -58,6 +58,31 @@ SIDEBAR
   font-size:1.4rem;
 }
 
+.menu-dot-btn {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.history-item:hover .menu-dot-btn {
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .menu-dot-btn {
+        opacity: 1;
+    }
+}
+
+.history-item.active .menu-dot-btn {
+    opacity: 1;
+    color: #000; 
+}
+
 @media (max-width:767px){
   .sidebar-toggle{
     display:block;
@@ -90,7 +115,7 @@ width: 70px;
 
   .sidebar{
     position:fixed;
-    top:60px;
+    top:40px;
     left:0;
     height:calc(100vh - 60px);
     width:260px;
@@ -223,7 +248,7 @@ width: 70px;
     }
     
     .sidebar.active ~ .arrow-btn {
-        left: 260px;
+        left: 250px;
         border-radius: 10px; 
     }
 
@@ -436,10 +461,4 @@ DESKTOP POLISH
     padding: 40px 15%;
 
 }
-
-
-
-
-
 }
-
