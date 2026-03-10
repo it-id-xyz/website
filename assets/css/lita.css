@@ -198,34 +198,38 @@ width: 70px;
 
 /* Arrow toggle */
 .arrow-btn {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 20px;
-  transform: translateY(-50%);
-  background: #7aa2ff; 
-  border: 2px solid white
-  color: #0b014;
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  z-index: 2500;
-  cursor: pointer;
-  transition: 0.3s;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-  justify-content: center;
-  align-items: center;
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 0; 
+    transform: translateY(-50%);
+    background: #7aa2ff; 
+    border: 2px solid white;
+    color: #0b0e14;
+    width: 40px;
+    height: 40px;
+    border-radius: 0 10px 10px 0;
+    z-index: 3000; 
+    cursor: pointer;
+    transition: 0.3s;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.3);
 }
 
 @media (max-width: 768px) {
-  .arrow-btn {
-    display: flex; 
-  }
-  
-  
-  .sidebar.active ~ .arrow-btn {
-    left: 270px; 
-  }
+    .arrow-btn {
+        display: flex; 
+    }
+    
+    .sidebar.active ~ .arrow-btn {
+        left: 260px;
+        border-radius: 10px; 
+    }
+
+    .sidebar.active ~ .arrow-btn i {
+        transform: rotate(180deg);
+    }
 }
 
 /* =====================
@@ -438,3 +442,4 @@ DESKTOP POLISH
 
 
 }
+
