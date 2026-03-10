@@ -2,7 +2,6 @@ import { doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/fireb
 import { db } from "./firebase.js";
 
 const container = document.getElementById('status-container');
-const regId = localStorage.getItem("it_reg_id");
 const getCountdown = (createdAt) => {
   const end = createdAt.toDate().getTime() + (30 * 60 * 1000);
   const now = Date.now();
@@ -32,52 +31,52 @@ const sapaan = () => {
 };
 
 
-if (!regId) {
-    window.location.href = "index.html"; 
-} else {
-    onSnapshot(doc(db, "regist", regId), (snap) => {
-      const data = snap.data();
-        if (!snap.exists()) {
-            container.innerHTML = "<p>Data tidak ditemukan...</p>";
-            return;
+db.collection('regist').onSnapshot(async (snapshot) => {
+        for (const change of snapshot.docChanges()) {
+            if (change.type === 'modified') {
+                const data = change.doc.data();
+                if (data.status === 'approved') {
+                  if (!snapshot.exists()) {
+                      container.innerHTML = "<p>Data tidak ditemukan...</p>";
+                      return;
+                  }
+                const timer = setInterval(() => {
+                const countdown = getCountdown(data.createdAt);
+                const chat = `halo%20Kak,%20${sapaan()}Aku%20${data.nama}%20dari%20kelas%20${data.kelas},%20aku%20dapet%20kabar%20kalo%20pendaftaran%20aku%20diterima.%20Terimakasih%20kak.`;
+                if (data.status === 'pending') {
+                    container.innerHTML = `
+                      <div class="loading">
+                          <h3>Halo ${data.nama}!</h3>
+                          <p>Data kamu sedang diproses oleh pengurus IT, 5-30menit</p>
+                          <div class="project-status">
+                            <small class="project-status">Sedang di proses..</small>
+                          </div>
+                          <p>Sisa waktu estimasi: ${countdown}</p>
+                      </div>`;
+                } 
+                if (countdown === "Waktu habis") {
+                    clearInterval(timer)};
+                }, 1000);
+                if (data.status === 'approved') {
+                    container.innerHTML = `
+                        <div class="card-success">
+                            <h2>SELAMAT ${data.nama}! 🎉</h2>
+                            <p>Pendaftaran kamu berhasil. Silakan klik tombol di bawah untuk info lebih lanjut.</p>
+                            <a href="https://wa.me/6287831166441?text=${chat}" class="project-status" target="_blank"><i class="fa-solid fa-check"></i> Approved</a>
+                        </div>`;
+                } 
+                else if (data.status === 'rejected') {
+                    container.innerHTML = `
+                        <div class="card-error">
+                            <h2>Maaf, Kamu Ditolak ❌</h2>
+                            <p><b>Alasan:</b> ${data.pesanAdmin}</p>
+                            <button onclick="localStorage.clear(); window.location.href='index.html'">Daftar Lagi</button>
+                        </div>`;
+                }
+            });
         }
-        const timer = setInterval(() => {
-          
-          const countdown = getCountdown(data.createdAt);
-          const chat = `halo%20Kak,%20${sapaan()}Aku%20${data.nama}%20dari%20kelas%20${data.kelas},%20aku%20dapet%20kabar%20kalo%20pendaftaran%20aku%20diterima.%20Terimakasih%20kak.`;
-          if (data.status === 'pending') {
-              container.innerHTML = `
-                  <div class="loading">
-                      <h3>Halo ${data.nama}!</h3>
-                      <p>Data kamu sedang diproses oleh pengurus IT, 5-30menit</p>
-                      <div class="project-status">
-                        <small class="project-status">Sedang di proses..</small>
-                      </div>
-                      <p>Sisa waktu estimasi: ${countdown}</p>
-                  </div>`;
-          } 
-          if (countdown === "Waktu habis") {
-            clearInterval(timer)};
-        }, 1000);
-        if (data.status === 'approved') {
-            container.innerHTML = `
-                <div class="card-success">
-                    <h2>SELAMAT ${data.nama}! 🎉</h2>
-                    <p>Pendaftaran kamu berhasil. Silakan klik tombol di bawah untuk info lebih lanjut.</p>
-                    <a href="https://wa.me/6287831166441?text=${chat}" class="project-status" target="_blank"><i class="fa-solid fa-check"></i> Approved</a>
-                </div>`;
-        } 
-        else if (data.status === 'rejected') {
-            container.innerHTML = `
-                <div class="card-error">
-                    <h2>Maaf, Kamu Ditolak ❌</h2>
-                    <p><b>Alasan:</b> ${data.pesanAdmin}</p>
-                    <button onclick="localStorage.clear(); window.location.href='index.html'">Daftar Lagi</button>
-                </div>`;
-        }
-    });
-}
-
+      }
+});
 
 
 
