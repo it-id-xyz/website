@@ -160,6 +160,7 @@ document.getElementById('verify-otp').addEventListener('click', async (e) => {
     const btn = e.target;
     if(btn.disabled) return;
     const otpValue = Array.from(otpInputs).map(i => i.value).join('');
+    const user = auth.currentUser;
 
     try {
         btn.disabled = true; 
@@ -193,6 +194,7 @@ document.getElementById('resend-otp').addEventListener('click', async (e) => {
     e.preventDefault();
     const btn = e.target;
     if(btn.disabled) return;
+    const user = auth.currentUser;
     try {
         btn.disabled = true; 
         btn.innerText = "Loading...";
@@ -218,6 +220,7 @@ document.getElementById('resend-otp').addEventListener('click', async (e) => {
         btn.innerText = "Kirim Ulang";
     }
 });
+
 
 
 
