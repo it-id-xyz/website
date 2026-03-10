@@ -160,7 +160,11 @@ document.getElementById('verify-otp').addEventListener('click', async (e) => {
     const btn = e.target;
     if(btn.disabled) return;
     const otpValue = Array.from(otpInputs).map(i => i.value).join('');
-    const user = auth.currentUser;
+    const user = auth.currentUser; 
+    if (!user) {
+        statusText.innerText = "❌ Sesi berakhir, silakan login ulang.";
+        return;
+    }
 
     try {
         btn.disabled = true; 
@@ -194,20 +198,24 @@ document.getElementById('resend-otp').addEventListener('click', async (e) => {
     e.preventDefault();
     const btn = e.target;
     if(btn.disabled) return;
-    const user = auth.currentUser;
+    const user = auth.currentUser; 
+    if (!user) {
+        statusText.innerText = "❌ Sesi berakhir, silakan login ulang.";
+        return;
+    }
     try {
         btn.disabled = true; 
         btn.innerText = "Loading...";
         const idToken = await user.getIdToken();
         const response = await fetch(`${API_BASE_URL}/api/resend-otp`, {
             method:'POST',
-            headers: { 'content-type': 'application/json', 'Authorization': `Bearer ${idToken}` },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${idToken}` },
             body: JSON.stringify({uid: currentUid})
         });
         const result = await response.json();
 
         if (result.succes) {
-            statusText.innerText = result.succes.message;
+            statusText.innerText = result.message;
              statusText.style.color = "#4ade80";
         } else {
             statusText.innerText = "OTP Tidak Terkirim: " + result.error;
@@ -220,6 +228,7 @@ document.getElementById('resend-otp').addEventListener('click', async (e) => {
         btn.innerText = "Kirim Ulang";
     }
 });
+
 
 
 
