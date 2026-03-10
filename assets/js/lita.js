@@ -208,17 +208,22 @@ async function sendQuest() {
     }
 }
 
-ui.input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        sendQuest();
-        ui.input.style.height = 'auto';
+ui.input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+        if (e.shiftKey) {
+            return; 
+        } else {
+            e.preventDefault(); 
+            sendQuest(); 
+            this.style.height = 'auto';
+        }
     }
 });
 
-ui.input.addEventListener('input', function() {
-    this.style.height = 'auto';
-    this.style.height = (this.scrollHeight) + 'px';
+chatInput.addEventListener('input', function() {
+    this.style.height = 'auto'; 
+    const newHeight = Math.min(this.scrollHeight, 150);
+    this.style.height = newHeight + 'px';
 });
 function saveSession(userMsg, aiMsg) {
     let session = allSessions.find(s => s.id === currentSessionId);
@@ -283,6 +288,7 @@ ui.input.addEventListener('keypress', (e) => {
 });
 
 renderHistory()
+
 
 
 
