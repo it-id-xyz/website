@@ -67,7 +67,7 @@ onAuthStateChanged(auth, async (user) => {
 
             if (result.exists) {
                 if (result.verified) {
-                    window.location.href = "succes.html";
+                    window.location.href = ".../succes.html";
                 } else {
                     formElement.style.display = 'none';
                     formOtp.style.display = 'block';
@@ -228,6 +228,7 @@ document.getElementById('resend-otp').addEventListener('click', async (e) => {
         btn.innerText = "Kirim Ulang";
     }
 });
+
 
 
 
