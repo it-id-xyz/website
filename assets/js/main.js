@@ -101,7 +101,7 @@ document.getElementById('btn-submit').addEventListener('click', async (e) => {
 
         if (result.success) {
             currentUid = result.uid;
-            formInput.style.display = 'none';
+            formElement.style.display = 'none';
             formOtp.style.display = 'block';
             console.log("OTP terkirim ke WhatsApp!");
         } else {
@@ -153,6 +153,7 @@ document.getElementById('verify-otp').addEventListener('click', async (e) => {
         statusText.innerText = "⚠️ Gangguan koneksi server.";
     }
 });
+
 
 
 
