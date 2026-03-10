@@ -17,15 +17,11 @@ if(savedState === 'true' && window.innerWidth < 768){
 }
 
 ui.arrowToggle.addEventListener('click', () => {
-
-    // Mobile behavior
     if(window.innerWidth < 768){
         ui.sidebar.classList.toggle('active');
         localStorage.setItem('sidebar_state', ui.sidebar.classList.contains('hide'));
         return;
     }
-
-    // Desktop behavior (optional — tapi lu bilang ga dipake)
 });
 const menuToggle = document.getElementById('menuToggle');
 const navMenu   = document.getElementById('navMenu');
@@ -142,6 +138,15 @@ async function sendQuest() {
     const now = new Date();
     const jam = `${now.getHours().toString().padStart(2, '0')}.${now.getMinutes().toString().padStart(2, '0')}`;
     if (!currentSessionId) currentSessionId = Date.now();
+
+    const activeSession = allSessions.find(s => s.id === currentSessionId);
+    let historyContext = [];
+    if (activeSession && activeSession.messages) {
+        historyContext = activeSession.messages.slice(-6).flatMap(m => [
+            { role: "user", content: m.userMsg },
+            { role: "assistant", content: m.aiMsg }
+        ]);
+    }
     ui.chatBox.insertAdjacentHTML('beforeend', `
         <div class="message outgoing">
             <div class="bubble">${msg}<span class="time">${jam}</span></div>
@@ -152,7 +157,7 @@ async function sendQuest() {
     ui.chatBox.insertAdjacentHTML('beforeend', `
         <div class="message incoming">
             <div class="bubble">
-                <div class="loading-pulse">Lita sedang berpikir...</div>
+                <div class="loading-pulse"> Lita sedang berpikir...</div>
                 <span class="time">${jam}</span>
             </div>
         </div>
@@ -169,6 +174,7 @@ async function sendQuest() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
                 pesan: msg,
+                history: historyContext,
                 context: persona 
             })
         });
@@ -188,7 +194,7 @@ async function sendQuest() {
                     contentDiv.innerHTML = marked.parse(jawaban.substring(0, index));
                     index++;
                     ui.chatBox.scrollTop = ui.chatBox.scrollHeight;
-                    setTimeout(typeWriter, 10); 
+                    setTimeout(typeWriter, 5); 
                 } else {
                     contentDiv.querySelectorAll('pre code').forEach((block) => {
                         if (typeof hljs !== 'undefined') hljs.highlightElement(block);
@@ -207,7 +213,7 @@ async function sendQuest() {
 function saveSession(userMsg, aiMsg) {
     let session = allSessions.find(s => s.id === currentSessionId);
     if (!session) {
-        const title = userMsg.length > 25 ? userMsg.substring(0, 25) + '...' : userMsg;
+        const title = userMsg.length > 15 ? userMsg.substring(0, 15) + '...' : userMsg;
         session = { id: currentSessionId, title: title, messages: [] };
         allSessions.unshift(session);
     }
@@ -267,3 +273,4 @@ ui.input.addEventListener('keypress', (e) => {
 });
 
 renderHistory()
+
