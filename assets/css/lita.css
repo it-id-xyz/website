@@ -115,7 +115,7 @@ width: 70px;
 
   .sidebar{
     position:fixed;
-    top:40px;
+    top:25px;
     left:0;
     height:calc(100vh - 60px);
     width:260px;
@@ -205,12 +205,25 @@ width: 70px;
 }
 
 .history-item {
-  padding: 10px;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: 0.2s;
+    display: flex;
+    align-items: center;      
+    justify-content: flex-start;
+    padding: 10px;
+    gap: 10px;
+    border-radius: 12px;
+    min-height: 45px;
+    position: relative;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
+.history-item span {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1;
+}
 .history-item:hover {
   background: rgba(255,255,255,0.08);
 }
@@ -462,3 +475,4 @@ DESKTOP POLISH
 
 }
 }
+
