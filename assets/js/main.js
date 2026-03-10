@@ -59,8 +59,9 @@ onAuthStateChanged(auth, async (user) => {
     if (user) {
         console.log("Login Terdeteksi: ", user.email);
         loginMenu.style.display = 'none';
+        const uid = user.email.replace(/[^a-zA-Z0-9]/g, ""); 
+        currentUid = uid;
         try {
-            const uid = user.email.replace(/[^a-zA-Z0-9]/g, "");
             const response = await fetch(`${API_BASE_URL}/api/check-status/${uid}`);
             const result = await response.json();
 
@@ -68,7 +69,6 @@ onAuthStateChanged(auth, async (user) => {
                 if (result.verified) {
                     window.location.href = "succes.html";
                 } else {
-                    currentUid = uid;
                     formElement.style.display = 'none';
                     formOtp.style.display = 'block';
                     statusText.innerText = "Selesaikan verifikasi OTP kamu.";
@@ -214,7 +214,7 @@ document.getElementById('resend-otp').addEventListener('click', async (e) => {
         });
         const result = await response.json();
 
-        if (result.succes) {
+        if (result.success) {
             statusText.innerText = result.message;
              statusText.style.color = "#4ade80";
         } else {
@@ -228,6 +228,7 @@ document.getElementById('resend-otp').addEventListener('click', async (e) => {
         btn.innerText = "Kirim Ulang";
     }
 });
+
 
 
 
