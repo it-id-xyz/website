@@ -1,145 +1,114 @@
 /* =====================
 RESET & ROOT
 ===================== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+{
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 :root {
-    --bg-main: #151921;
-    --bg-chat: #0b0e14;
-    --bg-field: #2a3341;
-    --accent: #7aa2ff;
-    --border: #1f2633;
-    --text: #e1e1e1;
-    --sidebar-w: 260px;
+--bg-main: #151921;
+--bg-chat: #0b0e14;
+--bg-field: #2a3341;
+--accent: #7aa2ff;
+--border: #1f2633;
+--text: #e1e1e1;
 }
 
+/* =====================
+BODY
+===================== */
 html, body {
-    background-color: var(--bg-main);
-    color: var(--text);
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
+background-color: var(--bg-main);
+height: 100%;
+overflow: hidden;
 }
 
 /* =====================
 APP LAYOUT
 ===================== */
 .app-container {
-    display: flex;
-    height: 100vh; /* Gue ubah jadi 100vh full biar gak kepotong */
-    width: 100%;
-    background: var(--bg-chat);
-    overflow: hidden;
-    position: relative;
+display: flex;
+height:calc(100vh - 60px); 
+width: 100%;
+background: var(--bg-chat);
+overflow: hidden;
 }
 
 /* =====================
-SIDEBAR (Desktop & Base)
-==================== */
-.sidebar {
-    width: var(--sidebar-w);
-    height: 100%;
-    background: #0f172a;
-    transition: transform 0.3s ease, width 0.3s ease;
-    z-index: 1100;
-    flex-shrink: 0;
-    border-right: 1px solid var(--border);
+SIDEBAR
+===================== */
+.sidebar{
+  width:260px;
+  height:100%;
+  background:#0f172a;
+  position:relative;
+  transition:0.3s;
+  z-index: 1100;
+}
+
+.sidebar-toggle{
+  display:none;
+  background:none;
+  border:none;
+  color:white;
+  font-size:1.4rem;
+}
+
+@media (max-width:767px){
+  .sidebar-toggle{
+    display:block;
+  }
+}
+
+/* Collapse desktop */
+.sidebar.collapsed {
+width: 70px;
+}
+.sidebar.hide{
+  transform:translateX(-100%);
 }
 
 .sidebar-inner {
-    padding: 20px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+  padding: 20px;
 }
-
-/* Arrow Toggle Button */
-.arrow-btn {
-    display: flex; /* Aktifkan flex */
-    position: fixed;
-    top: 50%;
-    left: 10px; /* Posisi awal saat sidebar ketutup */
-    transform: translateY(-50%);
-    background: var(--accent);
-    border: 2px solid #fff;
-    color: #0b0e14;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    z-index: 3000; /* Paling atas */
-    cursor: pointer;
-    transition: 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-    justify-content: center;
-    align-items: center;
-}
-
-/* =====================
-MOBILE LOGIC (Media Query)
-===================== */
-@media (max-width: 768px) {
-    .sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        transform: translateX(-100%); /* Sembunyi ke kiri */
-        z-index: 2000;
-    }
-
-    .sidebar.active {
-        transform: translateX(0); /* Muncul */
-    }
-
-    /* Arrow pindah ngikutin sidebar pas aktif */
-    .sidebar.active + .arrow-btn {
-        left: calc(var(--sidebar-w) - 20px);
-    }
-    
-    .sidebar.active + .arrow-btn i {
-        transform: rotate(180deg); /* Panah balik arah */
-    }
-}
-
-/* Desktop: Sembunyikan Arrow karena sidebar selalu ada */
+/* Desktop always show */
 @media (min-width: 769px) {
-    .arrow-btn {
-        display: none !important;
-    }
-    .sidebar {
-        transform: translateX(0) !important;
-    }
+  .sidebar {
+    transform: translateX(0) !important;
+  }
+
+  .sidebar-arrow {
+    display: none;
+  }
 }
 
-/* =====================
-COMPONENTS (History, Menu, dll)
-===================== */
-.history-list {
-    flex: 1;
-    overflow-y: auto;
-    margin-top: 10px;
+@media (max-width:767px){
+
+  .sidebar{
+    position:fixed;
+    top:60px;
+    left:0;
+    height:calc(100vh - 60px);
+    width:260px;
+    transform:translateX(-100%);
+    z-index:2000;
+    box-shadow:2px 0 10px rgba(0,0,0,.4);
+  }
+
+  .sidebar.active{
+    transform:translateX(0);
+  }
+
 }
 
-.history-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px;
-    margin-bottom: 5px;
-    border-radius: 10px;
-    cursor: pointer;
-    background: rgba(255,255,255,0.03);
-    transition: 0.2s;
+.menu-history {
+    position: relative; 
 }
 
-.history-item:hover { background: rgba(255,255,255,0.08); }
-.history-item.active { background: var(--accent); color: #000; font-weight: bold; }
-
-.menu-history { position: relative; }
 .options-menu {
     position: absolute;
     right: 0;
@@ -147,74 +116,325 @@ COMPONENTS (History, Menu, dll)
     background: #1f2633;
     border: 1px solid #2a3341;
     border-radius: 8px;
+    padding: 5px;
     z-index: 100;
     min-width: 100px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
-.options-menu.hidden { display: none; }
+
+.options-menu.hidden {
+    display: none; 
+}
+
+.delete-btn {
+    width: 100%;
+    background: none;
+    border: none;
+    color: #ff4d4d;
+    padding: 8px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.delete-btn:hover {
+    background: rgba(255, 77, 77, 0.1);
+}
+
+/* BUTTON IDE */
 
 .btn-side {
-    width: 100%;
-    padding: 12px;
-    background: #1e293b;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 12px;
-    color: #fff;
-    cursor: pointer;
-    font-weight: 600;
-    margin-bottom: 15px;
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  background: #151921;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 15px;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
 }
-.btn-side:hover { background: var(--accent); color: #000; }
+
+.btn-side:hover {
+  background: white;
+  color: black;
+}
+
+/* DIVIDER */
+.divider {
+  border: none;
+  height: 1px;
+  background: rgba(255,255,255,0.1);
+  margin: 20px 0;
+}
+
+/* HISTORY */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.history-item {
+  padding: 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.history-item:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+/* ACTIVE CHAT */
+.history-item.active {
+  background: var(--accent);
+  color: black;
+}
+
+/* Arrow toggle */
+.arrow-btn {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  background: #7aa2ff; 
+  border: 2px solid white
+  color: #0b014;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  z-index: 2500;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .arrow-btn {
+    display: flex; 
+  }
+  
+  
+  .sidebar.active ~ .arrow-btn {
+    left: 270px; 
+  }
+}
 
 /* =====================
-MAIN CHAT & BUBBLES
+MAIN CHAT
 ===================== */
 .main-chat {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    background: var(--bg-chat);
+display: flex;
+flex-direction: column;
+flex: 1;
+height: 100%;
+min-width: 0;
 }
 
+/* Chat scroll area */
 .chat-box {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
+flex: 1;
+overflow-y: auto;
+padding: 20px;
+display: flex;
+flex-direction: column;
 }
 
-.message { display: flex; margin-bottom: 20px; }
-.outgoing { justify-content: flex-end; }
-.bubble {
-    max-width: 85%;
-    padding: 12px 16px;
-    border-radius: 15px;
-    font-size: 14px;
-    line-height: 1.6;
-    position: relative;
-}
-
-.incoming .bubble { background: var(--bg-main); border: 1px solid var(--border); }
-.outgoing .bubble { background: var(--accent); color: #0b0e14; }
-
+/* =====================
+INPUT AREA
+===================== */
 .chat-input-area {
-    padding: 20px;
-    background: var(--bg-chat);
+background: var(--bg-main);
+padding: 15px 20px
+border-top: 1px solid var(--border);
+position: sticky;
+bottom: 0;
 }
 
 .input-wrapper {
-    display: flex;
-    background: var(--bg-field);
-    padding: 5px 15px;
-    border-radius: 30px;
-    align-items: center;
+display: flex;
+align-items: center;
+gap: 12px;
+background: var(--bg-field);
+padding: 8px 15px;
+border-radius: 25px;
+max-width: 1000px;
+margin: 0 auto;
 }
 
 .input-wrapper input {
-    flex: 1;
-    background: transparent;
-    border: none;
-    color: #fff;
-    padding: 10px;
-    outline: none;
+flex: 1;
+background: transparent;
+border: none;
+color: white;
+outline: none;
+padding: 10px;
+}
+
+/* Send button */
+.send-btn {
+width: 45px;
+height: 45px;
+background: var(--accent);
+border: none;
+border-radius: 50%;
+color: #0b0e14;
+cursor: pointer;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-shrink: 0;
+transition: 0.2s;
+}
+
+.send-btn:hover {
+transform: scale(1.1);
+background: #92b5ff;
+}
+
+/* =====================
+WELCOME
+===================== */
+.welcome-card {
+margin: auto;
+text-align: center;
+max-width: 500px;
+animation: fadeIn 0.5s ease;
+}
+
+.ai-logo {
+width: 120px;
+margin-bottom: 20px;
+}
+
+.guide-grid {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 15px;
+margin-top: 25px;
+}
+
+.item {
+background: rgba(255,255,255,0.05);
+padding: 15px;
+border-radius: 12px;
+border: 1px solid var(--border);
+font-size: 13px;
+transition: 0.3s;
+}
+
+.item:hover {
+background: rgba(122,162,255,0.1);
+border-color: var(--accent);
+}
+
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(10px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+/* =====================
+CHAT BUBBLES
+===================== */
+.message {
+display: flex;
+width: 100%;
+margin-bottom: 15px;
+}
+
+.bubble {
+padding: 12px 18px;
+border-radius: 18px;
+max-width: 80%;
+font-size: 14.5px;
+line-height: 1.5;
+word-wrap: break-word;
+}
+
+.incoming .bubble {
+background: var(--bg-main);
+border: 1px solid var(--border);
+border-bottom-left-radius: 2px;
+}
+
+.outgoing {
+justify-content: flex-end;
+}
+
+.outgoing .bubble {
+background: var(--accent);
+color: #0b0e14;
+font-weight: 500;
+border-bottom-right-radius: 2px;
+}
+
+/* Code block */
+.markdown-content pre {
+background: #000;
+padding: 12px;
+border-radius: 8px;
+margin: 8px 0;
+overflow-x: auto;
+}
+
+/* Time */
+.time {
+font-size: 10px;
+opacity: 0.5;
+margin-top: 5px;
+display: block;
+text-align: right;
+}
+
+/* =====================
+MOBILE SIDEBAR
+===================== */
+.sidebar-overlay {
+position: fixed;
+inset: 0;
+background: rgba(0,0,0,0.5);
+z-index: 1400;
+display: none;
+}
+
+.sidebar-overlay.active {
+display: block;
+}
+
+@media (max-width: 768px) {
+
+.sidebar {
+    position: fixed;
+    left: -300px;
+    top: 64px;
+    height: calc(100vh - 64px);
+    z-index: 1500;
+}
+.sidebar.active {
+    left: 0;
+}
+}
+
+/* =====================
+DESKTOP POLISH
+===================== */
+@media (min-width: 1024px) {
+.chat-box {
+
+    padding: 40px 15%;
+
+}
+
+
+
+
+
 }
