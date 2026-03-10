@@ -321,6 +321,24 @@ outline: none;
 padding: 10px;
 }
 
+.input-wrapper textarea {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: white;
+    outline: none;
+    padding: 10px;
+    resize: none; 
+    max-height: 150px;
+    font-size: 14.5px;
+    line-height: 1.5;
+    overflow-y: auto;
+}
+.input-wrapper {
+    align-items: flex-end; 
+    padding: 8px 15px;
+}
+
 /* Send button */
 .send-btn {
 width: 45px;
@@ -475,4 +493,5 @@ DESKTOP POLISH
 
 }
 }
+
 
