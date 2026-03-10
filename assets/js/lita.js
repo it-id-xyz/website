@@ -1,8 +1,6 @@
 // --- INITIAL STATE ---
 let allSessions = JSON.parse(localStorage.getItem('lita_v2_sessions')) || [];
 let currentSessionId = null;
-
-
 const ui = {
     chatBox: document.getElementById('chat-box'),
     input: document.getElementById('isi-text'),
@@ -10,7 +8,7 @@ const ui = {
     arrowToggle: document.getElementById('toggleSidebar'),
     historyList: document.getElementById('history-list')
 }
-
+const tx = document.getElementById('isi-text');
 const savedState = localStorage.getItem('sidebar_state');
 if(savedState === 'true' && window.innerWidth < 768){
     ui.sidebar.classList.add('hide');
@@ -211,6 +209,18 @@ async function sendQuest() {
     }
 }
 
+tx.addEventListener("input", function() {
+    this.style.height = "auto";
+    this.style.height = (this.scrollHeight) + "px"; 
+});
+
+tx.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendQuest();
+        tx.style.height = "auto";
+    }
+});
 function saveSession(userMsg, aiMsg) {
     let session = allSessions.find(s => s.id === currentSessionId);
     if (!session) {
@@ -274,5 +284,6 @@ ui.input.addEventListener('keypress', (e) => {
 });
 
 renderHistory()
+
 
 
