@@ -175,6 +175,7 @@ async function sendQuest() {
             body: JSON.stringify({ 
                 pesan: msg,
                 history: historyContext,
+                uid: currentSessionId.toString(),
                 context: persona 
             })
         });
@@ -273,4 +274,5 @@ ui.input.addEventListener('keypress', (e) => {
 });
 
 renderHistory()
+
 
