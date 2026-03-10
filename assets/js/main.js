@@ -195,7 +195,7 @@ document.getElementById('resend-otp').addEventListener('click', async (e) => {
     try {
         btn.disabled = true; 
         btn.innerText = "Loading...";
-        const response = await fetch(`${API_BASE_URL}/api/resend-otp`}), {
+        const response = await fetch(`${API_BASE_URL}/api/resend-otp`, {
             method:'POST',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringfy({uid: currentUid})
@@ -216,6 +216,7 @@ document.getElementById('resend-otp').addEventListener('click', async (e) => {
         btn.innerText = "Kirim Ulang";
     }
 });
+
 
 
 
