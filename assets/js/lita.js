@@ -220,7 +220,7 @@ ui.input.addEventListener('keydown', function(e) {
     }
 });
 
-chatInput.addEventListener('input', function() {
+ui.input.addEventListener('input', function() {
     this.style.height = 'auto'; 
     const newHeight = Math.min(this.scrollHeight, 150);
     this.style.height = newHeight + 'px';
@@ -288,6 +288,7 @@ ui.input.addEventListener('keypress', (e) => {
 });
 
 renderHistory()
+
 
 
 
