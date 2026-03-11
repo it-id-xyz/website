@@ -1,6 +1,3 @@
-/* =====================
-    ROOT VARIABLES
-===================== */
 :root {
     --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     --bg-dark: #151921;
@@ -11,9 +8,6 @@
     --glass-border: rgba(255, 255, 255, 0.1);
 }
 
-/* =====================
-    GLOBAL & LAYOUT
-===================== */
 * {
     box-sizing: border-box;
     scroll-behavior: smooth;
@@ -55,9 +49,6 @@ button:hover {
     filter: brightness(1.1);
 }
 
-/* =====================
-    NAVBAR
-===================== */
 .navbar {
     width: 100%;
     height: 70px;
@@ -104,9 +95,6 @@ button:hover {
     color: var(--bg-button);
 }
 
-/* =====================
-    HERO SECTION
-===================== */
 .hero {
     padding: 80px 20px;
     text-align: center;
@@ -124,55 +112,29 @@ button:hover {
     -webkit-text-fill-color: transparent;
 }
 
-/* =====================
-    CONTAINER & CARDS
-===================== */
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
 }
-.container img {
-    max-width: 100%;
-}
 
 .card-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 25px;
     margin-top: 30px;
 }
 
-.why-list li {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    padding: 12px;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 12px;
-    transition: 0.3s;
+@media (min-width: 1024px) {
+    .card-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
 
-.why-list li:hover {
-    background: rgba(122, 162, 255, 0.1);
-}
-
-.why-number {
-    font-size: 1.1rem; 
-    font-weight: 800;
-    color: var(--bg-button);
-    background: rgba(122, 162, 255, 0.1);
-    padding: 8px 12px;
-    border-radius: 8px;
-    min-width: 50px;
-    text-align: center;
-}
-
-.why-list p {
-    margin: 0;
-    font-size: 0.95rem;
-    line-height: 1.4;
-    color: #cbd5e1;
+@media (max-width: 600px) {
+    .card-container {
+        grid-template-columns: 1fr;
+    }
 }
 
 .card {
@@ -182,6 +144,8 @@ button:hover {
     overflow: hidden;
     transition: all 0.3s ease;
     backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
 }
 
 .card:hover {
@@ -192,38 +156,87 @@ button:hover {
 
 .card-image img {
     width: 100%;
-    height: 200px;
+    height: 160px;
     object-fit: cover;
+    display: block;
+    filter: brightness(0.9);
+    transition: 0.3s;
+}
+
+.card:hover .card-image img {
+    filter: brightness(1.1);
+    transform: scale(1.05);
 }
 
 .card-content {
     padding: 20px;
     text-align: left;
+    flex-grow: 1;
 }
 
 .card-content h3 {
     margin: 0 0 10px;
     color: var(--bg-button);
+    font-size: 1.1rem;
 }
 
 .card-content p {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: #cbd5e1;
     margin: 5px 0;
 }
 
-/* =====================
-    PROJECT & TIMELINE
-===================== */
+.why-list {
+    list-style: none;
+    padding: 0;
+}
+
+.why-list li {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    transition: 0.3s;
+}
+
+.why-list li:hover {
+    background: rgba(122, 162, 255, 0.1);
+}
+
+.why-number {
+    font-size: 1rem;
+    font-weight: 900;
+    color: var(--bg-button);
+    border: 2px solid rgba(122, 162, 255, 0.3);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.why-list p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: #cbd5e1;
+}
+
 .project-thumb {
-    height: 120px;
-    background: linear-gradient(135deg, #1e293b, #334155);
+    height: 100px;
+    background: linear-gradient(135deg, #1e293b, #0f172a);
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 800;
-    font-size: 1.2rem;
+    font-size: 0.9rem;
     color: var(--bg-button);
+    letter-spacing: 2px;
 }
 
 .project-status {
@@ -255,9 +268,6 @@ button:hover {
     font-size: 1.5rem;
 }
 
-/* =====================
-    FOOTER
-===================== */
 .footer {
     padding: 60px 5% 20px;
     background: rgba(11, 14, 20, 0.95);
@@ -289,9 +299,6 @@ button:hover {
     transform: translateX(5px);
 }
 
-/* =====================
-    FLOATING AI BUTTON
-===================== */
 .chat-button {
     position: fixed;
     bottom: 30px;
@@ -315,15 +322,8 @@ button:hover {
     transform: scale(1.1) rotate(10deg);
 }
 
-/* =====================
-    RESPONSIVE
-===================== */
 @media (max-width: 768px) {
     .nav-btn { display: none; }
     .hero h1 { font-size: 1.8rem; }
     .footer-container { text-align: center; }
 }
-
-
-
-
