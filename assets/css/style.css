@@ -323,6 +323,82 @@ button:hover {
     }
 }
 
+/* =====================
+    JADWAL & LOKASI
+===================== */
+.about-it {
+    margin-top: 40px;
+    padding: 40px 20px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.5));
+    border: 1px solid var(--glass-border);
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+.about-it h2 {
+    color: var(--bg-button);
+    margin-bottom: 20px;
+}
+
+.about-it p {
+    margin: 8px 0;
+    font-size: 1.1rem;
+    color: #cbd5e1;
+}
+
+.about-it strong {
+    color: var(--text-light);
+    margin-right: 5px;
+}
+
+/* =====================
+    CTA SECTION
+===================== */
+.cta {
+    padding: 60px 20px;
+    text-align: center;
+    background: radial-gradient(circle at center, rgba(122, 162, 255, 0.15) 0%, transparent 70%);
+    border-radius: 30px;
+    margin: 40px 0;
+}
+
+.cta h2 {
+    font-size: 2rem;
+    background: linear-gradient(to right, #fff, var(--bg-button));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 15px;
+}
+
+.cta p {
+    max-width: 600px;
+    margin: 0 auto 25px;
+    color: #94a3b8;
+}
+
+/* =====================
+    LINE PEMBATAS (ESTETIK)
+===================== */
+.line {
+    width: 100%;
+    max-width: 1200px;
+    margin: 40px auto;
+    height: 1px;
+    background: linear-gradient(to right, 
+        transparent, 
+        var(--glass-border), 
+        var(--bg-button), 
+        var(--glass-border), 
+        transparent
+    );
+    border: none;
+    color: transparent;
+    overflow: hidden;
+}
+/* =====================
+        FOOTER
+====================*/
 .footer {
     padding: 60px 5% 20px;
     background: rgba(11, 14, 20, 0.95);
@@ -382,5 +458,6 @@ button:hover {
     .hero h1 { font-size: 1.8rem; }
     .footer-container { text-align: center; }
 }
+
 
 
