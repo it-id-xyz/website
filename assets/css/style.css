@@ -132,6 +132,9 @@ button:hover {
     margin: 0 auto;
     padding: 20px;
 }
+.container img {
+    max-width:500px;
+}
 
 .card-container {
     display: grid;
@@ -288,3 +291,4 @@ button:hover {
     .hero h1 { font-size: 1.8rem; }
     .footer-container { text-align: center; }
 }
+
