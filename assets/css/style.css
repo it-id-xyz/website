@@ -143,6 +143,38 @@ button:hover {
     margin-top: 30px;
 }
 
+.why-list li {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+.why-list li:hover {
+    background: rgba(122, 162, 255, 0.1);
+}
+
+.why-number {
+    font-size: 1.1rem; 
+    font-weight: 800;
+    color: var(--bg-button);
+    background: rgba(122, 162, 255, 0.1);
+    padding: 8px 12px;
+    border-radius: 8px;
+    min-width: 50px;
+    text-align: center;
+}
+
+.why-list p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: #cbd5e1;
+}
+
 .card {
     background: var(--glass);
     border: 1px solid var(--glass-border);
@@ -291,6 +323,7 @@ button:hover {
     .hero h1 { font-size: 1.8rem; }
     .footer-container { text-align: center; }
 }
+
 
 
 
