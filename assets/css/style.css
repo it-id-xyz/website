@@ -133,8 +133,7 @@ button:hover {
     padding: 20px;
 }
 .container img {
-    max-width:1000px;
-    display:center;
+    max-width: 100%;
 }
 
 .card-container {
@@ -292,5 +291,6 @@ button:hover {
     .hero h1 { font-size: 1.8rem; }
     .footer-container { text-align: center; }
 }
+
 
 
