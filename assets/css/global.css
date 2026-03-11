@@ -151,41 +151,39 @@ html, body {
 }
 
 /* =====================
-    FOOTER
-===================== */
+        FOOTER
+====================*/
 .footer {
-  padding: 60px 5% 30px;
-  background: #0b0e14;
-  border-top: 1px solid var(--glass-border);
-  margin-top: 50px;
+    padding: 60px 5% 20px;
+    background: rgba(11, 14, 20, 0.95);
+    border-top: 1px solid var(--glass-border);
 }
 
 .footer-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
 }
 
-.footer bottom {
+.footer-bottom {
   text-align: center;
 }
 
 .footer h4 {
-  color: var(--bg-button);
-  margin-bottom: 20px;
-  font-size: 1.1rem;
+    color: var(--bg-button);
+    margin-bottom: 20px;
 }
 
 .footer a {
-  color: #94a3b8;
-  text-decoration: none;
-  font-size: 0.9rem;
-  transition: 0.3s;
-  display: block;
-  margin-bottom: 12px;
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: 0.3s;
+    display: inline-block;
+    margin-bottom: 10px;
 }
 
 .footer a:hover {
-  color: white;
-  padding-left: 5px;
+    color: white;
+    transform: translateX(5px);
 }
