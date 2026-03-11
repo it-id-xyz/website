@@ -253,23 +253,74 @@ button:hover {
     margin-top: 15px;
 }
 
+/* =====================
+    TIMELINE REFINEMENT
+===================== */
 .timeline-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
+    /* Maksa 2 kolom di mobile agar tidak terlalu panjang ke bawah, 4 di desktop */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 30px;
+}
+
+@media (min-width: 1024px) {
+    .timeline-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
 
 .timeline-card {
     background: var(--glass);
     border: 1px solid var(--glass-border);
-    border-radius: 15px;
-    padding: 20px;
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+}
+
+.timeline-header {
+    background: rgba(122, 162, 255, 0.1);
+    padding: 15px;
+    border-bottom: 1px solid var(--glass-border);
     text-align: center;
 }
 
 .timeline-header h3 {
     color: var(--bg-button);
-    font-size: 1.5rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+.timeline-body {
+    padding: 20px;
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.timeline-body p {
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.timeline-card:hover {
+    transform: translateY(-5px);
+    background: rgba(122, 162, 255, 0.05);
+    border-color: var(--bg-button);
+}
+
+@media (max-width: 480px) {
+    .timeline-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .footer {
@@ -331,4 +382,5 @@ button:hover {
     .hero h1 { font-size: 1.8rem; }
     .footer-container { text-align: center; }
 }
+
 
