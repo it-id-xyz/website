@@ -396,39 +396,6 @@ button:hover {
     color: transparent;
     overflow: hidden;
 }
-/* =====================
-        FOOTER
-====================*/
-.footer {
-    padding: 60px 5% 20px;
-    background: rgba(11, 14, 20, 0.95);
-    border-top: 1px solid var(--glass-border);
-}
-
-.footer-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 40px;
-}
-
-.footer h4 {
-    color: var(--bg-button);
-    margin-bottom: 20px;
-}
-
-.footer a {
-    color: #94a3b8;
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: 0.3s;
-    display: inline-block;
-    margin-bottom: 10px;
-}
-
-.footer a:hover {
-    color: white;
-    transform: translateX(5px);
-}
 
 .chat-button {
     position: fixed;
@@ -458,6 +425,7 @@ button:hover {
     .hero h1 { font-size: 1.8rem; }
     .footer-container { text-align: center; }
 }
+
 
 
 
