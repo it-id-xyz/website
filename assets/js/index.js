@@ -1,11 +1,4 @@
 import { requireAdmin } from "./role.js"
-
-const navbarBtn = document.getElementById('navbar-btn');
-const menuToggle = document.getElementById('menuToggle');
-const navMenu = document.getElementById('navMenu');
-const back = document.getElementById('back');
-const alurIt = document.getElementById('alurIt');
-
 requireAdmin()
   .then(() => {
     if (!document.getElementById('admin-only')) {
@@ -21,20 +14,3 @@ requireAdmin()
     if (cEl) cEl.remove(); 
     console.log("Akses Admin Ditolak.");
   });
-
-menuToggle.addEventListener('click', () => {
-  navMenu.classList.remove('hidden');
-});
-
-back.addEventListener('click', () => {
-    navMenu.classList.add('hidden');
-
-});
-
-
-
-
-
-
-
-
