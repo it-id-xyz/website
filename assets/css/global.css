@@ -93,7 +93,7 @@ html, body {
   border: none;
   cursor: pointer;
   padding: 5px;
-  z-index: 3000; /* Supaya tetap di atas sidebar saat terbuka */
+  z-index: 3000; 
   transition: 0.3s;
 }
 
@@ -106,10 +106,10 @@ html, body {
 ===================== */
 .nav-menu {
   position: fixed;
-  top: 0;
-  right: -280px; /* Sembunyi di kanan luar */
+  top: 60px;
+  right: -280px;
   width: 260px;
-  height: 100vh;
+  height:calc(100vh - 60px);
   background: var(--bg-dark);
   display: flex;
   flex-direction: column;
@@ -118,12 +118,11 @@ html, body {
   z-index: 2000;
   box-shadow: var(--shadow);
   border-left: 1px solid var(--glass-border);
-  visibility: hidden; /* Mencegah klik saat sembunyi */
+  visibility: hidden; 
 }
 
-/* Sidebar Aktif */
 .nav-menu.active {
-  transform: translateX(-280px); /* Geser masuk ke layar */
+  transform: translateX(-280px); 
   visibility: visible;
 }
 
