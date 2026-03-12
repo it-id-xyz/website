@@ -19,7 +19,7 @@ ROOT & RESET
 
 html, body {
   width: 100%;
-  overflow-x: hidden; /* Biar nggak ada scroll horizontal pas sidebar sembunyi */
+  overflow-x: hidden;
   background: var(--bg-main);
   color: var(--text-light);
   font-family: 'Segoe UI', Roboto, Arial, sans-serif;
@@ -40,7 +40,7 @@ html, body {
   background: var(--nav-bg);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--glass-border);
-  z-index: 1000; /* Di bawah sidebar tapi di atas konten */
+  z-index: 1000;
 }
 
 .nav-logo {
@@ -59,7 +59,7 @@ html, body {
   font-weight: 700;
 }
 
-/* Desktop Buttons */
+/* Desktop Navigation */
 .nav-btn {
   display: none;
 }
@@ -80,19 +80,25 @@ html, body {
     transition: 0.3s;
   }
   .nav-btn button:hover { color: var(--bg-button); }
-  .hamburger { display: none; } /* Hilang di desktop */
+  .hamburger { display: none; }
 }
 
 /* =====================
-    HAMBURGER & MOBILE
+    HAMBURGER BUTTON
 ===================== */
 .hamburger {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   color: white;
   background: none;
   border: none;
   cursor: pointer;
   padding: 5px;
+  z-index: 3000; /* Supaya tetap di atas sidebar saat terbuka */
+  transition: 0.3s;
+}
+
+.hamburger.active {
+  color: var(--bg-button);
 }
 
 /* =====================
@@ -100,23 +106,25 @@ html, body {
 ===================== */
 .nav-menu {
   position: fixed;
-  top: 0; /* Ubah ke 0 supaya full height */
-  right: -280px; /* Sembunyi total */
+  top: 0;
+  right: -280px; /* Sembunyi di kanan luar */
   width: 260px;
   height: 100vh;
   background: var(--bg-dark);
   display: flex;
   flex-direction: column;
-  padding: 80px 20px 20px; /* Padding top gede buat tempat tombol back */
+  padding: 80px 20px 20px; 
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 2000; /* Harus paling tinggi */
+  z-index: 2000;
   box-shadow: var(--shadow);
   border-left: 1px solid var(--glass-border);
+  visibility: hidden; /* Mencegah klik saat sembunyi */
 }
 
-/* Saat Sidebar Aktif */
+/* Sidebar Aktif */
 .nav-menu.active {
-  transform: translateX(-280px); /* Geser masuk */
+  transform: translateX(-280px); /* Geser masuk ke layar */
+  visibility: visible;
 }
 
 .nav-menu a {
@@ -127,6 +135,7 @@ html, body {
   border-radius: 10px;
   margin-bottom: 5px;
   transition: 0.3s;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
 }
 
 .nav-menu a:hover {
@@ -134,56 +143,45 @@ html, body {
   color: var(--bg-button);
 }
 
-/* Tombol Back di dalam Sidebar */
-#back {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  width: 35px;
-  height: 35px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 50%;
-  cursor: pointer;
-  color: white;
-}
-
 /* =====================
-        FOOTER
-====================*/
+    FOOTER
+===================== */
 .footer {
-    padding: 60px 5% 20px;
-    background: rgba(11, 14, 20, 0.95);
-    border-top: 1px solid var(--glass-border);
+  padding: 60px 5% 40px;
+  background: rgba(11, 14, 20, 0.95);
+  border-top: 1px solid var(--glass-border);
 }
 
 .footer-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;
+}
+
+.footer h4 {
+  color: var(--bg-button);
+  margin-bottom: 20px;
+}
+
+.footer a {
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: 0.3s;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.footer a:hover {
+  color: white;
+  transform: translateX(5px);
 }
 
 .footer-bottom {
   text-align: center;
-}
-
-.footer h4 {
-    color: var(--bg-button);
-    margin-bottom: 20px;
-}
-
-.footer a {
-    color: #94a3b8;
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: 0.3s;
-    display: inline-block;
-    margin-bottom: 10px;
-}
-
-.footer a:hover {
-    color: white;
-    transform: translateX(5px);
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  font-size: 0.8rem;
+  color: #64748b;
 }
