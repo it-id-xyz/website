@@ -13,7 +13,7 @@ if (containerArtikel) {
                     <div class="news-content">
                         <p><strong>${art.judul}</strong></p>
                         <p>${art.desk}</p>
-                        <p><small>Tgl: ${art.createdAt ? art.createdAt.toDate().toLocaleString('id-ID') : 'Memuat...'}</small></p>
+                        <small>Tgl: ${art.createdAt ? art.createdAt.toDate().toLocaleString('id-ID') : 'Memuat...'}</small>
                     </div>
                 </div>`
             });
