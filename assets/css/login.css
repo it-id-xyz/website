@@ -1,0 +1,11 @@
+#form-otp {
+    display: none; 
+}
+
+#form-otp.active {
+    display: block; 
+}
+
+#loginForm.hidden {
+    display: none; 
+}
