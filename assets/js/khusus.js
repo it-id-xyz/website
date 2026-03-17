@@ -1,4 +1,4 @@
-import { addDoc, collection, serverTimestamp, query, limit, orderBy, onSnapshot, getDoc, doc, deleteDoc, updateDoc, getCountFromServer } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { addDoc, collection, serverTimestamp, query, limit, orderBy, onSnapshot, getDoc, doc, deleteDoc, updateDoc, getCountFromServer, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { updateOnlineStatus, requireAdmin } from "./role.js";
 import { auth, db } from "./firebase.js"; 
 const API_URL = 'https://api.it-smansaci.my.id/api/monitor';
@@ -428,7 +428,23 @@ function getLogs() {
 getLogs();
 
 
+const logoutBtn = document.getElementById('logout-btn');
 
+if (logoutBtn) {
+    logoutBtn.addEventListener('click', async () => {
+        if (confirm("Yakin mau logout, Bang?")) {
+            try {
+                await signOut(auth);
+                localStorage.removeItem('admin_token');
+                alert("Logout berhasil! Silahkan login ulang buat tes OTP.");
+                window.location.href = "login.html";
+            } catch (error) {
+                console.error("Gagal logout:", error);
+                alert("Waduh, gagal logout nih. Coba lagi!");
+            }
+        }
+    });
+}
 
 
 
