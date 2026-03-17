@@ -390,7 +390,7 @@ btnExport.onclick = async () => {
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "Data Pendaftar");
         XLSX.writeFile(wb, "Pendaftaran_Anggota_Baru_IT.xlsx");
-    };catch (err) {
+    }catch (err) {
             console.error("Export Gagal:", err);
             alert("Gagal export data!");
         }
