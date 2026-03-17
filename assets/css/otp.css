@@ -60,7 +60,7 @@ p {
 }
 
 .card-content:focus-within {
-    border-color: var(--bg-button);
+    border-color: #38bdf8;
     box-shadow: 0 0 20px rgba(122, 162, 255, 0.15);
 }
 
@@ -87,7 +87,7 @@ select {
 }
 
 input:focus, select:focus {
-    border-color: var(--bg-button);
+    border-color: #38bdf8;
     background: rgba(15, 23, 42, 0.9);
     box-shadow: 0 0 0 4px rgba(122, 162, 255, 0.1);
 }
@@ -235,7 +235,7 @@ main {
 #btn-login-gh:hover { border-color: #ffffff; color: #ffffff; }
 
 #btn-submit {
-    background: linear-gradient(135deg, #7aa2ff, #4f46e5);
+    background:  #38bdf8;
     color: white;
     padding: 16px;
     font-size: 1.1rem;
