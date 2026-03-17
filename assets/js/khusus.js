@@ -148,9 +148,6 @@ async function getIP() {
     } catch { return "IP Unknown"; }
 }
 
-// IMPORT tambahkan getDoc di baris paling atas (jangan lupa tambahin di daftar import lu)
-// import { getDoc, ... } from "..."
-
 requireAdmin().then(async (user) => {
     const uid = user.uid; 
 
@@ -168,11 +165,8 @@ requireAdmin().then(async (user) => {
             displayLabel.innerText = `Halo, ${namaAdmin}!`;
         }
     }
-    
-    // ... sisa kode lu di bawahnya (updateOnlineStatus, dll)
     updateOnlineStatus(uid);
 
-    // Tampilkan Total Article
     async function getTotal() {
         const article = collection(db,"article");
         const totalArticle = await getCountFromServer(article);
@@ -180,7 +174,6 @@ requireAdmin().then(async (user) => {
     }
     getTotal();
 
-    // Tampilkan Admin Online
     const qOnline = query(collection(db, "users"), orderBy("lastSeen", "desc"));
     onSnapshot(qOnline, (snap) => {
         const onlineList = document.getElementById("online-list");
@@ -209,15 +202,12 @@ requireAdmin().then(async (user) => {
         });
     }
 
-
- // Gabungkan semua listener klik di sini (di dalam requireAdmin)
 document.addEventListener("click", async (e) => {
     const ui = {
         form: document.getElementById("form-input"),
         preview: document.getElementById("preview-post")
     };
 
-    // TOMBOL "BUAT ARTIKEL BARU"
     if (e.target.id === "news-update") {
         if (ui.form.innerHTML) return;
         ui.form.innerHTML = `
@@ -257,7 +247,7 @@ document.addEventListener("click", async (e) => {
         reader.readAsDataURL(file);
     }
 
-    // TOMBOL POST (FIXED)
+    // TOMBOL POST
     if (e.target.id === "post-btn") {
         const judul = document.getElementById("judul-input").value;
         const desk = document.getElementById("desk-input").value;
@@ -335,7 +325,6 @@ if (containerArtikel) {
 const listAdmin = document.getElementById('user-list');
 const btnExport = document.getElementById('btn-export');
 
-// 1. Tampilkan List Pendaftar
 onSnapshot(query(collection(db, "regist"), orderBy("createdAt", "desc")), (snap) => {
     listAdmin.innerHTML = "";
     snap.forEach((docSnap) => {
@@ -345,23 +334,26 @@ onSnapshot(query(collection(db, "regist"), orderBy("createdAt", "desc")), (snap)
 
         listAdmin.innerHTML += `
             <div class="admin-card">
-                <p>${u.nama} (${u.whatsapp})</p>
+                <p>Nama: <strong>${u.nama}</strong></p>
+                <p>Nomer: ${u.whatsapp}<p>
+                <small>Status: ${u.verified}</small>
+                <input id="reason" placeholder="isi jika di tolak">
                 <button onclick="approveUser('${id}')">Approve</button>
                 <button onclick="denyUser('${id}')">Deny</button>
             </div>`;
     });
 });
 
-// 2. Fungsi Approve
+// Approve
 window.approveUser = async (id) => {
     if (confirm("Terima anggota?")) {
         await updateDoc(doc(db, "regist", id), { status: 'approved' });
     }
 };
 
-// 3. Fungsi Deny (Dengan Alasan)
+// Deny
 window.denyUser = async (id) => {
-    const alasan = prompt("Alasan penolakan:");
+    const alasan = document.getElementById('reason').value;
     if (alasan) {
         await updateDoc(doc(db, "regist", id), { 
             status: 'rejected', 
@@ -370,20 +362,23 @@ window.denyUser = async (id) => {
     }
 };
 
-// 4. Fungsi Export Excel
+// Export Excel
 btnExport.onclick = async () => {
     const snap = await getDocs(collection(db, "regist"));
     const data = snap.docs.map(d => ({
         Nama: d.data().nama,
+        Kelas: d.data().kelas,
         Status: d.data().status,
-        WA: d.data().wa,
-        Alasan: d.data().pesanAdmin
+        WA: d.data().whatsapp,
+        email: d.data().email,
+        Bidang: d.data().bidang,
+        Alasan: d.data().pesanAdmin || "-"
     }));
 
     const ws = XLSX.utils.json_to_sheet(data);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Data");
-    XLSX.writeFile(wb, "Pendaftar_IT.xlsx");
+    XLSX.writeFile(wb, "Pendaftaran_Anggota_Baru_IT.xlsx");
 };
 
 function getLogs() {
