@@ -9,8 +9,18 @@ requireAdmin().catch(() => {
 
 async function refreshDashboard() {
     try {
-        const response = await fetch(API_URL);
+        const token = localStorage.getItem('admin_token');
+        const response = await fetch(API_URL, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
         if (!response.ok) throw new Error('Server Local tidak merespon');
+        if (response.status === 401 || response.status === 403) {
+            window.location.href = "login.html"; 
+            return;
+        }
         
         const data = await response.json();
         if (data.groq) {
@@ -364,21 +374,27 @@ window.denyUser = async (id) => {
 
 // Export Excel
 btnExport.onclick = async () => {
-    const snap = await getDocs(collection(db, "regist"));
-    const data = snap.docs.map(d => ({
-        Nama: d.data().nama,
-        Kelas: d.data().kelas,
-        Status: d.data().status,
-        WA: d.data().whatsapp,
-        email: d.data().email,
-        Bidang: d.data().bidang,
-        Alasan: d.data().pesanAdmin || "-"
-    }));
-
-    const ws = XLSX.utils.json_to_sheet(data);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Data");
-    XLSX.writeFile(wb, "Pendaftaran_Anggota_Baru_IT.xlsx");
+    try {
+        const snap = await getDocs(collection(db, "regist"));
+        const data = snap.docs.map(d => ({
+            Nama: d.data().nama,
+            Kelas: d.data().kelas,
+            Status: d.data().status,
+            WA: d.data().whatsapp,
+            email: d.data().email,
+            Bidang: d.data().bidang,
+            Alasan: d.data().pesanAdmin || "-"
+        }));
+    
+        const ws = XLSX.utils.json_to_sheet(data);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Data Pendaftar");
+        XLSX.writeFile(wb, "Pendaftaran_Anggota_Baru_IT.xlsx");
+    };catch (err) {
+            console.error("Export Gagal:", err);
+            alert("Gagal export data!");
+        }
+    };
 };
 
 function getLogs() {
