@@ -391,10 +391,9 @@ btnExport.onclick = async () => {
         XLSX.utils.book_append_sheet(wb, ws, "Data Pendaftar");
         XLSX.writeFile(wb, "Pendaftaran_Anggota_Baru_IT.xlsx");
     }catch (err) {
-            console.error("Export Gagal:", err);
-            alert("Gagal export data!");
-        }
-    };
+        console.error("Export Gagal:", err);
+        alert("Gagal export data!");
+    }
 };
 
 function getLogs() {
