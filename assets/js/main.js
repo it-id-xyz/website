@@ -229,20 +229,34 @@ document.getElementById('resend-otp').addEventListener('click', async (e) => {
     }
 });
 
+const logoutBtn = document.getElementById('logout-btn');
 
+if (logoutBtn) {
+    logoutBtn.addEventListener('click', async () => {
+        if (confirm("Yakin mau logout?")) {
+            try {
+                await signOut(auth);
+                localStorage.removeItem('admin_token');
+                alert("Logout berhasil! Silahkan login ulang buat tes OTP.");
+                window.location.href = "login.html";
+            } catch (error) {
+                console.error("Gagal logout:", error);
+                alert("Waduh, gagal logout nih. Coba lagi!");
+            }
+        }
+    });
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+document.getElementById('btn-logout').addEventListener('click', async () => {
+    if (confirm("Yakin mau logout?")) {
+        try {
+            await signOut(auth);
+                localStorage.removeItem('admin_token');
+                alert("Logout berhasil! Silahkan login ulang buat tes OTP.");
+                window.location.href = "login.html";
+            } catch (error) {
+                console.error("Gagal logout:", error);
+                alert("Waduh, gagal logout nih. Coba lagi!");
+            }
+    }
+});
