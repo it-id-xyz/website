@@ -12,11 +12,21 @@ body {
 }
 
 main {
-    padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    min-height: 80vh;
+    align-items: center; 
+    justify-content: center; 
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+.form-container, #form-otp {
+    width: 100%;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center; 
 }
 
 .form-container, .container {
@@ -237,24 +247,28 @@ main {
 /* =====================
    SOCIAL LOGIN BUTTONS (BRANDED BORDERS)
 ===================== */
-#login-menu {
+#login-menu.card-content {
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
     display: flex;
     flex-direction: column;
     gap: 12px;
+    margin-bottom: 30px; 
 }
 
 #login-menu button {
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 12px;
     background: rgba(30, 41, 59, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #e2e8f0;
-    text-transform: none; 
+    color: #f1f5f9;
+    text-transform: none;
     font-weight: 500;
-    letter-spacing: 0.3px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s ease;
 }
 
 #btn-login-gg:hover { 
