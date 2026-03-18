@@ -207,7 +207,33 @@ main {
 }
 
 /* =====================
-   SOCIAL LOGIN BUTTONS
+   NAVBAR LOGOUT BUTTON
+===================== */
+.btn-logout-nav {
+    width: auto;
+    padding: 6px 15px;
+    background: rgba(239, 68, 68, 0.1);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: normal;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-logout-nav:hover {
+    background: #ef4444;
+    color: white;
+    border-color: #ef4444;
+    transform: translateY(0); /* Gak usah melayang biar beda sama button utama */
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+/* =====================
+   SOCIAL LOGIN BUTTONS (BRANDED BORDERS)
 ===================== */
 #login-menu {
     display: flex;
@@ -219,20 +245,41 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    background: rgba(255, 255, 255, 0.05);
+    gap: 12px;
+    background: rgba(30, 41, 59, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    color: white;
+    color: #e2e8f0;
     text-transform: none; 
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#btn-login-gg:hover { 
+    border-color: #ea4335; 
+    background: rgba(234, 67, 53, 0.05);
+    color: white;
+}
+#btn-login-fb:hover { 
+    border-color: #1877f2; 
+    background: rgba(24, 119, 242, 0.05);
+    color: white;
+}
+#btn-login-gh:hover { 
+    border-color: #ffffff; 
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+}
+#btn-login-ms:hover { 
+    border-color: #00a4ef; 
+    background: rgba(0, 164, 239, 0.05);
+    color: white;
 }
 
 #login-menu button:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: scale(1.02);
+    transform: translateX(5px); 
+    box-shadow: none; 
 }
-
-#btn-login-gg:hover { border-color: #ea4335; color: #ea4335; }
-#btn-login-gh:hover { border-color: #ffffff; color: #ffffff; }
 
 #btn-submit {
     background:  #38bdf8;
