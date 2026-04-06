@@ -7,6 +7,7 @@
  }
 
 .container {
+  min-height: 50vh;
   background: white;
   padding: 2rem;
   border-radius: 12px;
