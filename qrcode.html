@@ -84,7 +84,7 @@
 <div class="container">
     <h2>QR Generator</h2>
     <input type="text" id="text-input" placeholder="Masukkan teks atau URL...">
-    <input type="text" id="nama-input" placeholder="masukan nama">
+    <input type="text" id="nama-input" placeholder="Masukkan nama">
     <button onclick="generateQR()">Generate QR</button>
     
     <div id="qrcode"></div>
@@ -98,7 +98,7 @@
 
     function generateQR() {
         let input = document.getElementById("text-input");
-        let nama = document.getElementById("nama-input");
+        const nama = document.getElementById("nama-input").value;
         let downloadBtn = document.getElementById("download-btn");
         
         if (input.value.trim() === "") {
