@@ -1,69 +1,86 @@
- body {
-   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-   align-items: center;
-   height: 100vh;
-   margin: 0;
-   background-color: #f4f7f6;
- }
+/* Update CSS untuk QR Generator Page */
 
-.container {
-  min-height: 50vh;
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  text-align: center;
-  width: 350px;
+/* Bungkus utama supaya konten di tengah layar (di antara navbar & footer) */
+.main-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 124px); /* Tinggi layar dikurangi estimasi tinggi navbar & footer */
+  padding: 40px 20px;
 }
 
-h2 { color: #333; margin-bottom: 1.5rem; }
+.container {
+  background: var(--bg-dark); /* Ikut warna global */
+  padding: 2.5rem;
+  border-radius: 16px;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow);
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  z-index: 10;
+}
 
-input {
+.container h2 { 
+  color: var(--text-light); 
+  margin-bottom: 1.5rem; 
+}
+
+.container input {
   width: 100%;
   padding: 12px;
   margin-bottom: 1rem;
-  border: 2px solid #ddd;
-  border-radius: 6px;
-  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  color: white;
   outline: none;
-  transition: border-color 0.3s;
+  transition: 0.3s;
 }
 
-input:focus { border-color: #007bff; }
+.container input:focus { 
+  border-color: var(--bg-button); 
+}
 
-button {
+.container button {
   width: 100%;
   padding: 12px;
-  background-color: #007bff;
+  background-color: var(--bg-button);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
   margin-bottom: 1rem;
-  transition: background 0.3s;
+  transition: 0.3s;
 }
 
-button:hover { background-color: #0056b3; }
+.container button:hover { 
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
 
 #qrcode {
   margin: 1.5rem 0;
   display: flex;
   justify-content: center;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
 }
 
 #download-btn {
   display: none;
   text-decoration: none;
-  color: #28a745;
+  color: var(--bg-button);
   font-weight: bold;
-  border: 2px solid #28a745;
-  padding: 8px 16px;
-  border-radius: 6px;
-  transition: all 0.3s;
+  border: 2px solid var(--bg-button);
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: 0.3s;
 }
 
 #download-btn:hover {
-  background-color: #28a745;
+  background-color: var(--bg-button);
   color: white;
-        }
+}
