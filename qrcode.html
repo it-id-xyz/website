@@ -84,6 +84,7 @@
 <div class="container">
     <h2>QR Generator</h2>
     <input type="text" id="text-input" placeholder="Masukkan teks atau URL...">
+    <input type="text" id="nama-input" placeholder="masukan nama">
     <button onclick="generateQR()">Generate QR</button>
     
     <div id="qrcode"></div>
@@ -97,17 +98,15 @@
 
     function generateQR() {
         let input = document.getElementById("text-input");
+        let nama = document.getElementById("nama-input");
         let downloadBtn = document.getElementById("download-btn");
         
         if (input.value.trim() === "") {
-            alert("Isi dulu dong inputnya, Bro!");
+            alert("Isi dulu inputnya");
             return;
         }
 
-        // Hapus QR lama kalau ada
         qrcodeContainer.innerHTML = "";
-
-        // Buat QR Code baru
         qrCode = new QRCode(qrcodeContainer, {
             text: input.value,
             width: 200,
@@ -117,18 +116,12 @@
             correctLevel : QRCode.CorrectLevel.H
         });
 
-        // Kasih jeda dikit supaya canvas-nya ke-render dulu sebelum kita ambil datanya
         setTimeout(() => {
             let canvas = qrcodeContainer.querySelector("canvas");
             if (canvas) {
                 let image = canvas.toDataURL("image/png");
                 downloadBtn.href = image;
-                
-                // Set nama file sesuai input (sanitize sedikit biar aman)
-                let fileName = input.value.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-                downloadBtn.download = `QR_${fileName}.png`;
-                
-                // Tampilin tombol download
+                downloadBtn.download = `QR_${nama}.png`;
                 downloadBtn.style.display = "inline-block";
             }
         }, 300);
