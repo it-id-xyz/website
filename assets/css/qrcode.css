@@ -1,70 +1,58 @@
- body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f7f6;
-        }
 
-        .container {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            text-align: center;
-            width: 350px;
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #555;
         }
-
-        h2 { color: #333; margin-bottom: 1.5rem; }
 
         input {
             width: 100%;
             padding: 12px;
-            margin-bottom: 1rem;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px; /* Ukuran 16px biar mobile gak auto-zoom */
             outline: none;
-            transition: border-color 0.3s;
         }
 
-        input:focus { border-color: #007bff; }
+        input:focus { border-color: #007bff; box-shadow: 0 0 0 2px rgba(0,123,255,0.25); }
 
         button {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             background-color: #007bff;
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
-            margin-bottom: 1rem;
-            transition: background 0.3s;
+            font-size: 16px;
+            margin-top: 10px;
         }
 
-        button:hover { background-color: #0056b3; }
-
         #qrcode {
-            margin: 1.5rem 0;
+            margin: 20px auto;
             display: flex;
             justify-content: center;
+            padding: 10px;
+            background: #fff;
+        }
+
+        #qrcode img {
+            max-width: 100%;
+            height: auto;
         }
 
         #download-btn {
-            display: none; 
+            display: none;
             text-decoration: none;
             color: #28a745;
             font-weight: bold;
             border: 2px solid #28a745;
-            padding: 8px 16px;
-            border-radius: 6px;
-            transition: all 0.3s;
-        }
-
-        #download-btn:hover {
-            background-color: #28a745;
-            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            display: none;
+            text-align: center;
+            margin-top: 10px;
         }
