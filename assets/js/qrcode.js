@@ -2,7 +2,7 @@ let qrcodeContainer = document.getElementById("qrcode");
     let qrCode = null;
 
     function generateQR() {
-        let input = document.getElementById("text-input");
+        const input = document.getElementById("text-input").value;
         const nama = document.getElementById("nama-input").value;
         let downloadBtn = document.getElementById("download-btn");
         
@@ -13,9 +13,9 @@ let qrcodeContainer = document.getElementById("qrcode");
 
         qrcodeContainer.innerHTML = "";
         qrCode = new QRCode(qrcodeContainer, {
-            text: input.value,
-            width: 200,
-            height: 200,
+            text: input,
+            width: 256,
+            height: 256,
             colorDark : "#000000",
             colorLight : "#ffffff",
             correctLevel : QRCode.CorrectLevel.H
@@ -26,8 +26,9 @@ let qrcodeContainer = document.getElementById("qrcode");
             if (canvas) {
                 let image = canvas.toDataURL("image/png");
                 downloadBtn.href = image;
+                const fileName = namA ? namA.replace(/[^a-z0-9]/gi, '_') : 'qrcode';
                 downloadBtn.download = `QR_${nama}.png`;
                 downloadBtn.style.display = "inline-block";
             }
-        }, 300);
+        }, 500);
     }
