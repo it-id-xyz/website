@@ -3,81 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"href="assets/css/qrcode.css">
+    <link rel="icon" sizes="192x192" href="assets/img/it.png">
     <title>QR Code Generator - Simple & Fast</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f7f6;
-        }
-
-        .container {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            text-align: center;
-            width: 350px;
-        }
-
-        h2 { color: #333; margin-bottom: 1.5rem; }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 1rem;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            box-sizing: border-box;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        input:focus { border-color: #007bff; }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            transition: background 0.3s;
-        }
-
-        button:hover { background-color: #0056b3; }
-
-        #qrcode {
-            margin: 1.5rem 0;
-            display: flex;
-            justify-content: center;
-        }
-
-        #download-btn {
-            display: none; /* Sembunyi dulu sebelum QR dibuat */
-            text-decoration: none;
-            color: #28a745;
-            font-weight: bold;
-            border: 2px solid #28a745;
-            padding: 8px 16px;
-            border-radius: 6px;
-            transition: all 0.3s;
-        }
-
-        #download-btn:hover {
-            background-color: #28a745;
-            color: white;
-        }
-    </style>
 </head>
 <body>
 
@@ -92,41 +21,7 @@
     <a id="download-btn" href="#">Download PNG</a>
 </div>
 
-<script>
-    let qrcodeContainer = document.getElementById("qrcode");
-    let qrCode = null;
-
-    function generateQR() {
-        let input = document.getElementById("text-input");
-        const nama = document.getElementById("nama-input").value;
-        let downloadBtn = document.getElementById("download-btn");
-        
-        if (input.value.trim() === "") {
-            alert("Isi dulu inputnya");
-            return;
-        }
-
-        qrcodeContainer.innerHTML = "";
-        qrCode = new QRCode(qrcodeContainer, {
-            text: input.value,
-            width: 200,
-            height: 200,
-            colorDark : "#000000",
-            colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.H
-        });
-
-        setTimeout(() => {
-            let canvas = qrcodeContainer.querySelector("canvas");
-            if (canvas) {
-                let image = canvas.toDataURL("image/png");
-                downloadBtn.href = image;
-                downloadBtn.download = `QR_${nama}.png`;
-                downloadBtn.style.display = "inline-block";
-            }
-        }, 300);
-    }
-</script>
+<script href="assets/js/qrcode.js"></script>
 
 </body>
 </html>
