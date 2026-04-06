@@ -3,25 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="assets/css/global.css">
     <link rel="stylesheet"href="assets/css/qrcode.css">
     <link rel="icon" sizes="192x192" href="assets/img/it.png">
     <title>QR Code Generator - Simple & Fast</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
+    <header class="navbar">
+        <div class="nav-logo">
+        <img src="assets/img/it.png" class="logo">
+        <h1>Information and Technology</h1>
+        </div>
+        <nav class="nav-btn-mobile">
+            <button class="hamburger" id="menuToggle"><i class="fa fa-bars"></i></button>
 
-<div class="container">
-    <h2>QR Generator</h2>
-    <input type="text" id="text-input" placeholder="Masukkan teks atau URL...">
-    <input type="text" id="nama-input" placeholder="Masukkan nama">
-    <button onclick="generateQR()">Generate QR</button>
-    
-    <div id="qrcode"></div>
-    
-    <a id="download-btn" href="#">Download PNG</a>
-</div>
+            <div class="nav-menu hidden" id="navMenu">
+                <a href="index.html"><i class="fa fa-home"></i> Home</a>
+                <a href="news.html"><i class="fa fa-newspaper"></i> News</a>
+                <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a>
+                <a href="itservice.html"><i class="fa fa-cogs"></i> Service</a>
+                <a href="form.html"><i class="fa fa-rocket"></i> Join Now</a>
+                <a href="login.html"><i class="fa fa-right-to-bracket"></i> Login</a>
+                <a id="logout-btn"><i class="fa fa-right-from-bracket"></i> Logout</a>
+            </div>
+        </nav>
+        <nav class="nav-btn">
+            <a href="index.html"><button id="btn-home"><i class="fa fa-home"></i> Home</button></a>
+            <a href="news.html"><button id="btn-news"><i class="fa fa-newspaper"></i> News</button></a>
+            <a href="contact.html"><button id="btn-contact"><i class="fa-solid fa-envelope"> </i> Contact</button></a>
+            <a href="itservice.html"><button id="btn-service"><i class="fa fa-cogs"></i> Service</button></a>
+            <a href="form.html"><button id="btn-join-now"><i class="fa fa-rocket"></i> Join now</button></a>
+            <a href="login.html"><button><i class="fa fa-right-to-bracket"></i> Login</button></a>
+            <a><button id="btn-logout"><i class="fa fa-right-from-bracket"></i> Logout</button></a>
+        </nav>
+    </header>
+    <div class="container">
+        <h2>QR Generator</h2>
+        <input type="text" id="text-input" placeholder="Masukkan teks atau URL...">
+        <input type="text" id="nama-input" placeholder="Masukkan nama">
+        <button onclick="generateQR()">Generate QR</button>
+        
+        <div id="qrcode"></div>
+        
+        <a id="download-btn" href="#">Download PNG</a>
+    </div>
+    <div class="line">
+        -----------------------------------------------------------
+    </div>
+    <footer class="footer">
+        <div class="footer-container">
+            <div>
+                <h4>Information & Technology</h4>
+                <p>Ekskul pengembangan skill teknologi dan karya digital siswa.</p>
+            </div>
 
-<script href="assets/js/qrcode.js"></script>
+            <div>
+                <h4>Menu</h4>
+                <a href="index.html"><i class="fa-solid fa-house"></i> Home</a><br>
+                <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a><br>
+                <a href="form.html"><i class="fa-solid fa-user-plus"></i> Join now</a><br>
+                <a href="login.html"><i class="fa fa-right-to-bracket"></i> Login</a>
+            </div>
 
+            <div>
+                <h4>Social Media</h4>
+                <a href="https://www.instagram.com/itsmansaci?igsh=NTB6Y2ltZHprenIw" target="_blank"><i class="fa-brands fa-instagram"></i> Instagram</a><br>
+                <a href="https://www.youtube.com/@itsmansaci" target="_blank"><i class="fa-brands fa-youtube"></i> YouTube</a><br>
+                <a href="https://www.tiktok.com/@itsmansaci" target="_blank"><i class="fa-brands fa-tiktok"></i> Tiktok</a><br>
+                <a href="https://github.com/it-id-xyz/" target="_blank"><i class="fa-brands fa-github"></i> Github</a><br>
+                <a href="mailto:itsmansaci01@gmail.com?subject=Pertanyaan%20IT
+                &body=Halo%20Tim%20IT,%0A%0ASaya%20ingin%20bertanya" target="_blank"><i class="fa-solid fa-envelope"></i> Hubungi Kami</a>
+            </div>
+
+            <div>
+                <h4>Location</h4>
+                <a href="https://maps.app.goo.gl/GEPai5TCuipzZM6s7" target="_blank"><i class="fa-solid fa-location-dot"></i> SMAN 1 Cibarusah
+                <br>Jl.KH. Ma'mun Nawawi, Desa Sindangmulya, Kec. Cibarusah, Kab. Bekasi, Jawa Barat</a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div>
+                <h4>Support</h4>
+                <a href="https://tako.id/support_it" target="_blank"><i class="fa-solid fa-gift"></i> Tako</a> <strong>|</strong>
+                <a href="" target="_blank"><i class="fa-solid fa-money-bill-wave"></i> Saweria</a>
+            </div><br><br><br>
+            © 2026 Extrakurikuler IT SMAN 1 Cibarusah • Made by nounstax
+        </div>
+    </footer>
+    <script href="assets/js/qrcode.js"></script>
+    <script src="assets/js/global.js"></script>
 </body>
 </html>
