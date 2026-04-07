@@ -6,7 +6,7 @@ let qrcodeContainer = document.getElementById("qrcode");
         const nama = document.getElementById("nama-input").value;
         let downloadBtn = document.getElementById("download-btn");
         
-        if (input === "") {
+        if (!input || !nama) {
             alert("Isi dulu inputnya");
             return;
         }
@@ -26,7 +26,7 @@ let qrcodeContainer = document.getElementById("qrcode");
             if (canvas) {
                 let image = canvas.toDataURL("image/png");
                 downloadBtn.href = image;
-                const fileName = namA ? namA.replace(/[^a-z0-9]/gi, '_') : 'qrcode';
+                const fileName = namA ? nama.replace(/[^a-z0-9]/gi, '_') : 'qrcode';
                 downloadBtn.download = `QR_${nama}.png`;
                 downloadBtn.style.display = "inline-block";
             }
