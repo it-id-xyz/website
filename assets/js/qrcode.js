@@ -6,7 +6,7 @@ let qrcodeContainer = document.getElementById("qrcode");
         const nama = document.getElementById("nama-input").value;
         let downloadBtn = document.getElementById("download-btn");
         
-        if (input.value.trim() === "") {
+        if (input|| nama === "") {
             alert("Isi dulu inputnya");
             return;
         }
