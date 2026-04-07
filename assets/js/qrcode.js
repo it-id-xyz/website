@@ -26,7 +26,7 @@ let qrcodeContainer = document.getElementById("qrcode");
             if (canvas) {
                 let image = canvas.toDataURL("image/png");
                 downloadBtn.href = image;
-                const fileName = namA ? nama.replace(/[^a-z0-9]/gi, '_') : 'qrcode';
+                const fileName = nama ? nama.replace(/[^a-z0-9]/gi, '_') : 'qrcode';
                 downloadBtn.download = `QR_${nama}.png`;
                 downloadBtn.style.display = "inline-block";
             }
