@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrasi Wajah (Simulasi Firestore)</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 90%; max-width: 400px; text-align: center; }
+        input { width: 90%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        #videoElement, #previewImage { width: 100%; border-radius: 5px; margin-bottom: 15px; display: none; }
+        button { width: 100%; padding: 12px; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; margin-bottom: 10px; color: white; }
+        #btnStartCamera { background-color: #007bff; }
+        #btnCapture { background-color: #17a2b8; display: none; }
+        #btnConfirm { background-color: #28a745; display: none; }
+        #btnRetake { background-color: #dc3545; display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Daftar Wajah</h2>
+        
+        <input type="text" id="namaUser" placeholder="Masukkan Nama Lengkap" required>
+        <input type="text" id="idUser" placeholder="Masukkan NIS / ID" required>
+
+        <video autoplay playsinline id="videoElement"></video>
+        <img id="previewImage" alt="Preview Wajah">
+        <canvas id="canvasElement" style="display:none;"></canvas>
+
+        <button id="btnStartCamera">Buka Kamera</button>
+        <button id="btnCapture">Scan Wajah</button>
+        
+        <button id="btnConfirm">Confirm & Simpan Data</button>
+        <button id="btnRetake">Ulangi Foto</button>
+    </div>
+
+    <script type="module">
+        
+        const video = document.getElementById('videoElement');
+        const preview = document.getElementById('previewImage');
+        const canvas = document.getElementById('canvasElement');
+        
+        const btnStartCamera = document.getElementById('btnStartCamera');
+        const btnCapture = document.getElementById('btnCapture');
+        const btnConfirm = document.getElementById('btnConfirm');
+        const btnRetake = document.getElementById('btnRetake');
+        
+        let stream;
+        let finalImageBase64 = "";
+
+        // 1. Buka Kamera
+        btnStartCamera.addEventListener('click', async () => {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+                video.srcObject = stream;
+                video.style.display = 'block';
+                btnStartCamera.style.display = 'none';
+                btnCapture.style.display = 'block';
+            } catch (err) {
+                alert("Gagal akses kamera bro!");
+            }
+        });
+
+        // 2. Scan Wajah (Capture)
+        btnCapture.addEventListener('click', () => {
+            const nama = document.getElementById('namaUser').value;
+            const id = document.getElementById('idUser').value;
+
+            if (!nama || !id) {
+                alert("Isi Nama dan ID dulu bro!");
+                return;
+            }
+
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            finalImageBase64 = canvas.toDataURL('image/jpeg');
+            
+            // Sembunyiin video, tampilin hasil foto & tombol Confirm
+            video.style.display = 'none';
+            preview.src = finalImageBase64;
+            preview.style.display = 'block';
+            
+            btnCapture.style.display = 'none';
+            btnConfirm.style.display = 'block';
+            btnRetake.style.display = 'block';
+        });
+
+        // 3a. Ulangi Foto (Retake)
+        btnRetake.addEventListener('click', () => {
+            preview.style.display = 'none';
+            video.style.display = 'block';
+            
+            btnConfirm.style.display = 'none';
+            btnRetake.style.display = 'none';
+            btnCapture.style.display = 'block';
+        });
+
+        // 3b. Confirm & Kirim ke Backend
+        btnConfirm.addEventListener('click', () => {
+            const nama = document.getElementById('namaUser').value;
+            const id = document.getElementById('idUser').value;
+
+            /* ===== FETCH KE SERVER LOKAL LU =====
+            Gua asumsikan endpoint backend lu nerima POST request.
+            Di backend nanti (misal Node.js), lu terima base64 ini, 
+            run model face recognition buat nge-convert jadi descriptor, 
+            lalu save ke Firestore pakai Firebase Admin SDK.
+            ======================================== */
+            
+            console.log("Kirim ke server: ", nama, id);
+            alert(`Sip! Foto si ${nama} lagi dikirim ke server lokal buat di-convert ke descriptor & disave ke Firestore.`);
+            
+            // Optional: Reset form setelah berhasil
+            // location.reload();
+        });
+    </script>
+</body>
+</html>
