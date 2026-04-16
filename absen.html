@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="favicon.ico">
+    <link rel="stylesheet" href="assets/css/absen.css">
+    <title>Absen - IT Smansaci</title>
+</head>
+<body>
+    <div class="dashboard">
+        <h1>Absen Ekskul IT Smansaci</h1>
+        <button id="btn-absen">Absen</button>
+        <button id="daftar-wajah">Daftar</button>
+        <div id="form-daftar" class="form-input hidden">
+            <label for="nama-anggota">Masukan Nama</label><br>
+            <input type="text" name="name" id="nama-anggota" placeholder="Masukan nama"><br>
+            <label for="nama-anggota">UID</label><br>
+            <input type="text" name="uid" id="uid-anggota" placeholder="Masukan UID"><br>
+            <button id="scan-wajah">Scan Wajah</button>
+        </div>
+        <div id="live-camera" class="container hidden" >
+            <h2>Live Camera</h2>
+            <video id="video" width="640" height="480" style="border:1px white" autoplay muted></video>
+        </div>
+        <div id="info-user" class="container hidden">
+            <p id="pesan">Inisialisasi GPS & Kamera</p>
+            <div id="user-info"></div>
+            <button id="btn-confirm" class="btn-confirm">Konfirmasi & kirim absen</button><br>
+            <small>Pastikan nama & data lainnya sesuai!. Tidak sesuai? </small><span id="daftar-wajah">Daftar</span>
+        </div>
+    </div>
+
+    <script type="module" src="assets/js/absen.js"></script>
+</body>
+</html>
