@@ -1,5 +1,6 @@
 import { db } from "./firebase.js";
 import { getFirestore, collection, query, where, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import * as faceapi from "https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.esm.js";
 
 const video = document.getElementById('videoElement');
 const preview = document.getElementById('previewImage');
@@ -35,7 +36,8 @@ btnStartCamera.addEventListener('click', async () => {
         btnStartCamera.classList.add('hidden');
         btnCapture.classList.remove('hidden');
     } catch (err) {
-        alert("Gagal akses kamera bro! Pastikan dapet izin.");
+        console.error("ALASAN KAMERA GAGAL:", err);
+        alert("Gagal akses kamera bro! Cek console log buat detailnya: " + err.message);
     }
 });
 
@@ -78,46 +80,48 @@ btnRetake.addEventListener('click', () => {
 btnConfirm.addEventListener('click', async () => {
     const nama = document.getElementById('namaUser').value;
     const id = document.getElementById('idUser').value; 
+    
+    btnConfirm.disabled = true;
+    btnConfirm.textContent = "Menganalisa Wajah...";
     const detections = await faceapi.detectSingleFace(preview).withFaceLandmarks().withFaceDescriptor();
     
     if (!detections) {
         alert("Wajah nggak kedeteksi di foto! Ulangi lagi bro.");
         btnConfirm.disabled = false;
-        btnConfirm.textContent = "Confirm & Simpan ke Firestore";
+        btnConfirm.textContent = "Confirm & Simpan ke Database";
         return;
     }
     
     const faceDescriptor = Array.from(detections.descriptor);
     
-        try {
-            btnConfirm.disabled = true;
-            btnConfirm.textContent = "Menyimpan...";
+    try {
+        btnConfirm.textContent = "Menyimpan ke Database...";
 
-            const q = query(collection(db, "UID"), where("ID", "==", id));
-            const querySnapshot = await getDocs(q);
-    
-            if (querySnapshot.empty) {
-                alert(`Bro, data dengan NIS ${id} gak ketemu di Firestore! Pastikan udah didaftarin dari Google Sheets/Admin.`);
-                btnConfirm.disabled = false;
-                btnConfirm.textContent = "Confirm & Simpan ke Firestore";
-                return;
-            }
-    
-            querySnapshot.forEach(async (document) => {
-                const userRef = doc(db, "UID", document.id);
-                
-                await updateDoc(userRef, {
-                    FaceID: faceDescriptor 
-                });
-                
-                alert(`Sip! FaceID atas nama ${nama} berhasil disave ke database.`);
-                location.reload(); 
-            });
-    
-        } catch (error) {
-            console.error("Error updating document: ", error);
-            alert("Waduh, gagal simpan ke databasea. Cek console bro.");
+        const q = query(collection(db, "UID"), where("ID", "==", id));
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+            alert(`Bro, data dengan ID ${id} gak ketemu di database!`);
             btnConfirm.disabled = false;
-            btnConfirm.textContent = "Confirm & Simpan ke databasea";
+            btnConfirm.textContent = "Confirm & Simpan ke Database";
+            return;
         }
-    });
+
+        querySnapshot.forEach(async (document) => {
+            const userRef = doc(db, "UID", document.id);
+            
+            await updateDoc(userRef, {
+                FaceID: faceDescriptor 
+            });
+            
+            alert(`Sip! FaceID atas nama ${nama} berhasil disave ke database.`);
+            location.reload(); 
+        });
+
+    } catch (error) {
+        console.error("Error updating document: ", error);
+        alert("Waduh, gagal simpan ke database. Cek console bro.");
+        btnConfirm.disabled = false;
+        btnConfirm.textContent = "Confirm & Simpan ke Database";
+    }
+});
