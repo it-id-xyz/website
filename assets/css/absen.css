@@ -100,7 +100,7 @@
 ================================================= */
 #videoAbsen, #videoDaftar, #previewDaftar {
     transform: scaleX(-1); 
-
+}
 .camera-wrapper {
     position: relative;
     width: 100%;
