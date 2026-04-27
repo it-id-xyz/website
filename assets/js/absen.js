@@ -19,9 +19,9 @@ btnRetake.classList.add('hidden');
 
 async function loadModels() {
     const MODEL_URL = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model/';
-    await face-api.nets.ssdMobilenetv1.loadFromUri(MODEL_URL);
-    await face-api.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
-    await face-api.nets.faceRecognitionNet.loadFromUri(MODEL_URL);
+    await faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL);
+    await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
+    await faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL);
     console.log("AI Ready!");
 }
 loadModels();
