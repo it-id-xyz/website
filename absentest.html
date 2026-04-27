@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Absensi IT - IT SMANSACI</title>
+    <title>Dashboard - IT Absensi</title>
     <link rel="stylesheet" href="assets/css/global.css">
     <link rel="stylesheet" href="assets/css/absen.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -39,21 +39,40 @@
         </nav>
     </header>
     <div class="absen-wrapper">
-        <div class="absen-container">
-            <h2>Daftar Wajah</h2>
+        <div id="menu-utama" class="absen-container">
+            <h2>Selamat Datang</h2>
+            <p class="teks-subtitle">Sistem Absensi IT SMAN 1 Cibarusah</p>
+            <button id="btn-menu-absen">Scan Absen</button>
+            <p class="teks-info">Belum terdaftar? <br><button id="btn-menu-daftar">Daftar Wajah</button></p>
+        </div>
+
+        <div id="menu-absen" class="absen-container hidden">
+            <h2>Scan Wajah (Absen)</h2>
+            <div id="pesan-lokasi">Mengecek Lokasi...</div>
+            
+            <video autoplay playsinline id="videoAbsen"></video>
+            <div id="preview-user" class="hidden"></div>
+            
+            <button id="btn-scan-absen" class="hidden">Deteksi Wajah</button>
+            <button id="btn-kembali-absen">Kembali</button>
+        </div>
+
+        <div id="menu-daftar" class="absen-container hidden">
+            <h2>Daftar Wajah Baru</h2>
             
             <input type="text" id="namaUser" placeholder="Masukkan Nama Lengkap" required>
             <input type="text" id="idUser" placeholder="Masukkan NIS / ID" required>
-    
-            <video autoplay playsinline id="videoElement"></video>
-            <img id="previewImage" alt="Preview Wajah">
-            <canvas id="canvasElement"></canvas>
-    
-            <button id="btnStartCamera">Buka Kamera</button>
-            <button id="btnCapture">Scan Wajah</button>
+
+            <video autoplay playsinline id="videoDaftar" class="hidden"></video>
+            <img id="previewDaftar" alt="Preview Wajah" class="hidden">
+            <canvas id="canvasDaftar" class="hidden"></canvas>
+
+            <button id="btnStartCameraDaftar">Buka Kamera</button>
+            <button id="btnCaptureDaftar" class="hidden">Jepret Foto</button>
             
-            <button id="btnConfirm">Confirm & Simpan ke Database</button>
-            <button id="btnRetake">Ulangi Foto</button>
+            <button id="btnConfirmDaftar" class="hidden">Simpan ke Database</button>
+            <button id="btnRetakeDaftar" class="hidden">Ulangi Foto</button>
+            <button id="btn-kembali-daftar">Kembali</button>
         </div>
     </div>
     <div class="line">
@@ -103,7 +122,6 @@
         </div>
     </footer>
 
-    <script defer src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
     <script type="module" src="assets/js/absen.js"></script>
     <script src="assets/js/global.js"></script>
 </body>
