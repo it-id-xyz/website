@@ -1,4 +1,4 @@
-import { db } from "./firebase.js";
+import { db, auth } from "./firebase.js";
 import { collection, query, where, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import * as faceapi from "https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.esm.js";
 import { CONFIG } from "./config.js";
@@ -12,7 +12,17 @@ const menuUtama = document.getElementById('menu-utama');
 const menuAbsen = document.getElementById('menu-absen');
 const menuDaftar = document.getElementById('menu-daftar');
 
-let streamAktif; 
+let streamAktif; \
+
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        console.log("Admin Aktif:", user.email);
+        
+    } else {
+        alert("Sistem terkunci! Admin wajib login dulu di halaman login.");
+        window.location.href = "./login.html"; 
+    }
+});
 
 // ==========================================
 // 1. INISIALISASI AI
