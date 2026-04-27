@@ -78,7 +78,7 @@ btnRetake.addEventListener('click', () => {
 btnConfirm.addEventListener('click', async () => {
     const nama = document.getElementById('namaUser').value;
     const id = document.getElementById('idUser').value; 
-    const detections = await face-api.detectSingleFace(preview).withFaceLandmarks().withFaceDescriptor();
+    const detections = await faceapi.detectSingleFace(preview).withFaceLandmarks().withFaceDescriptor();
     
     if (!detections) {
         alert("Wajah nggak kedeteksi di foto! Ulangi lagi bro.");
