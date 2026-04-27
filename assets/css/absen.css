@@ -94,3 +94,73 @@
 }
 #btnRetake:hover { background-color: rgba(239, 68, 68, 0.1); }
 .hidden { display: none !important; }
+
+/* =================================================
+   UPDATE ID VIDEO & PREVIEW (Sesuai JS Baru)
+================================================= */
+#videoAbsen, #videoDaftar, #previewDaftar {
+    width: 100%;
+    height: 300px;
+    object-fit: cover; 
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid var(--glass-border);
+    background-color: #000; 
+}
+
+/* =================================================
+   STYLING TEKS TAMBAHAN
+================================================= */
+.teks-subtitle {
+    margin-bottom: 20px;
+    color: #94a3b8;
+}
+
+.teks-info {
+    margin-top: 15px;
+}
+
+#pesan-lokasi {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+#btn-menu-absen, #btnStartCameraDaftar {
+    background-color: #0ea5e9;
+    color: white;
+}
+#btn-menu-absen:hover, #btnStartCameraDaftar:hover { background-color: #0284c7; }
+
+#btn-menu-daftar {
+    background-color: transparent;
+    border: 1px solid #10b981;
+    color: #10b981;
+    margin-top: 10px;
+}
+#btn-menu-daftar:hover { background-color: rgba(16, 185, 129, 0.1); }
+
+#btn-scan-absen, #btnConfirmDaftar {
+    background-color: #10b981;
+    color: white;
+}
+#btn-scan-absen:hover, #btnConfirmDaftar:hover { background-color: #059669; }
+
+#btnCaptureDaftar {
+    background-color: #f59e0b;
+    color: white;
+}
+#btnCaptureDaftar:hover { background-color: #d97706; }
+
+#btnRetakeDaftar {
+    background-color: transparent;
+    border: 1px solid #ef4444;
+    color: #ef4444;
+}
+#btnRetakeDaftar:hover { background-color: rgba(239, 68, 68, 0.1); }
+
+#btn-kembali-absen, #btn-kembali-daftar {
+    background-color: #ef4444;
+    color: white;
+    margin-top: 10px;
+}
+#btn-kembali-absen:hover, #btn-kembali-daftar:hover { background-color: #dc2626; }
