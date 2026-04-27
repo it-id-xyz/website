@@ -29,7 +29,7 @@ loadModels();
 // 1. BUKA KAMERA
 btnStartCamera.addEventListener('click', async () => {
     try {
-        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+        stream = await navigator.mediaDevices.getUserMedia({ video: true });
         video.srcObject = stream;
         
         btnStartCamera.classList.add('hidden');
