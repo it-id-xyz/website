@@ -5,15 +5,6 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 // ==========================================
-// 1. CEK STATUS
-// ==========================================
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        window.location.href = "./index.html"; 
-    }
-});
-
-// ==========================================
 // 2. SETUP PROVIDER SOSIAL MEDIA
 // ==========================================
 const ggprovider = new GoogleAuthProvider();
@@ -30,21 +21,22 @@ msProvider.addScope('email');
 // 3. EVENT LISTENER TOMBOL SOSMED
 // ==========================================
 document.getElementById("btn-login-gg")?.addEventListener("click", async () => {
-    try { await signInWithPopup(auth, ggprovider); } catch (err) { console.error("Google Login Error:", err); }
+    try { await signInWithPopup(auth, ggprovider); window.location.href = "index.html"; } catch (err) { console.error("Google Login Error:", err); }
 });
 
 document.getElementById("btn-login-fb")?.addEventListener("click", async () => {
-    try { await signInWithPopup(auth, fbProvider); } catch (err) { console.error("FB Login Error:", err); }
+    try { await signInWithPopup(auth, fbProvider); window.location.href = "index.html"; } catch (err) { console.error("FB Login Error:", err); }
 });
 
 document.getElementById("btn-login-gh")?.addEventListener("click", async () => {
-    try { await signInWithPopup(auth, ghProvider); } catch (err) { console.error("Github Login Error:", err); }
+    try { await signInWithPopup(auth, ghProvider); window.location.href = "index.html"; } catch (err) { console.error("Github Login Error:", err); }
 });
 
 document.getElementById("btn-login-ms")?.addEventListener("click", async () => {
     try { 
         msProvider.setCustomParameters({ prompt: 'select_account' });
         await signInWithPopup(auth, msProvider); 
+        window.location.href = "index.html";
     } catch (err) { console.error("Microsoft Login Error:", err); }
 });
 
