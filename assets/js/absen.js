@@ -12,7 +12,7 @@ const menuUtama = document.getElementById('menu-utama');
 const menuAbsen = document.getElementById('menu-absen');
 const menuDaftar = document.getElementById('menu-daftar');
 
-let streamAktif; \
+let streamAktif; 
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
