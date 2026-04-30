@@ -1,5 +1,6 @@
 import { db, auth } from "./firebase.js";
-import { collection, query, where, getDocs, updateDoc, doc, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { collection, query, where, getDocs, updateDoc, doc,  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import * as faceapi from "https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.esm.js";
 import { CONFIG } from "./config.js";
 
@@ -20,7 +21,6 @@ let streamAktif;
 onAuthStateChanged(auth, (user) => {
     if (user) {
         console.log("User login:", user.email);
-        console.log(`halo ${user.email}`);
     } else {
         alert("Waduh, kamu belum login! Balik dulu ya.");
         window.location.href = "login.html"; 
