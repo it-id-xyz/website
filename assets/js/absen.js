@@ -1,5 +1,5 @@
 import { db, auth } from "./firebase.js";
-import { collection, query, where, getDocs, updateDoc, doc,  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { collection, query, where, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import * as faceapi from "https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.esm.js";
 import { CONFIG } from "./config.js";
@@ -130,7 +130,7 @@ btnScanAbsen.addEventListener('click', async () => {
         const data = document.data();
         if (data.FaceID && data.FaceID.length > 0) {
             const floatDescriptor = new Float32Array(data.FaceID);
-            labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(data.nama || document.id, [floatDescriptor]));
+            labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(data.Nama || document.id, [floatDescriptor]));
         }
     });
 
@@ -290,7 +290,7 @@ btnConfirmDaftar.addEventListener('click', async () => {
 
         querySnapshot.forEach(async (document) => {
             const userRef = doc(db, "UID", document.id);
-            await updateDoc(userRef, { FaceID: faceDescriptor, nama: nama });
+            await updateDoc(userRef, { FaceID: faceDescriptor, Nama: nama });
             
             alert(`Mantap! FaceID atas nama ${nama} berhasil disimpan.`);
             location.reload(); 
@@ -298,7 +298,7 @@ btnConfirmDaftar.addEventListener('click', async () => {
 
     } catch (error) {
         console.error("Error: ", error);
-        alert("Gagal simpan ke database. Cek console bro.");
+        alert("Gagal simpan ke database. Cek console.");
         btnConfirmDaftar.disabled = false;
         btnConfirmDaftar.textContent = "Simpan ke Database";
     }
