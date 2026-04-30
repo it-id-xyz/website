@@ -13,17 +13,6 @@ const menuAbsen = document.getElementById('menu-absen');
 const menuDaftar = document.getElementById('menu-daftar');
 
 let streamAktif; 
-
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        console.log("Admin Aktif:", user.email);
-        
-    } else {
-        alert("Sistem terkunci! Admin wajib login dulu di halaman login.");
-        window.location.href = "./login.html"; 
-    }
-});
-
 // ==========================================
 // 1. INISIALISASI AI
 // ==========================================
