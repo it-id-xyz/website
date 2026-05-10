@@ -138,7 +138,7 @@ document.getElementById('btn-menu-absen').addEventListener('click', async () => 
                     const floatDescriptor = new Float32Array(data.FaceID);
                     cachedDescriptors.push(new faceapi.LabeledFaceDescriptors(label, [floatDescriptor]));
                     userDataCache[label] = {
-                        Sub: data.sub_materi || data.Sub_Materi || data.Sub || "N/A",
+                        Sub: data.sub || data.Sub || data.sub_materi || data.Sub_Materi || "N/A",
                         Angkatan: data.Angkatan || "2024"
                     };
                 }
@@ -310,23 +310,6 @@ document.getElementById('btn-kirim-izin').addEventListener('click', async () => 
     btnKirim.textContent = "Mengirim...";
 
     let subMateri = "N/A", angkatan = "2024";
-    try {
-        const q = query(collection(db, "UID"), where("Nama", "==", nama));
-        const qs = await getDocs(q);
-        if (!qs.empty) {
-            const data = qs.docs[0].data();
-            subMateri = data.sub_materi || data.Sub_Materi || data.Sub || "N/A";
-            angkatan = data.Angkatan || "2024";
-        } else {
-            myAlert('Oops', `Nama ${nama} tidak ditemukan di database UID! Pastikan ejaannya benar.`, 'warning');
-            btnKirim.disabled = false;
-            btnKirim.textContent = "Kirim Pengajuan";
-            return;
-        }
-    } catch (e) {
-        console.error(e);
-    }
-
     sendSpreadsheet(nama, subMateri, angkatan, "-", status, alasan);
 });
 
