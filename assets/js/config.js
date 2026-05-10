@@ -1,5 +1,5 @@
 export const CONFIG = {
-    APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbx5fPODBnuMb_WOfT-X8HzbW6MSt3Xp3uYqcxzUcsTDvCTMxBpfrcDNyvMbFEtDVf5D/exec",
+    APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbx8m03ehSa3c3-Q-XCcw1C2xiBD98145tXd8tf8iCCV4PBGhddh992kOzI-Gy4Bj7suFg/exec",
     TARGET_LAT: -6.416480, 
     TARGET_LNG: 107.062905,
     TOLERANSI_METER: 50,
