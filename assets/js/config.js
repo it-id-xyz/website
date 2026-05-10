@@ -9,6 +9,6 @@ export const CONFIG = {
     HARI_ABSEN: [0, 1, 5], 
     JAM_MULAI: 13,    // Jam mulai (13.00)
     MENIT_MULAI: 30,  // Menit mulai (13.30)
-    JAM_SELESAI: 15,  // Jam selesai (15.00)
+    JAM_SELESAI: 20,  // Jam selesai (15.00)
     MENIT_SELESAI: 30 // Menit selesai (15.30)
 };
