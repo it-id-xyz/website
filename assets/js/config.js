@@ -3,5 +3,12 @@ export const CONFIG = {
     TARGET_LAT: -6.416480, 
     TARGET_LNG: 107.062905,
     TOLERANSI_METER: 50,
-    ANGKATAN_DEFAULT: "2024"
+    ANGKATAN_DEFAULT: "2024",
+    // 0=Minggu, 1=Senin, 2=Selasa, 3=Rabu, 4=Kamis, 5=Jumat, 6=Sabtu
+    // Masukkan angka hari ke dalam kurung siku untuk mengizinkan absen di hari tersebut.
+    HARI_ABSEN: [0, 1, 5], 
+    JAM_MULAI: 13,    // Jam mulai (13.00)
+    MENIT_MULAI: 30,  // Menit mulai (13.30)
+    JAM_SELESAI: 15,  // Jam selesai (15.00)
+    MENIT_SELESAI: 30 // Menit selesai (15.30)
 };
