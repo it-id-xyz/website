@@ -15,7 +15,20 @@ const menuDaftar = document.getElementById('menu-daftar');
 
 let streamAktif; 
 let cachedDescriptors = [];
+let userDataCache = {};
 let isDataLoaded = false;
+
+// ==========================================
+// 0. SWEETALERT FALLBACK
+// ==========================================
+const myAlert = (title, text, icon) => {
+    if (typeof Swal !== 'undefined') {
+        return Swal.fire({ title, text, icon });
+    } else {
+        alert(`${title}\n${text}`);
+        return Promise.resolve({ isConfirmed: true });
+    }
+};
 
 // ==========================================
 // 0. AUTH OBSERVER (BIAR NYANGKUT)
@@ -24,11 +37,8 @@ onAuthStateChanged(auth, (user) => {
     if (user) {
         console.log("User login:", user.email);
     } else {
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Waduh, kamu belum login! Balik dulu ya.'
-        }).then(() => {
+        myAlert('Oops...', 'Waduh, kamu belum login! Balik dulu ya.', 'error')
+        .then(() => {
             window.location.href = "login.html"; 
         });
     }
@@ -69,6 +79,10 @@ document.getElementById('btn-kembali-daftar').addEventListener('click', () => sw
 // 3.  ABSEN (GEOLOCATION + DETEKSI)
 // ==========================================
 const videoAbsen = document.getElementById('videoAbsen');
+const previewAbsen = document.getElementById('previewAbsen');
+const canvasAbsen = document.getElementById('canvasAbsen');
+const btnJepretAbsen = document.getElementById('btn-jepret-absen');
+const btnUlangiAbsen = document.getElementById('btn-ulangi-absen');
 const pesanLokasi = document.getElementById('pesan-lokasi');
 const btnScanAbsen = document.getElementById('btn-scan-absen');
 const previewUser = document.getElementById('preview-user');
@@ -86,6 +100,10 @@ document.getElementById('btn-menu-absen').addEventListener('click', async () => 
     switchMenu(menuAbsen);
     previewUser.classList.add('hidden');
     btnScanAbsen.classList.add('hidden');
+    btnUlangiAbsen.classList.add('hidden');
+    btnJepretAbsen.classList.add('hidden');
+    videoAbsen.classList.remove('hidden');
+    previewAbsen.classList.add('hidden');
     
     if (!isDataLoaded) {
         pesanLokasi.innerHTML = "Memuat data wajah dari database...";
@@ -96,13 +114,18 @@ document.getElementById('btn-menu-absen').addEventListener('click', async () => 
             querySnapshot.forEach((document) => {
                 const data = document.data();
                 if (data.FaceID && data.FaceID.length > 0) {
+                    const label = data.Nama || document.id;
                     const floatDescriptor = new Float32Array(data.FaceID);
-                    cachedDescriptors.push(new faceapi.LabeledFaceDescriptors(data.Nama || document.id, [floatDescriptor]));
+                    cachedDescriptors.push(new faceapi.LabeledFaceDescriptors(label, [floatDescriptor]));
+                    userDataCache[label] = {
+                        Sub: data.Sub || "N/A",
+                        Angkatan: data.Angkatan || "2024"
+                    };
                 }
             });
             isDataLoaded = true;
         } catch (err) {
-            Swal.fire('Error', 'Gagal memuat data wajah dari database!', 'error');
+            myAlert('Error', 'Gagal memuat data wajah dari database!', 'error');
             return;
         }
     }
@@ -124,7 +147,7 @@ document.getElementById('btn-menu-absen').addEventListener('click', async () => 
             try {
                 streamAktif = await navigator.mediaDevices.getUserMedia({ video: true });
                 videoAbsen.srcObject = streamAktif;
-                btnScanAbsen.classList.remove('hidden');
+                btnJepretAbsen.classList.remove('hidden');
             } catch (err) {
                 pesanLokasi.innerHTML = `<span style="color:red">Gagal akses kamera: ${err.message}</span>`;
             }
@@ -135,14 +158,41 @@ document.getElementById('btn-menu-absen').addEventListener('click', async () => 
 });
 
 
+btnJepretAbsen.addEventListener('click', () => {
+    canvasAbsen.width = videoAbsen.videoWidth;
+    canvasAbsen.height = videoAbsen.videoHeight;
+    canvasAbsen.getContext('2d').drawImage(videoAbsen, 0, 0, canvasAbsen.width, canvasAbsen.height);
+    
+    const imageData = canvasAbsen.toDataURL('image/jpeg');
+    
+    videoAbsen.classList.add('hidden');
+    previewAbsen.src = imageData;
+    previewAbsen.classList.remove('hidden');
+    
+    btnJepretAbsen.classList.add('hidden');
+    btnScanAbsen.classList.remove('hidden');
+    btnUlangiAbsen.classList.remove('hidden');
+});
+
+btnUlangiAbsen.addEventListener('click', () => {
+    previewAbsen.classList.add('hidden');
+    videoAbsen.classList.remove('hidden');
+    
+    btnScanAbsen.classList.add('hidden');
+    btnUlangiAbsen.classList.add('hidden');
+    btnJepretAbsen.classList.remove('hidden');
+    pesanLokasi.innerHTML = `<span style="color:#10b981">Silakan jepret foto.</span>`;
+    previewUser.classList.add('hidden');
+});
+
 btnScanAbsen.addEventListener('click', async () => {
     btnScanAbsen.textContent = "Menganalisa...";
     btnScanAbsen.disabled = true;
 
-    const detections = await faceapi.detectSingleFace(videoAbsen).withFaceLandmarks().withFaceDescriptor();
+    const detections = await faceapi.detectSingleFace(previewAbsen).withFaceLandmarks().withFaceDescriptor();
 
     if (!detections) {
-        Swal.fire('Oops...', 'Wajah tidak terdeteksi! Posisikan wajah di tengah.', 'warning');
+        myAlert('Oops...', 'Wajah tidak terdeteksi di foto! Coba ulangi foto.', 'warning');
         btnScanAbsen.textContent = "Deteksi Wajah";
         btnScanAbsen.disabled = false;
         return;
@@ -151,7 +201,7 @@ btnScanAbsen.addEventListener('click', async () => {
     pesanLokasi.innerText = "Mencocokkan dengan Database...";
 
     if (cachedDescriptors.length === 0) {
-        Swal.fire('Info', 'Database wajah masih kosong, daftar dulu bro!', 'info');
+        myAlert('Info', 'Database wajah masih kosong, daftar dulu bro!', 'info');
         btnScanAbsen.textContent = "Deteksi Wajah";
         btnScanAbsen.disabled = false;
         return;
@@ -162,14 +212,11 @@ btnScanAbsen.addEventListener('click', async () => {
 
     if (hasilMatch && hasilMatch.label !== 'unknown') {
         pesanLokasi.innerHTML = `<span style="color:#10b981">Wajah Cocok: ${hasilMatch.label}!</span>`;
-        const userQ = query(collection(db, "UID"), where("nama", "==", hasilMatch.label));
-        const userSnap = await getDocs(userQ);
         
         let subMateri = "N/A", angkatan = "2024";
-        if (!userSnap.empty) {
-            const userData = userSnap.docs[0].data();
-            subMateri = userData.Sub || "N/A";
-            angkatan = userData.Angkatan || "2024";
+        if (userDataCache[hasilMatch.label]) {
+            subMateri = userDataCache[hasilMatch.label].Sub;
+            angkatan = userDataCache[hasilMatch.label].Angkatan;
         }
 
         previewUser.innerHTML = `
@@ -203,11 +250,11 @@ async function sendSpreadsheet(namaAnggota, subMateri, angkatan) {
             mode: 'no-cors',
             body: JSON.stringify(payload)
         });
-        Swal.fire('Berhasil!', `Absen atas nama ${namaAnggota} berhasil dikirim ke Spreadsheet.`, 'success').then(() => {
+        myAlert('Berhasil!', `Absen atas nama ${namaAnggota} berhasil dikirim ke Spreadsheet.`, 'success').then(() => {
             location.reload();
         });
     } catch (err) {
-        Swal.fire('Error', 'Waduh, absen berhasil tapi gagal kirim ke Spreadsheet!', 'error');
+        myAlert('Error', 'Waduh, absen berhasil tapi gagal kirim ke Spreadsheet!', 'error');
         btnScanAbsen.disabled = false;
     }
 }
@@ -238,7 +285,7 @@ btnStartCameraDaftar.addEventListener('click', async () => {
         btnStartCameraDaftar.classList.add('hidden');
         btnCaptureDaftar.classList.remove('hidden');
     } catch (err) {
-        Swal.fire('Gagal', "Gagal akses kamera: " + err.message, 'error');
+        myAlert('Gagal', "Gagal akses kamera: " + err.message, 'error');
     }
 });
 
@@ -247,7 +294,7 @@ btnCaptureDaftar.addEventListener('click', () => {
     const id = document.getElementById('idUser').value;
 
     if (!nama || !id) {
-        Swal.fire('Peringatan', 'Isi Nama dan ID dulu bro!', 'warning');
+        myAlert('Peringatan', 'Isi Nama dan ID dulu bro!', 'warning');
         return;
     }
 
@@ -285,7 +332,7 @@ btnConfirmDaftar.addEventListener('click', async () => {
     const detections = await faceapi.detectSingleFace(previewDaftar).withFaceLandmarks().withFaceDescriptor();
     
     if (!detections) {
-        Swal.fire('Oops...', 'Wajah nggak kedeteksi di foto! Coba foto ulang di tempat terang.', 'warning');
+        myAlert('Oops...', 'Wajah nggak kedeteksi di foto! Coba foto ulang di tempat terang.', 'warning');
         btnConfirmDaftar.disabled = false;
         btnConfirmDaftar.textContent = "Simpan ke Database";
         return;
@@ -299,7 +346,7 @@ btnConfirmDaftar.addEventListener('click', async () => {
         const querySnapshot = await getDocs(q);
 
         if (querySnapshot.empty) {
-            Swal.fire('Error', `Data dengan ID ${id} tidak ditemukan. Minta admin masukin datanya dulu bro!`, 'error');
+            myAlert('Error', `Data dengan ID ${id} tidak ditemukan. Minta admin masukin datanya dulu bro!`, 'error');
             btnConfirmDaftar.disabled = false;
             btnConfirmDaftar.textContent = "Simpan ke Database";
             return;
@@ -310,13 +357,13 @@ btnConfirmDaftar.addEventListener('click', async () => {
             await updateDoc(userRef, { FaceID: faceDescriptor, Nama: nama });
         }
         
-        Swal.fire('Mantap!', `FaceID atas nama ${nama} berhasil disimpan.`, 'success').then(() => {
+        myAlert('Mantap!', `FaceID atas nama ${nama} berhasil disimpan.`, 'success').then(() => {
             location.reload(); 
         });
 
     } catch (error) {
         console.error("Error: ", error);
-        Swal.fire('Error', 'Gagal simpan ke database. Cek console.', 'error');
+        myAlert('Error', 'Gagal simpan ke database. Cek console.', 'error');
         btnConfirmDaftar.disabled = false;
         btnConfirmDaftar.textContent = "Simpan ke Database";
     }
