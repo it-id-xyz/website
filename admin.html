@@ -165,6 +165,37 @@
 
         <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
 
+        <h3><i class="fa fa-calendar-check"></i> Rekap Absensi Harian</h3>
+        <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 20px;">
+            <p style="font-size: 14px; color: #555; margin-bottom: 10px;">Pilih tanggal untuk melihat rekap siswa yang Alfa (Tidak ada keterangan).</p>
+            <div style="display: flex; gap: 10px;">
+                <select id="select-rekap-tanggal" style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px;"></select>
+                <button id="btn-load-rekap" style="background: #4caf50; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Cek Rekap</button>
+            </div>
+            
+            <div id="rekap-loading" class="hidden" style="margin-top: 15px; color: #ff9800; font-weight: bold;">Loading data dari Spreadsheet... <i class="fa fa-spinner fa-spin"></i></div>
+            
+            <div id="rekap-result-container" class="hidden" style="margin-top: 20px;">
+                <h4 style="color: #f44336; margin-bottom: 10px;"><i class="fa fa-user-times"></i> Daftar Siswa ALFA</h4>
+                <div class="log-table-wrapper" style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Lengkap</th>
+                                <th>Angkatan</th>
+                                <th>Sub Materi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="alfa-list-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
+
         <h3><i class="fa fa-edit"></i> Buat Postingan Baru</h3>
         <button id="news-update">Post News</button>
         <section id="form-input"></section>
@@ -172,43 +203,10 @@
         <h3><i class="fa fa-list"></i> Daftar Berita</h3>
         <div id="total-articles"></div>
 
-        <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
 
-        <h3><i class="fa-solid fa-file-signature"></i> List Pendaftaran</h3>
-        <section id="user-list" class="user-list"></section>
-        <button id="btn-export">export as xls</button>
-    </section>
     
 
     <script type="module" src="assets/js/khusus.js"></script>
     <script src="assets/js/global.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
