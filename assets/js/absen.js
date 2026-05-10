@@ -14,6 +14,8 @@ const menuAbsen = document.getElementById('menu-absen');
 const menuDaftar = document.getElementById('menu-daftar');
 
 let streamAktif; 
+let cachedDescriptors = [];
+let isDataLoaded = false;
 
 // ==========================================
 // 0. AUTH OBSERVER (BIAR NYANGKUT)
@@ -22,8 +24,13 @@ onAuthStateChanged(auth, (user) => {
     if (user) {
         console.log("User login:", user.email);
     } else {
-        alert("Waduh, kamu belum login! Balik dulu ya.");
-        window.location.href = "login.html"; 
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Waduh, kamu belum login! Balik dulu ya.'
+        }).then(() => {
+            window.location.href = "login.html"; 
+        });
     }
 });
 // ==========================================
@@ -75,11 +82,31 @@ function getDistance(lat1, lon1, lat2, lon2) {
     return R * c; 
 }
 
-document.getElementById('btn-menu-absen').addEventListener('click', () => {
+document.getElementById('btn-menu-absen').addEventListener('click', async () => {
     switchMenu(menuAbsen);
     previewUser.classList.add('hidden');
     btnScanAbsen.classList.add('hidden');
     
+    if (!isDataLoaded) {
+        pesanLokasi.innerHTML = "Memuat data wajah dari database...";
+        try {
+            const q = query(collection(db, "UID")); 
+            const querySnapshot = await getDocs(q);
+            
+            querySnapshot.forEach((document) => {
+                const data = document.data();
+                if (data.FaceID && data.FaceID.length > 0) {
+                    const floatDescriptor = new Float32Array(data.FaceID);
+                    cachedDescriptors.push(new faceapi.LabeledFaceDescriptors(data.Nama || document.id, [floatDescriptor]));
+                }
+            });
+            isDataLoaded = true;
+        } catch (err) {
+            Swal.fire('Error', 'Gagal memuat data wajah dari database!', 'error');
+            return;
+        }
+    }
+
     if (!navigator.geolocation) {
         pesanLokasi.innerHTML = "<span style='color:red'>Browser tidak support GPS!</span>";
         return;
@@ -115,33 +142,22 @@ btnScanAbsen.addEventListener('click', async () => {
     const detections = await faceapi.detectSingleFace(videoAbsen).withFaceLandmarks().withFaceDescriptor();
 
     if (!detections) {
-        alert("Wajah tidak terdeteksi! Posisikan wajah di tengah.");
+        Swal.fire('Oops...', 'Wajah tidak terdeteksi! Posisikan wajah di tengah.', 'warning');
         btnScanAbsen.textContent = "Deteksi Wajah";
         btnScanAbsen.disabled = false;
         return;
     }
 
     pesanLokasi.innerText = "Mencocokkan dengan Database...";
-    const q = query(collection(db, "UID")); 
-    const querySnapshot = await getDocs(q);
-    const labeledDescriptors = [];
 
-    querySnapshot.forEach((document) => {
-        const data = document.data();
-        if (data.FaceID && data.FaceID.length > 0) {
-            const floatDescriptor = new Float32Array(data.FaceID);
-            labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(data.Nama || document.id, [floatDescriptor]));
-        }
-    });
-
-    if (labeledDescriptors.length === 0) {
-        alert("Database wajah masih kosong, daftar dulu bro!");
+    if (cachedDescriptors.length === 0) {
+        Swal.fire('Info', 'Database wajah masih kosong, daftar dulu bro!', 'info');
         btnScanAbsen.textContent = "Deteksi Wajah";
         btnScanAbsen.disabled = false;
         return;
     }
 
-    const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.55); 
+    const faceMatcher = new faceapi.FaceMatcher(cachedDescriptors, 0.55); 
     const hasilMatch = faceMatcher.findBestMatch(detections.descriptor);
 
     if (hasilMatch && hasilMatch.label !== 'unknown') {
@@ -187,10 +203,11 @@ async function sendSpreadsheet(namaAnggota, subMateri, angkatan) {
             mode: 'no-cors',
             body: JSON.stringify(payload)
         });
-        alert(`Sip! Absen atas nama ${namaAnggota} berhasil dikirim ke Spreadsheet.`);
-        location.reload();
+        Swal.fire('Berhasil!', `Absen atas nama ${namaAnggota} berhasil dikirim ke Spreadsheet.`, 'success').then(() => {
+            location.reload();
+        });
     } catch (err) {
-        alert("Waduh, absen berhasil tapi gagal kirim ke Spreadsheet!");
+        Swal.fire('Error', 'Waduh, absen berhasil tapi gagal kirim ke Spreadsheet!', 'error');
         btnScanAbsen.disabled = false;
     }
 }
@@ -221,7 +238,7 @@ btnStartCameraDaftar.addEventListener('click', async () => {
         btnStartCameraDaftar.classList.add('hidden');
         btnCaptureDaftar.classList.remove('hidden');
     } catch (err) {
-        alert("Gagal akses kamera: " + err.message);
+        Swal.fire('Gagal', "Gagal akses kamera: " + err.message, 'error');
     }
 });
 
@@ -230,7 +247,7 @@ btnCaptureDaftar.addEventListener('click', () => {
     const id = document.getElementById('idUser').value;
 
     if (!nama || !id) {
-        alert("Isi Nama dan ID dulu bro!");
+        Swal.fire('Peringatan', 'Isi Nama dan ID dulu bro!', 'warning');
         return;
     }
 
@@ -268,7 +285,7 @@ btnConfirmDaftar.addEventListener('click', async () => {
     const detections = await faceapi.detectSingleFace(previewDaftar).withFaceLandmarks().withFaceDescriptor();
     
     if (!detections) {
-        alert("Wajah nggak kedeteksi di foto! Coba foto ulang di tempat terang.");
+        Swal.fire('Oops...', 'Wajah nggak kedeteksi di foto! Coba foto ulang di tempat terang.', 'warning');
         btnConfirmDaftar.disabled = false;
         btnConfirmDaftar.textContent = "Simpan ke Database";
         return;
@@ -282,23 +299,24 @@ btnConfirmDaftar.addEventListener('click', async () => {
         const querySnapshot = await getDocs(q);
 
         if (querySnapshot.empty) {
-            alert(`Data dengan ID ${id} tidak ditemukan. Minta admin masukin datanya dulu bro!`);
+            Swal.fire('Error', `Data dengan ID ${id} tidak ditemukan. Minta admin masukin datanya dulu bro!`, 'error');
             btnConfirmDaftar.disabled = false;
             btnConfirmDaftar.textContent = "Simpan ke Database";
             return;
         }
 
-        querySnapshot.forEach(async (document) => {
-            const userRef = doc(db, "UID", document.id);
+        for (const docSnap of querySnapshot.docs) {
+            const userRef = doc(db, "UID", docSnap.id);
             await updateDoc(userRef, { FaceID: faceDescriptor, Nama: nama });
-            
-            alert(`Mantap! FaceID atas nama ${nama} berhasil disimpan.`);
+        }
+        
+        Swal.fire('Mantap!', `FaceID atas nama ${nama} berhasil disimpan.`, 'success').then(() => {
             location.reload(); 
         });
 
     } catch (error) {
         console.error("Error: ", error);
-        alert("Gagal simpan ke database. Cek console.");
+        Swal.fire('Error', 'Gagal simpan ke database. Cek console.', 'error');
         btnConfirmDaftar.disabled = false;
         btnConfirmDaftar.textContent = "Simpan ke Database";
     }
