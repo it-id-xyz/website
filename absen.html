@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="assets/css/absen.css?v=2">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="icon" sizes="192x192" href="assets/img/it.png">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <header class="navbar">
@@ -52,11 +53,15 @@
 
             <div class="camera-wrapper">
                 <video autoplay playsinline id="videoAbsen"></video>
+                <img id="previewAbsen" alt="Preview Wajah Absen" class="hidden">
                 <div class="face-guide"></div>
                 <div id="preview-user" class="hidden"></div>
             </div>
+            <canvas id="canvasAbsen" class="hidden"></canvas>
             
+            <button id="btn-jepret-absen" class="hidden">Jepret Foto</button>
             <button id="btn-scan-absen" class="hidden">Deteksi Wajah</button>
+            <button id="btn-ulangi-absen" class="hidden">Ulangi Foto</button>
             <button id="btn-kembali-absen">Kembali</button>
         </div>
 
