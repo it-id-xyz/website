@@ -2,6 +2,7 @@ import { addDoc, collection, serverTimestamp, query, limit, orderBy, onSnapshot,
 import { signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { updateOnlineStatus, requireAdmin } from "./role.js";
 import { auth, db } from "./firebase.js"; 
+import { CONFIG } from "./config.js";
 const API_URL = 'https://api.it-smansaci.my.id/api/monitor';
 
 requireAdmin().catch(() => {
@@ -446,9 +447,93 @@ if (logoutBtn) {
     });
 }
 
+// ==========================================
+// REKAP ABSENSI HARIAN
+// ==========================================
+const selRekap = document.getElementById('select-rekap-tanggal');
+const btnLoadRekap = document.getElementById('btn-load-rekap');
+const loadingRekap = document.getElementById('rekap-loading');
+const containerRekap = document.getElementById('rekap-result-container');
+const tbodyAlfa = document.getElementById('alfa-list-body');
 
+if (selRekap && btnLoadRekap) {
+    async function loadSheets() {
+        try {
+            const res = await fetch(CONFIG.APPS_SCRIPT_URL + "?action=getSheets", { redirect: "follow" });
+            const data = await res.json();
+            selRekap.innerHTML = "";
+            let hasValidSheet = false;
+            data.forEach(sheetName => {
+                if (sheetName !== "Database Anggota" && sheetName !== "Sheet1") { 
+                    selRekap.innerHTML += `<option value="${sheetName}">${sheetName}</option>`;
+                    hasValidSheet = true;
+                }
+            });
+            if (!hasValidSheet) selRekap.innerHTML = `<option value="">Belum ada data absen</option>`;
+        } catch(e) {
+            console.error("Gagal load sheets", e);
+            selRekap.innerHTML = `<option value="">Gagal meload tanggal (Periksa Koneksi/Apps Script)</option>`;
+        }
+    }
+    loadSheets();
 
+    btnLoadRekap.addEventListener('click', async () => {
+        const tgl = selRekap.value;
+        if (!tgl) return;
 
+        loadingRekap.classList.remove('hidden');
+        containerRekap.classList.add('hidden');
+        tbodyAlfa.innerHTML = "";
 
+        try {
+            const resAbsen = await fetch(CONFIG.APPS_SCRIPT_URL + "?action=getRecap&sheetName=" + encodeURIComponent(tgl), { redirect: "follow" });
+            const dataAbsen = await resAbsen.json(); 
 
+            const resDb = await fetch(CONFIG.APPS_SCRIPT_URL + "?action=getRecap&sheetName=Database Anggota", { redirect: "follow" });
+            const dataDb = await resDb.json(); 
 
+            if (dataDb.length === 0 || dataDb.error) {
+                alert("Sheet 'Database Anggota' tidak ditemukan atau kosong di Spreadsheet!");
+                return;
+            }
+
+            const namaAbsen = [];
+            for (let i = 1; i < dataAbsen.length; i++) { 
+                if (dataAbsen[i][1]) {
+                    namaAbsen.push(dataAbsen[i][1].toString().toLowerCase().trim());
+                }
+            }
+
+            let htmlAlfa = "";
+            let no = 1;
+            for (let i = 1; i < dataDb.length; i++) { 
+                if (dataDb[i][0]) {
+                    const namaDb = dataDb[i][0].toString().trim();
+                    if (!namaAbsen.includes(namaDb.toLowerCase())) {
+                        const angkatan = dataDb[i][1] || "-";
+                        const sub = dataDb[i][2] || "-";
+                        htmlAlfa += `<tr>
+                            <td>${no++}</td>
+                            <td>${namaDb}</td>
+                            <td>${angkatan}</td>
+                            <td>${sub}</td>
+                        </tr>`;
+                    }
+                }
+            }
+
+            if (htmlAlfa === "") {
+                htmlAlfa = `<tr><td colspan="4" style="text-align:center;">Semua siswa hadir/izin/sakit hari ini! Kosong!</td></tr>`;
+            }
+
+            tbodyAlfa.innerHTML = htmlAlfa;
+            containerRekap.classList.remove('hidden');
+
+        } catch (e) {
+            console.error(e);
+            alert("Gagal menarik data rekap dari Spreadsheet!");
+        } finally {
+            loadingRekap.classList.add('hidden');
+        }
+    });
+}
