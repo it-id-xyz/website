@@ -12,11 +12,13 @@ const TOLERANSI_METER = CONFIG.TOLERANSI_METER;
 const menuUtama = document.getElementById('menu-utama');
 const menuAbsen = document.getElementById('menu-absen');
 const menuDaftar = document.getElementById('menu-daftar');
+const menuIzin = document.getElementById('menu-izin');
 
 let streamAktif; 
 let cachedDescriptors = [];
 let userDataCache = {};
 let isDataLoaded = false;
+let currentDistance = 0;
 
 // ==========================================
 // 0. SWEETALERT FALLBACK
@@ -69,11 +71,14 @@ function switchMenu(showMenu) {
     menuUtama.classList.add('hidden');
     menuAbsen.classList.add('hidden');
     menuDaftar.classList.add('hidden');
+    menuIzin.classList.add('hidden');
     showMenu.classList.remove('hidden');
 }
 
 document.getElementById('btn-kembali-absen').addEventListener('click', () => switchMenu(menuUtama));
 document.getElementById('btn-kembali-daftar').addEventListener('click', () => switchMenu(menuUtama));
+document.getElementById('btn-kembali-izin').addEventListener('click', () => switchMenu(menuUtama));
+document.getElementById('btn-menu-izin').addEventListener('click', () => switchMenu(menuIzin));
 
 // ==========================================
 // 3.  ABSEN (GEOLOCATION + DETEKSI)
@@ -97,6 +102,21 @@ function getDistance(lat1, lon1, lat2, lon2) {
 }
 
 document.getElementById('btn-menu-absen').addEventListener('click', async () => {
+    const now = new Date();
+    const day = now.getDay();
+    const currentMins = now.getHours() * 60 + now.getMinutes();
+    const startMins = (CONFIG.JAM_MULAI || 0) * 60 + (CONFIG.MENIT_MULAI || 0);
+    const endMins = (CONFIG.JAM_SELESAI || 23) * 60 + (CONFIG.MENIT_SELESAI || 59);
+
+    if (CONFIG.HARI_ABSEN && !CONFIG.HARI_ABSEN.includes(day)) {
+        myAlert('Tutup', 'Absen tidak dibuka pada hari ini!', 'error');
+        return;
+    }
+    if (currentMins < startMins || currentMins > endMins) {
+        myAlert('Tutup', `Absen hanya dibuka jam ${CONFIG.JAM_MULAI}:${CONFIG.MENIT_MULAI} - ${CONFIG.JAM_SELESAI}:${CONFIG.MENIT_SELESAI}!`, 'error');
+        return;
+    }
+
     switchMenu(menuAbsen);
     previewUser.classList.add('hidden');
     btnScanAbsen.classList.add('hidden');
@@ -118,7 +138,7 @@ document.getElementById('btn-menu-absen').addEventListener('click', async () => 
                     const floatDescriptor = new Float32Array(data.FaceID);
                     cachedDescriptors.push(new faceapi.LabeledFaceDescriptors(label, [floatDescriptor]));
                     userDataCache[label] = {
-                        Sub: data.Sub || "N/A",
+                        Sub: data.sub_materi || data.Sub_Materi || data.Sub || "N/A",
                         Angkatan: data.Angkatan || "2024"
                     };
                 }
@@ -138,11 +158,12 @@ document.getElementById('btn-menu-absen').addEventListener('click', async () => 
     pesanLokasi.innerText = "Mengecek Lokasi GPS...";
     navigator.geolocation.getCurrentPosition(async (position) => {
         const dist = getDistance(position.coords.latitude, position.coords.longitude, TARGET_LAT, TARGET_LNG);
+        currentDistance = Math.round(dist);
         
         if (dist > TOLERANSI_METER) {
-            pesanLokasi.innerHTML = `<span style="color:red">Di luar area sekolah! (Jarak: ${Math.round(dist)}m)</span>`;
+            pesanLokasi.innerHTML = `<span style="color:red">Di luar area sekolah! (Jarak: ${currentDistance}m)</span>`;
         } else {
-            pesanLokasi.innerHTML = `<span style="color:#10b981">Lokasi Valid (${Math.round(dist)}m). Menyalakan kamera...</span>`;
+            pesanLokasi.innerHTML = `<span style="color:#10b981">Lokasi Valid (${currentDistance}m). Menyalakan kamera...</span>`;
             
             try {
                 streamAktif = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -227,7 +248,7 @@ btnScanAbsen.addEventListener('click', async () => {
         `;
         previewUser.classList.remove('hidden');
 
-        sendSpreadsheet(hasilMatch.label, subMateri, angkatan);
+        sendSpreadsheet(hasilMatch.label, subMateri, angkatan, currentDistance);
     } else {
         pesanLokasi.innerHTML = "<span style='color:red'>Wajah tidak dikenal!</span>";
         btnScanAbsen.textContent = "Coba Lagi";
@@ -235,13 +256,24 @@ btnScanAbsen.addEventListener('click', async () => {
     }
 });
 
-async function sendSpreadsheet(namaAnggota, subMateri, angkatan) {
+async function sendSpreadsheet(namaAnggota, subMateri, angkatan, jarak, status = "Hadir", alasan = "-") {
+    const todayStr = new Date().toLocaleDateString('id-ID');
+    const cacheKey = `absen_${namaAnggota}`;
+    if (localStorage.getItem(cacheKey) === todayStr) {
+        myAlert('Peringatan', 'Kamu sudah absen hari ini!', 'warning');
+        btnScanAbsen.disabled = false;
+        const btnKirim = document.getElementById('btn-kirim-izin');
+        if (btnKirim) { btnKirim.disabled = false; btnKirim.textContent = "Kirim Pengajuan"; }
+        return;
+    }
+
     const payload = {
         nama: namaAnggota,
-        jarak: "Terdeteksi di Lokasi",
-        status: "Hadir",
+        jarak: jarak,
+        status: status,
         sub_materi: subMateri, 
-        angkatan: angkatan
+        angkatan: angkatan,
+        alasan: alasan
     };
 
     try {
@@ -250,6 +282,7 @@ async function sendSpreadsheet(namaAnggota, subMateri, angkatan) {
             mode: 'no-cors',
             body: JSON.stringify(payload)
         });
+        localStorage.setItem(cacheKey, todayStr);
         myAlert('Berhasil!', `Absen atas nama ${namaAnggota} berhasil dikirim ke Spreadsheet.`, 'success').then(() => {
             location.reload();
         });
@@ -258,6 +291,44 @@ async function sendSpreadsheet(namaAnggota, subMateri, angkatan) {
         btnScanAbsen.disabled = false;
     }
 }
+
+// ==========================================
+// 3.5 DAFTAR IZIN / SAKIT
+// ==========================================
+document.getElementById('btn-kirim-izin').addEventListener('click', async () => {
+    const nama = document.getElementById('namaIzin').value.trim();
+    const status = document.getElementById('statusIzin').value;
+    const alasan = document.getElementById('alasanIzin').value.trim();
+    const btnKirim = document.getElementById('btn-kirim-izin');
+
+    if (!nama || !alasan) {
+        myAlert('Peringatan', 'Nama dan alasan wajib diisi bro!', 'warning');
+        return;
+    }
+
+    btnKirim.disabled = true;
+    btnKirim.textContent = "Mengirim...";
+
+    let subMateri = "N/A", angkatan = "2024";
+    try {
+        const q = query(collection(db, "UID"), where("Nama", "==", nama));
+        const qs = await getDocs(q);
+        if (!qs.empty) {
+            const data = qs.docs[0].data();
+            subMateri = data.sub_materi || data.Sub_Materi || data.Sub || "N/A";
+            angkatan = data.Angkatan || "2024";
+        } else {
+            myAlert('Oops', `Nama ${nama} tidak ditemukan di database UID! Pastikan ejaannya benar.`, 'warning');
+            btnKirim.disabled = false;
+            btnKirim.textContent = "Kirim Pengajuan";
+            return;
+        }
+    } catch (e) {
+        console.error(e);
+    }
+
+    sendSpreadsheet(nama, subMateri, angkatan, "-", status, alasan);
+});
 
 // ==========================================
 // 4. DAFTAR WAJAH BARU
