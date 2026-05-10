@@ -44,6 +44,7 @@
             <h2>Selamat Datang</h2>
             <p class="teks-subtitle">Sistem Absensi IT SMAN 1 Cibarusah</p>
             <button id="btn-menu-absen">Scan Absen</button>
+            <button id="btn-menu-izin" style="margin-top: 10px; background-color: #ff9800; color: white;">Ajukan Izin / Sakit</button>
             <p class="teks-info">Belum terdaftar? <br><button id="btn-menu-daftar">Daftar Wajah</button></p>
         </div>
 
@@ -84,6 +85,22 @@
             <button id="btnConfirmDaftar" class="hidden">Simpan ke Database</button>
             <button id="btnRetakeDaftar" class="hidden">Ulangi Foto</button>
             <button id="btn-kembali-daftar">Kembali</button>
+        </div>
+
+        <div id="menu-izin" class="absen-container hidden">
+            <h2>Ajukan Izin / Sakit</h2>
+            
+            <input type="text" id="namaIzin" placeholder="Masukkan Nama Lengkap" required>
+            
+            <select id="statusIzin" style="width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.5); color: white; outline: none; box-sizing: border-box;">
+                <option value="Izin">Izin</option>
+                <option value="Sakit">Sakit</option>
+            </select>
+
+            <textarea id="alasanIzin" placeholder="Tulis alasan lengkap di sini..." rows="4" style="width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.5); color: white; outline: none; box-sizing: border-box; resize: vertical;" required></textarea>
+
+            <button id="btn-kirim-izin">Kirim Pengajuan</button>
+            <button id="btn-kembali-izin">Kembali</button>
         </div>
     </div>
     <div class="line">
