@@ -56,14 +56,23 @@
 
 .absen-container button {
     width: 100%;
-    padding: 12px;
+    font-family: inherit;
+    padding: 12px 24px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
+    background: var(--bg-button);
+    color: white;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
     margin-bottom: 10px;
-    transition: 0.3s;
+    transition: all 0.3s ease;
+}
+
+.absen-container button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(122, 162, 255, 0.4);
+    filter: brightness(1.1);
 }
 
 #videoElement, #previewImage {
@@ -154,25 +163,28 @@
     font-weight: bold;
 }
 
-#btn-menu-absen, #btnStartCameraDaftar {
-    background-color: #0ea5e9;
-    color: white;
-}
-#btn-menu-absen:hover, #btnStartCameraDaftar:hover { background-color: #0284c7; }
-
 #btn-menu-daftar {
     background-color: transparent;
-    border: 1px solid #10b981;
-    color: #10b981;
+    border: 1px solid var(--bg-button);
+    color: var(--bg-button);
     margin-top: 10px;
 }
-#btn-menu-daftar:hover { background-color: rgba(16, 185, 129, 0.1); }
-
-#btn-scan-absen, #btnConfirmDaftar {
-    background-color: #10b981;
-    color: white;
+#btn-menu-daftar:hover { 
+    background-color: rgba(122, 162, 255, 0.1); 
+    box-shadow: none;
+    transform: none;
 }
-#btn-scan-absen:hover, #btnConfirmDaftar:hover { background-color: #059669; }
+
+#btn-menu-izin {
+    background-color: transparent;
+    border: 1px solid #f59e0b;
+    color: #f59e0b;
+}
+#btn-menu-izin:hover {
+    background-color: rgba(245, 158, 11, 0.1);
+    box-shadow: none;
+    transform: none;
+}
 
 #btnCaptureDaftar {
     background-color: #f59e0b;
