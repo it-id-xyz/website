@@ -134,7 +134,7 @@ document.getElementById('btn-menu-absen').addEventListener('click', async () => 
             querySnapshot.forEach((document) => {
                 const data = document.data();
                 if (data.FaceID && data.FaceID.length > 0) {
-                    const label = data.Nama || document.id;
+                    const label = data.Nama || data.nama || document.id;
                     const floatDescriptor = new Float32Array(data.FaceID);
                     cachedDescriptors.push(new faceapi.LabeledFaceDescriptors(label, [floatDescriptor]));
                     userDataCache[label] = {
@@ -402,8 +402,8 @@ btnConfirmDaftar.addEventListener('click', async () => {
         for (const docSnap of querySnapshot.docs) {
             const userRef = doc(db, "UID", docSnap.id);
             await updateDoc(userRef, { FaceID: faceDescriptor });
-            if (docSnap.data().Nama) {
-                namaUserFetch = docSnap.data().Nama;
+            if (docSnap.data().Nama || docSnap.data().nama) {
+                namaUserFetch = docSnap.data().Nama || docSnap.data().nama;
             }
         }
 
