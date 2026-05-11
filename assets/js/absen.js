@@ -355,8 +355,7 @@ btnCaptureDaftar.addEventListener('click', () => {
     canvasDaftar.width = videoDaftar.videoWidth;
     canvasDaftar.height = videoDaftar.videoHeight;
     canvasDaftar.getContext('2d').drawImage(videoDaftar, 0, 0, canvasDaftar.width, canvasDaftar.height);
-    
-    finalImageBase64 = canvasDaftar.toDataURL('image/jpeg');
+    const finalImageBase64 = canvasDaftar.toDataURL('image/jpeg');
     
     videoDaftar.classList.add('hidden');
     previewDaftar.src = finalImageBase64;
