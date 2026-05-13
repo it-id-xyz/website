@@ -6,7 +6,7 @@ export const CONFIG = {
     ANGKATAN_DEFAULT: "2024",
     // 0=Minggu, 1=Senin, 2=Selasa, 3=Rabu, 4=Kamis, 5=Jumat, 6=Sabtu
     // Masukkan angka hari ke dalam kurung siku untuk mengizinkan absen di hari tersebut.
-    HARI_ABSEN: [0, 1, 2, 3, 4, 5 6,], 
+    HARI_ABSEN: [0, 1, 2, 3, 4, 5, 6], 
     JAM_MULAI: 7,    // Jam mulai (13.00)
     MENIT_MULAI: 30,  // Menit mulai (13.30)
     JAM_SELESAI: 20,  // Jam selesai (15.00)
