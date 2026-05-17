@@ -1,0 +1,206 @@
+.absen-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 60px); 
+    padding: 20px;
+}
+
+.absen-container {
+    background-color: var(--bg-dark);
+    padding: 30px 20px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--glass-border);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.absen-container h2 {
+    margin-bottom: 20px;
+}
+
+.absen-container input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    background: rgba(255, 255, 255, 0.05); 
+    border: 1px solid var(--glass-border);
+    color: var(--text-light);
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.absen-container input::placeholder {
+    color: #94a3b8;
+}
+
+.absen-container input:focus {
+    outline: none;
+    border-color: var(--bg-button);
+    background: var(--glass-hover);
+}
+
+#videoElement, #previewImage {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid var(--glass-border);
+    background-color: #000; 
+}
+
+.absen-container canvas {
+    display: none;
+}
+
+.absen-container button {
+    width: 100%;
+    font-family: inherit;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    background: var(--bg-button);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.absen-container button:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: inset 0 0 0 100px rgba(0,0,0,0.15);
+}
+
+#videoElement, #previewImage {
+    width: 100%;
+    height: 300px;
+    object-fit: cover; 
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid var(--glass-border);
+    background-color: #000; 
+}
+#btnStartCamera { 
+    background-color: var(--bg-button); 
+    color: var(--bg-main); 
+}
+#btnStartCamera:hover { opacity: 0.8; }
+
+#btnCapture { background-color: #0ea5e9; color: white; }
+#btnCapture:hover { background-color: #0284c7; }
+
+#btnConfirm { background-color: #10b981; color: white; }
+#btnConfirm:hover { background-color: #059669; }
+
+#btnRetake { 
+    background-color: transparent; 
+    border: 1px solid #ef4444; 
+    color: #ef4444; 
+}
+#btnRetake:hover { background-color: rgba(239, 68, 68, 0.1); }
+.hidden { display: none !important; }
+
+/* =================================================
+   ID VIDEO & PREVIEW 
+================================================= */
+#videoAbsen, #videoDaftar, #previewDaftar {
+    transform: scaleX(-1); 
+}
+.camera-wrapper {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    border: 1px solid var(--glass-border);
+    background-color: #000;
+}
+
+.camera-wrapper video, .camera-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    margin: 0;
+    border: none;
+}
+
+.face-guide {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 75%;
+    border: 3px dashed rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    box-shadow: 0 0 0 500px rgba(0, 0, 0, 0.5); 
+    pointer-events: none;
+    z-index: 10;
+}
+
+.camera-wrapper video.hidden ~ .face-guide {
+    display: none !important;
+}
+/* =================================================
+   STYLING TEKS TAMBAHAN
+================================================= */
+.teks-subtitle {
+    margin-bottom: 20px;
+    color: #94a3b8;
+}
+
+.teks-info {
+    margin-top: 15px;
+}
+
+#pesan-lokasi {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+#btn-menu-daftar {
+    background-color: transparent;
+    border: 1px solid var(--bg-button);
+    color: var(--bg-button);
+    margin-top: 10px;
+}
+#btn-menu-daftar:hover { 
+    background-color: var(--glass-hover); 
+    box-shadow: none;
+    transform: none;
+}
+
+#btn-menu-izin {
+    background-color: transparent;
+    border: 1px solid #f59e0b;
+    color: #f59e0b;
+}
+#btn-menu-izin:hover {
+    background-color: rgba(245, 158, 11, 0.1);
+    box-shadow: none;
+    transform: none;
+}
+
+#btnCaptureDaftar {
+    background-color: #f59e0b;
+    color: white;
+}
+#btnCaptureDaftar:hover { background-color: #d97706; }
+
+#btnRetakeDaftar {
+    background-color: transparent;
+    border: 1px solid #ef4444;
+    color: #ef4444;
+}
+#btnRetakeDaftar:hover { background-color: rgba(239, 68, 68, 0.1); }
+
+#btn-kembali-absen, #btn-kembali-daftar {
+    background-color: #ef4444;
+    color: white;
+    margin-top: 10px;
+}
+#btn-kembali-absen:hover, #btn-kembali-daftar:hover { background-color: #dc2626; }
