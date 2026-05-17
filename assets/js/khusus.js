@@ -18,11 +18,12 @@ async function refreshDashboard() {
                 'Content-Type': 'application/json'
             }
         });
-        if (!response.ok) throw new Error('Server Local tidak merespon');
         if (response.status === 401 || response.status === 403) {
+            localStorage.removeItem('admin_token');
             window.location.href = "login.html"; 
             return;
         }
+        if (!response.ok) throw new Error('Server Local tidak merespon');
         
         const data = await response.json();
         if (data.groq) {
