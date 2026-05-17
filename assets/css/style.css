@@ -52,6 +52,7 @@ button:hover {
     margin: 0 auto 20px;
     background: linear-gradient(to right, var(--text-light), var(--bg-button));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -295,6 +296,10 @@ button:hover {
     margin-right: 5px;
 }
 
+:root[data-theme="light"] .about-it {
+    background: linear-gradient(135deg, rgba(241, 245, 249, 0.9), rgba(226, 232, 240, 0.9));
+}
+
 /* =====================
     CTA SECTION
 ===================== */
@@ -310,6 +315,7 @@ button:hover {
     font-size: 2rem;
     background: linear-gradient(to right, var(--text-light), var(--bg-button));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 15px;
 }
