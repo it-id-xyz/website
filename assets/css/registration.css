@@ -1,0 +1,76 @@
+body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    background: #121212; 
+    color: #fff; 
+    padding: 20px; 
+}
+
+.container { 
+    max-width: 600px; 
+    margin: 0 auto; 
+    background: #1e1e1e; 
+    padding: 30px; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 15px rgba(0,255,204,0.2); 
+}
+
+.hidden { display: none; }
+
+h2, h3 { 
+    color: #00ffcc; 
+    text-align: center; 
+}
+
+.form-group { margin-bottom: 15px; }
+
+label { 
+    display: block; 
+    margin-bottom: 5px; 
+    color: #aaa; 
+    font-size: 14px; 
+}
+
+input { 
+    width: 100%; 
+    padding: 10px; 
+    border: 1px solid #333; 
+    border-radius: 5px; 
+    background: #2a2a2a; 
+    color: #fff; 
+    box-sizing: border-box; 
+}
+
+input:focus { 
+    outline: none; 
+    border-color: #00ffcc; 
+}
+
+.result-nick { 
+    margin-top: 5px; 
+    font-size: 13px; 
+    font-weight: bold; 
+    color: #00ffcc; 
+    min-height: 18px; 
+}
+
+.btn { 
+    width: 100%; 
+    padding: 12px; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-weight: bold; 
+    font-size: 16px; 
+    margin-top: 10px; 
+}
+
+.btn-google { background: #db4437; color: white; }
+.btn-submit { background: #00ffcc; color: #000; }
+.btn-logout { background: #333; color: #fff; margin-top: 20px; }
+
+.section-title { 
+    border-bottom: 1px solid #444; 
+    padding-bottom: 5px; 
+    margin-top: 25px; 
+    margin-bottom: 15px; 
+}
