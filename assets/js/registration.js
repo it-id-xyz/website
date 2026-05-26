@@ -50,7 +50,7 @@ document.getElementById('btn-logout').addEventListener('click', () => {
 // --- LOGIC FORM & ID CHECKER ---
 
 // URL Backend Node.js lu (Ganti ke domain asli kalau backend udah di-hosting)
-const BACKEND_URL = 'https://api.it-smansaci.my.id/'; 
+const BACKEND_URL = 'https://api.it-smansaci.my.id'; 
 
 // Struktur Anggota Tim
 const teamStructure = [
