@@ -300,6 +300,13 @@ button:hover {
     background: linear-gradient(135deg, rgba(241, 245, 249, 0.9), rgba(226, 232, 240, 0.9));
 }
 
+:root[data-theme='light'] .project-thumb {
+    background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+}
+:root[data-theme='light'] .cta p {
+    color: var(--text-muted);
+}
+
 /* =====================
     CTA SECTION
 ===================== */
