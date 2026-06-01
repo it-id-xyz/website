@@ -58,7 +58,7 @@ input[type="text"] {
 
 input:focus {
     border-color: var(--bg-button);
-    background: rgba(15, 23, 42, 0.9);
+    background: var(--input-bg);
     box-shadow: 0 0 0 4px var(--glass-hover);
 }
 
