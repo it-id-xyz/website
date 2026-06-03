@@ -1,8 +1,23 @@
 import { auth } from "./firebase.js";
 import { 
     onAuthStateChanged, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, 
-    GithubAuthProvider, OAuthProvider, signInWithEmailAndPassword 
+    GithubAuthProvider, OAuthProvider, signInWithEmailAndPassword, signOut
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+// Global Logout Button Toggle
+onAuthStateChanged(auth, (user) => {
+    const logoutBtns = [document.getElementById('logout-btn'), document.getElementById('btn-logout')];
+    logoutBtns.forEach(btn => {
+        if (btn) {
+            if (user) {
+                btn.style.display = 'block';
+                btn.onclick = () => signOut(auth);
+            } else {
+                btn.style.display = 'none';
+            }
+        }
+    });
+});
 
 // ==========================================
 // 2. SETUP PROVIDER SOSIAL MEDIA
