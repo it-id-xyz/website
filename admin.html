@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - IT News</title>
-    <link rel="icon" href="assets/favicon.ico">
     <link rel="stylesheet" href="assets/css/global.css">
-    <link rel="stylesheet" href="assets/css/admin.css">
+    <link rel="stylesheet" href="assets/css/login.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="icon" sizes="192x192" href="assets/img/it.png">
+    <link rel="icon" href="assets/favicon.ico">
+    <title>Dashboard - IT Login</title>
 </head>
 <body>
-
     <header class="navbar">
         <div class="nav-logo">
         <img src="assets/img/it.png" class="logo">
@@ -20,13 +19,14 @@
         <nav class="nav-btn-mobile">
             <button class="hamburger" id="menuToggle"><i class="fa fa-bars"></i></button>
         
-            <div class="nav-menu" id="navMenu">
+            <div class="nav-menu hidden" id="navMenu">
                 <a href="index.html"><i class="fa fa-home"></i><span class="nav-text">Home</span></a>
                 <a href="news.html"><i class="fa fa-newspaper"></i><span class="nav-text">News</span></a>
                 <a href="contact.html"><i class="fa-solid fa-envelope"></i><span class="nav-text">Contact</span></a>
                 <a href="itservice.html"><i class="fa fa-cogs"></i><span class="nav-text">Service</span></a>
                 <a href="form.html"><i class="fa fa-rocket"></i><span class="nav-text">Join Now</span></a>
-                <a id="logout-btn"><i class="fa fa-sign-out"></i><span class="nav-text">Logout</span></a>
+                <a href="login.html"><i class="fa fa-right-to-bracket"></i><span class="nav-text">Login</span></a>
+                <a id="logout-btn"><i class="fa fa-right-from-bracket"></i><span class="nav-text">Logout</span></a>
             </div>
         </nav>
         <nav class="nav-btn">
@@ -35,174 +35,99 @@
             <a href="contact.html"><i class="fa-solid fa-envelope"> </i><span class="nav-text">Contact</span></a>
             <a href="itservice.html"><i class="fa fa-cogs"></i><span class="nav-text">Service</span></a>
             <a href="form.html"><i class="fa fa-rocket"></i><span class="nav-text">Join now</span></a>
-            <a href="login.html"><button id="logout-btn"><i class="fa fa-sign-out"></i> Logout</button></a>
+            <a href="login.html"><i class="fa fa-right-to-bracket"></i><span class="nav-text">Login</span></a>
+            <a id="btn-logout" style="cursor:pointer;"><i class="fa fa-right-from-bracket"></i><span class="nav-text">Logout</span></a>
                 </nav>
     </header>
-
-    <section class="admin-container">
-        <a href="lita.html" class="chat-button"><span class="ai-label">AI</span></a>
-        <section class="action-bar">
-            <h3><i class="fa fa-gauge-high"></i> Admin Dashboard</h3>
-            <div id="admin-info">
-                <span id="admin-name"></span>
-                <span id="server-status" style="font-size: 12px; padding: 4px 8px; border-radius: 20px; background: #e0f2f1; color: #2e7d32;">
-                    <i class="fa fa-circle"></i> <strong>Server Online</strong>
-                </span>
-            </div>
-        </section>
-
-        <div class="stats-grid">
-            <div class="stat-card">
-                <h3><i class="fa fa-newspaper"></i> Total Postingan</h3>
-                <p id="total-posts" style="color: #7aa2ff;"></p>
-                <small>Data dari Firestore</small>
-            </div>
-
-            <div class="stat-card">
-                <h3><i class="fa fa-microchip"></i> Server RAM</h3>
-                <p>Server Used: </p>
-                <small id="server-ram" style="color: #7aa2ff;">0 MB / 0 GB</small>
-                <div class="ram-container">
-                    <div id="ram-bar" style="width: 100%; background: #4caf50; height: 100%;"></div>
+    <main>
+    <div id="login-menu" class="card-content">
+            <h3>Silahkan Login terlebih dahulu</h3>
+            <button id="btn-login-gg"><I class="fab fa-google"></I> Google</button>
+            <button id="btn-login-fb"><I class="fab fa-facebook"></I> Facebook</button>
+            <button id="btn-login-gh"><i class="fa-brands fa-github"></i> Github</a></button>
+            <button id="btn-login-ms"><i class="fa-brands fa-microsoft"></i> Microsoft</a></button>
+        </div>
+    <form id="loginForm">
+        <h4>Masukan Email terdaftar</h4>
+        <input type="email" id="email" placeholder="Email" required>
+        <h4>Masukan Password</h4>
+        <input type="password" id="password" placeholder="Password" required><br>
+        <br><button type="submit" id="loginBtn">Login</button>
+        <div style="text-align: center; margin-top: 15px;">
+            <a href="admin_login.html" style="color: var(--text-muted); font-size: 0.9rem; text-decoration: underline;">Login for Admin</a>
+        </div>
+    </form>
+    <form id="form-otp">
+            <div class="container">
+                <h2>Verifikasi OTP</h2>
+                <p>Masukkan kode OTP yang dikirim ke WhatsApp</p>
+                <div class="otp-inputs">
+                    <input type="text" maxlength="1">
+                    <input type="text" maxlength="1">
+                    <input type="text" maxlength="1">
+                    <input type="text" maxlength="1">
+                    <input type="text" maxlength="1">
+                    <input type="text" maxlength="1">
                 </div>
-                <small id="used-text" style="font-size: 9px;">Usage: 0%</small>
-                <p>Ram Usage: </p>
-                <small id="ram-used" style="color: #7aa2ff;">0 MB / 0 GB</small>
-                <div class="ram-container">
-                    <div id="ram-usage" style="width: 100%; background: #4caf50; height: 100%;"></div>
+                <button id="verify-otp">Verify OTP</button>
+                <svg id="loader" class="hidden animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                <div class="resend">
+                Tidak menerima kode? <span id="resend-otp">Kirim ulang</span>
                 </div>
-                <small id="usage-text" style="font-size: 9px;">Usage: 0%</small>
-            </div>
-
-            <div class="stat-card">
-                <h3><i class="fab fa-github"></i> GitHub Update</h3>
-                <span id="git-msg"></span>
-                <small id="git-author"></small>
-            </div>
-
-            <div class="stat-card">
-                <h3><i class="fa fa-clock"></i> Server Uptime</h3>
-                <p id="server-uptime" style="color: #7aa2ff;">0s</p>
-                <small>Lita Life-time</small>
-            </div>
-            <div class="stat-card">
-                <h3><i class="fa fa-users"></i> Admin Aktif</h3>
-                <div id="online-list" style="color:#7aa2ff"></div>
-            </div>
-            <div class="stat-card">
-                <h3><i class="fa fa-brain"></i> AI Quota </h3>
-                <div style="font-size: 11px; line-height: 1.6;">
-                    <p style="color: #7aa2ff;">Llama 3.3 70b</p>
-                    <span id="total-posts-ai">0</span>
-                    <div class="ram-container" style="margin-top: 10px;">
-                        <div id="req-bar" style="width: 100%; background: #4caf50; height: 100%;"></div>
+                            <div id="status" class="mt-4 text-center text-sm font-medium"></div>
                     </div>
-                    <small id="req-text" style="font-size: 9px;">Usage: 0%</small><br>
-                    <span id="total-tokens-ai">0</span>
-                    <div class="ram-container">
-                        <div id="token-bar" style="width: 100%; background: #4caf50; height: 100%;"></div>
-                    </div>
-                    <small id="token-text" style="font-size: 9px;">Usage: 0%</small>
-                </div>
-                            <small style="font-size: 9px; color: #888;">*Limit otomatis dari Groq Cloud</small>
+        </form>
+    </main>
+    <div class="line">
+        -----------------------------------------------------------
+    </div>
+    <footer class="footer">
+        <div class="footer-container">
+            <div>
+                <h4>Information & Technology</h4>
+                <p>Ekskul pengembangan skill teknologi dan karya digital siswa.</p>
             </div>
-            <div class="stat-card">
-                <h3><i class="fa fa-temperature-half"></i> CPU Temp & Load</h3>
-                <div style="font-size: 11px; line-height: 1.6;">
-                    <p>Suhu: <span id="cpu-temp" style="color: #ff5252; font-weight: bold;">0°C</span></p>
-                    <p>Load Avg: <span id="load-avg" style="color: #7aa2ff;">0.00</span></p>
-                </div>
-                <div class="ram-container" style="margin-top: 10px; background: #eee;">
-                    <div id="cpu-usage-bar" style="width: 0%; background: #ff9800; height: 100%; transition: width 0.5s;"></div>
-                </div>
-                <small id="cpu-load-text" style="font-size: 9px;">Usage: 0%</small>
+
+            <div>
+                <h4>Menu</h4>
+                <a href="index.html"><i class="fa-solid fa-house"></i> Home</a><br>
+                <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a><br>
+                <a href="form.html"><i class="fa-solid fa-user-plus"></i> Join now</a><br>
+                <a href="login.html"><i class="fa fa-right-to-bracket"></i> Login</a>
             </div>
-            <div class="stat-card">
-                <h3><i class="fa fa-memory"></i> Swap Memory (HDD)</h3>
-                <p id="swap-used" style="color: #7aa2ff;">0 GB</p>
-                <div class="ram-container">
-                    <div id="swap-bar" style="width: 0%; background: #9c27b0; height: 100%; transition: width 0.5s;"></div>
-                </div>
-                <small id="swap-text" style="font-size: 9px;">Usage: 0%</small>
+
+            <div>
+                <h4>Social Media</h4>
+                <a href="https://www.instagram.com/itsmansaci?igsh=NTB6Y2ltZHprenIw" target="_blank"><i class="fa-brands fa-instagram"></i> Instagram</a><br>
+                <a href="https://www.youtube.com/@itsmansaci" target="_blank"><i class="fa-brands fa-youtube"></i> YouTube</a><br>
+               <a href="https://www.tiktok.com/@itsmansaci" target="_blank"><i class="fa-brands fa-tiktok"></i> Tiktok</a><br>
+                <a href="https://github.com/it-id-xyz/" target="_blank"><i class="fa-brands fa-github"></i> Github</a><br>
+                <a href="mailto:itsmansaci01@gmail.com?subject=Pertanyaan%20IT
+                &body=Halo%20Tim%20IT,%0A%0ASaya%20ingin%20bertanya" target="_blank"><i class="fa-solid fa-envelope"></i> Hubungi Kami</a>
             </div>
-            <div class="stat-card">
-                <h3><i class="fa fa-plug"></i> Power System</h3>
-                <div style="font-size: 8px; line-height: 1.6;">
-                    <p id="power-status-label" style="font-weight: bold;">Checking...</p>
-                </div>
-                <small id="power-note" style="font-size: 9px;">Bypass Mode Active</small>
-            </div>
-            <div class="stat-card">
-                <h3><i class="fa fa-hard-drive"></i> HDD Storage</h3>
-                <p id="storage-used" style="color: #7aa2ff;">0%</p>
-                <div class="ram-container">
-                    <div id="storage-bar" style="width: 0%; background: #607d8b; height: 100%; transition: width 0.5s;"></div>
-                </div>
-                <small id="storage-free" style="font-size: 9px;">Sisa: 0 GB</small>
+
+            <div>
+                <h4>Location</h4>
+                <a href="https://maps.app.goo.gl/GEPai5TCuipzZM6s7" target="_blank"><i class="fa-solid fa-location-dot"></i> SMAN 1 Cibarusah
+                <br>Jl.KH. Ma'mun Nawawi, Desa Sindangmulya, Kec. Cibarusah, Kab. Bekasi, Jawa Barat</a>
             </div>
         </div>
 
-        <div class="stat-card">
-            <h3><i class="fa fa-list-check"></i> Log Aktivitas Admin</h3>
-            <div class="log-table-wrapper" style="overflow-x: auto;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Waktu</th>
-                            <th>Admin</th>
-                            <th>Aksi</th>
-                            <th>Detail</th>
-                            <th>IP Address</th>
-                        </tr>
-                    </thead>
-                    <tbody id="log-list-body">
-                        </tbody>
-                </table>
-            </div>
+        <div class="footer-bottom">
+            <div>
+                <h4>Support</h4>
+                <a href="https://tako.id/support_it" target="_blank"><i class="fa-solid fa-gift"></i> Tako</a> <strong>|</strong>
+                <a href="" target="_blank"><i class="fa-solid fa-money-bill-wave"></i> Saweria</a>
+            </div><br><br><br>
+            © 2026 Extrakurikuler IT SMAN 1 Cibarusah • Made by nounstax
         </div>
-
-        <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
-
-        <h3><i class="fa fa-calendar-check"></i> Rekap Absensi Harian</h3>
-        <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 20px;">
-            <p style="font-size: 14px; color: #555; margin-bottom: 10px;">Pilih tanggal untuk melihat rekap siswa yang Alfa (Tidak ada keterangan).</p>
-            <div style="display: flex; gap: 10px;">
-                <select id="select-rekap-tanggal" style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px;"></select>
-                <button id="btn-load-rekap" style="background: #4caf50; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Cek Rekap</button>
-            </div>
-                    <div id="rekap-loading" class="hidden" style="margin-top: 15px; color: #ff9800; font-weight: bold;">Loading data dari Spreadsheet... <i class="fa fa-spinner fa-spin"></i></div>
-                    <div id="rekap-result-container" class="hidden" style="margin-top: 20px;">
-                <h4 style="color: #f44336; margin-bottom: 10px;"><i class="fa fa-user-times"></i> Daftar Siswa ALFA</h4>
-                <div class="log-table-wrapper" style="overflow-x: auto;">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Nama Lengkap</th>
-                                <th>Angkatan</th>
-                                <th>Sub Materi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="alfa-list-body">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
-
-        <h3><i class="fa fa-edit"></i> Buat Postingan Baru</h3>
-        <button id="news-update">Post News</button>
-        <section id="form-input"></section>
-        <section class="preview-list" id="preview-post"></section>
-        <h3><i class="fa fa-list"></i> Daftar Berita</h3>
-        <div id="total-articles"></div>
-
-
-
-    <script type="module" src="assets/js/khusus.js"></script>
-    <script src="assets/js/global.js"></script>
+    </footer>
+  <script type="module" src="assets/js/index.js"></script>
+  <script src="assets/js/global.js"></script>
     <button class="theme-toggle-btn" title="Toggle Theme"><i class="fa fa-moon"></i></button>
 </body>
 </html>
+
+
+
+
