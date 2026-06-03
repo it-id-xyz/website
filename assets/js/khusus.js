@@ -6,7 +6,7 @@ import { CONFIG } from "./config.js";
 const API_URL = 'https://api.it-smansaci.my.id/api/monitor';
 
 requireAdmin().catch(() => {
-    window.location.href = "login.html";
+    window.location.href = "admin_login.html";
 });
 
 async function refreshDashboard() {
@@ -20,7 +20,7 @@ async function refreshDashboard() {
         });
         if (response.status === 401 || response.status === 403) {
             localStorage.removeItem('admin_token');
-            window.location.href = "login.html"; 
+            window.location.href = "admin_login.html"; 
             return;
         }
         if (!response.ok) throw new Error('Server Local tidak merespon');
@@ -439,7 +439,7 @@ if (logoutBtn) {
                 await signOut(auth);
                 localStorage.removeItem('admin_token');
                 alert("Logout berhasil! Silahkan login ulang buat tes OTP.");
-                window.location.href = "login.html";
+                window.location.href = "admin_login.html";
             } catch (error) {
                 console.error("Gagal logout:", error);
                 alert("Waduh, gagal logout nih. Coba lagi!");
