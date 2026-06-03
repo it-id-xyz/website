@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" sizes="192x192" href="assets/img/it.png">
+    <link rel="icon" href="assets/favicon.ico">
+    <title>Admin Login - IT Smansaci</title>
+</head>
+<body>
+    <header class="navbar">
+        <div class="nav-logo">
+        <img src="assets/img/it.png" class="logo">
+        <h1>IT Admin Portal</h1>
+        </div>
+        <nav class="nav-btn-mobile">
+            <button class="hamburger" id="menuToggle"><i class="fa fa-bars"></i></button>
+            <div class="nav-menu hidden" id="navMenu">
+                <a href="index.html"><i class="fa fa-home"></i><span class="nav-text">Home</span></a>
+                <a href="login.html"><i class="fa fa-user"></i><span class="nav-text">User Login</span></a>
+            </div>
+        </nav>
+        <nav class="nav-btn">
+            <a href="index.html"><i class="fa fa-home"></i><span class="nav-text">Home</span></a>
+            <a href="login.html"><i class="fa fa-user"></i><span class="nav-text">User Login</span></a>
+        </nav>
+    </header>
+    
+    <main>
+        <div id="login-menu" class="card-content">
+            <h3>Login Admin Portal</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Gunakan akun Google yang terdaftar sebagai Admin.</p>
+            <button id="btn-login-admin-gg" style="background: #db4437; border-color: #db4437;"><i class="fab fa-google"></i> Login with Google</button>
+            <p id="admin-status" style="margin-top: 15px; font-size: 13px;"></p>
+        </div>
+    </main>
+
+    <script type="module" src="assets/js/admin_login.js"></script>
+    <script src="assets/js/global.js"></script>
+    <button class="theme-toggle-btn" title="Toggle Theme"><i class="fa fa-moon"></i></button>
+</body>
+</html>
