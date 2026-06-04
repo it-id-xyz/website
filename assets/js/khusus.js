@@ -557,7 +557,7 @@ if (selRekap && btnLoadRekap) {
             const resAbsen = await fetch(CONFIG.APPS_SCRIPT_URL + "?action=getRecap&sheetName=" + encodeURIComponent(tgl), { redirect: "follow" });
             const dataAbsen = await resAbsen.json(); 
 
-            const resDb = await fetch(CONFIG.APPS_SCRIPT_URL + "?action=getRecap&sheetName=Database Anggota", { redirect: "follow" });
+            const resDb = await fetch(CONFIG.APPS_SCRIPT_URL + "?action=getRecap&sheetName=DATABASE ANGGOTA", { redirect: "follow" });
             const dataDb = await resDb.json(); 
 
             if (dataDb.error || dataDb.length === 0) {
