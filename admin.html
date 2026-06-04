@@ -20,13 +20,14 @@
         <nav class="nav-btn-mobile">
             <button class="hamburger" id="menuToggle"><i class="fa fa-bars"></i></button>
         
-            <div class="nav-menu" id="navMenu">
+            <div class="nav-menu hidden" id="navMenu">
                 <a href="index.html"><i class="fa fa-home"></i><span class="nav-text">Home</span></a>
                 <a href="news.html"><i class="fa fa-newspaper"></i><span class="nav-text">News</span></a>
                 <a href="contact.html"><i class="fa-solid fa-envelope"></i><span class="nav-text">Contact</span></a>
                 <a href="itservice.html"><i class="fa fa-cogs"></i><span class="nav-text">Service</span></a>
                 <a href="form.html"><i class="fa fa-rocket"></i><span class="nav-text">Join Now</span></a>
-                <a id="logout-btn"><i class="fa fa-sign-out"></i><span class="nav-text">Logout</span></a>
+                <a href="login.html"><i class="fa fa-right-to-bracket"></i><span class="nav-text">Login</span></a>
+                <a id="logout-btn"><i class="fa fa-right-from-bracket"></i><span class="nav-text">Logout</span></a>
             </div>
         </nav>
         <nav class="nav-btn">
@@ -35,17 +36,18 @@
             <a href="contact.html"><i class="fa-solid fa-envelope"> </i><span class="nav-text">Contact</span></a>
             <a href="itservice.html"><i class="fa fa-cogs"></i><span class="nav-text">Service</span></a>
             <a href="form.html"><i class="fa fa-rocket"></i><span class="nav-text">Join now</span></a>
-            <a id="btn-logout" style="cursor:pointer;"><i class="fa fa-sign-out"></i><span class="nav-text">Logout</span></a>
-        </nav>
+            <a href="login.html"><i class="fa fa-right-to-bracket"></i><span class="nav-text">Login</span></a>
+            <a id="btn-logout" style="cursor:pointer;"><i class="fa fa-right-from-bracket"></i><span class="nav-text">Logout</span></a>
+                </nav>
     </header>
 
     <section class="admin-container">
         <a href="lita.html" class="chat-button"><span class="ai-label">AI</span></a>
         <section class="action-bar">
             <h3><i class="fa fa-gauge-high"></i> Admin Dashboard</h3>
-            <div id="admin-info">
-                <span id="admin-name"></span>
-                <span id="server-status" style="font-size: 12px; padding: 4px 8px; border-radius: 20px; background: #e0f2f1; color: #2e7d32;">
+            <div id="admin-info" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <span id="admin-name" style="color: var(--text-light); font-weight: 600;"></span>
+                <span id="server-status" class="admin-status-badge">
                     <i class="fa fa-circle"></i> <strong>Server Online</strong>
                 </span>
             </div>
@@ -87,7 +89,7 @@
             </div>
             <div class="stat-card">
                 <h3><i class="fa fa-users"></i> Admin Aktif</h3>
-                <div id="online-list" style="color:#7aa2ff"></div>
+                <div id="online-list"></div>
             </div>
             <div class="stat-card">
                 <h3><i class="fa fa-brain"></i> AI Quota </h3>
@@ -161,19 +163,19 @@
             </div>
         </div>
 
-        <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
+        <hr>
 
         <h3><i class="fa fa-calendar-check"></i> Rekap Absensi Harian</h3>
-        <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 20px;">
-            <p style="font-size: 14px; color: #555; margin-bottom: 10px;">Pilih tanggal untuk melihat rekap siswa yang Alfa (Tidak ada keterangan).</p>
-            <div style="display: flex; gap: 10px;">
-                <select id="select-rekap-tanggal" style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px;"></select>
-                <button id="btn-load-rekap" style="background: #4caf50; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Cek Rekap</button>
+        <div class="rekap-section">
+            <p>Pilih tanggal untuk melihat rekap siswa yang Alfa (Tidak ada keterangan).</p>
+            <div class="rekap-section-row">
+                <select id="select-rekap-tanggal" class="rekap-select"></select>
+                <button id="btn-load-rekap" class="btn-rekap">Cek Rekap</button>
             </div>
-                    <div id="rekap-loading" class="hidden" style="margin-top: 15px; color: #ff9800; font-weight: bold;">Loading data dari Spreadsheet... <i class="fa fa-spinner fa-spin"></i></div>
-                    <div id="rekap-result-container" class="hidden" style="margin-top: 20px;">
+            <div id="rekap-loading" class="hidden" style="margin-top: 15px; color: #ff9800; font-weight: bold;">Loading data dari Spreadsheet... <i class="fa fa-spinner fa-spin"></i></div>
+            <div id="rekap-result-container" class="hidden" style="margin-top: 20px;">
                 <h4 style="color: #f44336; margin-bottom: 10px;"><i class="fa fa-user-times"></i> Daftar Siswa ALFA</h4>
-                <div class="log-table-wrapper" style="overflow-x: auto;">
+                <div class="log-table-wrapper">
                     <table>
                         <thead>
                             <tr>
@@ -190,14 +192,18 @@
             </div>
         </div>
 
-        <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
+        <hr>
 
         <h3><i class="fa fa-edit"></i> Buat Postingan Baru</h3>
-        <button id="news-update">Post News</button>
+        <button id="news-update"><i class="fa fa-plus"></i> Post News</button>
         <section id="form-input"></section>
         <section class="preview-list" id="preview-post"></section>
         <h3><i class="fa fa-list"></i> Daftar Berita</h3>
         <div id="total-articles"></div>
+
+        <h3><i class="fa fa-user-check"></i> Pendaftaran Anggota Baru</h3>
+        <div id="user-list"></div>
+        <button id="btn-export" style="background:#4caf50; color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; font-weight:600; margin-bottom:30px;"><i class="fa fa-file-excel"></i> Export Excel</button>
 
 
 
