@@ -554,10 +554,10 @@ if (selRekap && btnLoadRekap) {
         tbodyAlfa.innerHTML = "";
 
         try {
-            const resAbsen = await fetch(CONFIG.APPS_SCRIPT_URL + "?action=getRecap&sheetName=" + encodeURIComponent(tgl), { redirect: "follow" });
+            const resAbsen = await fetch(CONFIG.APPS_SCRIPT_URL_ABSEN + "?action=getRecap&sheetName=" + encodeURIComponent(tgl), { redirect: "follow" });
             const dataAbsen = await resAbsen.json(); 
 
-            const resDb = await fetch(CONFIG.APPS_SCRIPT_URL + "?action=getRecap&sheetName=DATABASE ANGGOTA", { redirect: "follow" });
+            const resDb = await fetch(CONFIG.APPS_SCRIPT_URL_DB + "?action=getRecap&sheetName=DATABASE ANGGOTA", { redirect: "follow" });
             const dataDb = await resDb.json(); 
 
             if (dataDb.error || dataDb.length === 0) {
