@@ -26,15 +26,18 @@ const membersContainer = document.getElementById('members-container');
 
 // Setup Auth State Listener
 onAuthStateChanged(auth, (user) => {
+    const headerLogoutBtns = [document.getElementById('logout-btn'), document.getElementById('btn-logout')];
     if (user) {
         loginSection.classList.add('hidden');
         dashboardSection.classList.remove('hidden');
         currentUserEmail = user.email;
         userInfo.innerText = `Login sebagai: ${user.email}`;
+        headerLogoutBtns.forEach(btn => { if(btn) { btn.style.display = 'block'; btn.onclick = () => signOut(auth); } });
     } else {
         loginSection.classList.remove('hidden');
         dashboardSection.classList.add('hidden');
         currentUserEmail = "";
+        headerLogoutBtns.forEach(btn => { if(btn) btn.style.display = 'none'; });
     }
 });
 
@@ -49,7 +52,7 @@ document.getElementById('btn-logout').addEventListener('click', () => {
 
 // --- LOGIC FORM & ID CHECKER ---
 
-// URL Backend 
+// URL Backend Node.js lu (Ganti ke domain asli kalau backend udah di-hosting)
 const BACKEND_URL = 'https://api.it-smansaci.my.id'; 
 
 // Struktur Anggota Tim
@@ -70,6 +73,10 @@ teamStructure.forEach(role => {
         <div class="form-group">
             <label>Nama Asli</label>
             <input type="text" id="nama_${role.id}" required>
+        </div>
+        <div class="form-group">
+            <label>No. HP/WhatsApp</label>
+            <input type="tel" id="hp_${role.id}" required>
         </div>
         <div class="form-group">
             <label>ID Game</label>
@@ -130,6 +137,7 @@ document.getElementById('registrationForm').addEventListener('submit', async (e)
         
         payload[role.id] = {
             nama: document.getElementById(`nama_${role.id}`).value,
+            hp: document.getElementById(`hp_${role.id}`).value,
             id: document.getElementById(`id_${role.id}`).value,
             nickname: nick
         };
