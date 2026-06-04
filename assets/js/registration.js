@@ -26,18 +26,15 @@ const membersContainer = document.getElementById('members-container');
 
 // Setup Auth State Listener
 onAuthStateChanged(auth, (user) => {
-    const headerLogoutBtns = [document.getElementById('logout-btn'), document.getElementById('btn-logout')];
     if (user) {
         loginSection.classList.add('hidden');
         dashboardSection.classList.remove('hidden');
         currentUserEmail = user.email;
         userInfo.innerText = `Login sebagai: ${user.email}`;
-        headerLogoutBtns.forEach(btn => { if(btn) { btn.style.display = 'block'; btn.onclick = () => signOut(auth); } });
     } else {
         loginSection.classList.remove('hidden');
         dashboardSection.classList.add('hidden');
         currentUserEmail = "";
-        headerLogoutBtns.forEach(btn => { if(btn) btn.style.display = 'none'; });
     }
 });
 
