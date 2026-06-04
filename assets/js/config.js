@@ -1,5 +1,4 @@
 export const CONFIG = {
-    APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbx8m03ehSa3c3-Q-XCcw1C2xiBD98145tXd8tf8iCCV4PBGhddh992kOzI-Gy4Bj7suFg/exec",
     // ABSEN
     TARGET_LAT: -6.412858, 
     TARGET_LNG: 107.084255,
