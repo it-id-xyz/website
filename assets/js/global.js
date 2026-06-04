@@ -65,13 +65,66 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Hide login/logout links dynamically based on Auth state
+async function generateJWT(payload, secret) {
+    const header = {
+        alg: "HS256",
+        typ: "JWT"
+    };
+
+    const base64UrlEncode = (str) => {
+        const bytes = new TextEncoder().encode(str);
+        let binString = "";
+        for (let i = 0; i < bytes.length; i++) {
+            binString += String.fromCharCode(bytes[i]);
+        }
+        return btoa(binString)
+            .replace(/=/g, '')
+            .replace(/\+/g, '-')
+            .replace(/\//g, '_');
+    };
+
+    const headerStr = base64UrlEncode(JSON.stringify(header));
+    const payloadStr = base64UrlEncode(JSON.stringify(payload));
+    const tokenInput = `${headerStr}.${payloadStr}`;
+
+    const encoder = new TextEncoder();
+    const keyData = encoder.encode(secret);
+    const data = encoder.encode(tokenInput);
+
+    const cryptoKey = await window.crypto.subtle.importKey(
+        "raw",
+        keyData,
+        { name: "HMAC", hash: "SHA-256" },
+        false,
+        ["sign"]
+    );
+
+    const signature = await window.crypto.subtle.sign(
+        "HMAC",
+        cryptoKey,
+        data
+    );
+
+    const signatureBytes = new Uint8Array(signature);
+    let signatureBin = "";
+    for (let i = 0; i < signatureBytes.length; i++) {
+        signatureBin += String.fromCharCode(signatureBytes[i]);
+    }
+    const signatureStr = btoa(signatureBin)
+        .replace(/=/g, '')
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_');
+
+    return `${tokenInput}.${signatureStr}`;
+}
+
 import("https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js").then(async ({ getAuth, onAuthStateChanged }) => {
     try {
-        const { app } = await import("./firebase.js");
+        const { app, db } = await import("./firebase.js");
+        const { doc, getDoc, updateDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
         const auth = getAuth(app);
         
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             const currentPath = window.location.pathname.split("/").pop() || "index.html";
             const allLinks = document.querySelectorAll('a');
             const loginLinks = Array.from(allLinks).filter(link => {
@@ -81,28 +134,56 @@ import("https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js").then(async 
             const logoutBtns = [document.getElementById('logout-btn'), document.getElementById('btn-logout')];
             
             if (user) {
-                // User is logged in, hide all login links/buttons
                 loginLinks.forEach(link => {
                     link.style.display = 'none';
                 });
                 
-                // Show logout buttons
                 logoutBtns.forEach(btn => {
                     if (btn) {
                         btn.style.display = 'block';
                         import("https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js").then(({ signOut }) => {
                             btn.onclick = (e) => {
                                 e.preventDefault();
-                                signOut(auth).then(() => {
-                                    localStorage.removeItem('admin_token');
-                                    window.location.href = "login.html";
-                                });
+                                if (confirm("Yakin mau logout?")) {
+                                    signOut(auth).then(() => {
+                                        localStorage.removeItem('admin_token');
+                                        if (currentPath === "admin.html" || currentPath === "admin-service.html") {
+                                            window.location.href = "admin_login.html";
+                                        } else {
+                                            window.location.href = "login.html";
+                                        }
+                                    });
+                                }
                             };
                         });
                     }
                 });
+
+                try {
+                    const userDocRef = doc(db, "users", user.uid);
+                    const userDoc = await getDoc(userDocRef);
+                    if (userDoc.exists() && userDoc.data().role === "admin") {
+                        const adminData = userDoc.data();
+                        const customJwt = await generateJWT({
+                            uid: user.uid,
+                            role: "admin",
+                            nama: adminData.nama || user.displayName || user.email
+                        }, "secret-it-smansaci_3405");
+                        
+                        localStorage.setItem("admin_token", customJwt);
+                        localStorage.setItem("adminEmail", user.email);
+
+                        if (currentPath !== "admin.html" && currentPath !== "admin-service.html") {
+                            await updateDoc(userDocRef, {
+                                status: "offline",
+                                lastSeen: serverTimestamp()
+                            });
+                        }
+                    }
+                } catch (err) {
+                    console.error("Gagal cek admin/set offline:", err);
+                }
                 
-                // If on login.html or admin_login.html, redirect
                 if (currentPath === "login.html") {
                     window.location.href = "index.html";
                 } else if (currentPath === "admin_login.html") {
@@ -111,12 +192,10 @@ import("https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js").then(async 
                     }
                 }
             } else {
-                // User is not logged in, show login links
                 loginLinks.forEach(link => {
                     link.style.display = '';
                 });
                 
-                // Hide logout buttons
                 logoutBtns.forEach(btn => {
                     if (btn) {
                         btn.style.display = 'none';
