@@ -13,14 +13,12 @@ export function requireAdmin() {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       unsubscribe(); 
 
-      // 1. Cek apakah user login atau tidak
       if (!user) {
         reject(new Error("Belum login"));
         return;
       }
 
       try {
-        // 2. Cek database
         const snap = await getDoc(doc(db, "users", user.uid));
         if (snap.exists() && snap.data().role === "admin") {
           resolve(user);
@@ -43,16 +41,30 @@ export async function updateOnlineStatus(uid) {
       lastSeen: serverTimestamp()
     });
 
+    const setOffline = () => {
+      updateDoc(userRef, { status: "offline", lastSeen: serverTimestamp() });
+    };
+
     window.addEventListener("visibilitychange", () => {
       if (document.visibilityState === "hidden") {
-        updateDoc(userRef, { status: "offline" });
+        setOffline();
       } else {
-        updateDoc(userRef, { status: "online" });
+        updateDoc(userRef, { status: "online", lastSeen: serverTimestamp() });
       }
     });
+    window.addEventListener("beforeunload", setOffline);
 
     console.log("Status online diperbarui");
   } catch (err) {
     console.error("Gagal update status: ", err);
+  }
+}
+
+export async function setAdminOffline(uid) {
+  const userRef = doc(db, "users", uid);
+  try {
+    await updateDoc(userRef, { status: "offline", lastSeen: serverTimestamp() });
+  } catch (err) {
+    console.error("Gagal set offline: ", err);
   }
 }
