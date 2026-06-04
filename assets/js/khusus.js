@@ -1,4 +1,4 @@
-import { addDoc, collection, serverTimestamp, query, limit, orderBy, onSnapshot, getDoc, doc, deleteDoc, updateDoc, getCountFromServer} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { addDoc, collection, serverTimestamp, Timestamp, query, limit, orderBy, onSnapshot, getDoc, doc, deleteDoc, updateDoc, getCountFromServer} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { updateOnlineStatus, requireAdmin } from "./role.js";
 import { auth, db } from "./firebase.js"; 
@@ -223,14 +223,29 @@ document.addEventListener("click", async (e) => {
 
     if (e.target.id === "news-update") {
         if (ui.form.innerHTML) return;
+        const now = new Date();
+        const localISO = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
         ui.form.innerHTML = `
-            <h4>Masukan Judul Article</h4>
-            <input id="judul-input" placeholder="Judul">
-            <h4>Pilih File Gambar</h4>
-            <input type="file" id="foto-input" accept="image/*">
-            <textarea id="desk-input" placeholder="Deskripsi"></textarea>
-            <button id="cancel-btn">Cancel</button>
-            <button id="preview-btn">Preview</button>
+            <div class="news-form-wrapper">
+                <label>Judul Artikel</label>
+                <input type="text" id="judul-input" placeholder="Masukkan judul artikel...">
+                <label>Tanggal Publikasi</label>
+                <input type="datetime-local" id="tanggal-input" value="${localISO}">
+                <label>Gambar Artikel</label>
+                <input type="file" id="foto-input" accept="image/*">
+                <div class="upload-progress" id="upload-progress">
+                    <div class="upload-progress-bar-bg">
+                        <div class="upload-progress-bar" id="upload-bar"></div>
+                    </div>
+                    <small id="upload-status" style="color: var(--text-muted);">Mengupload gambar ke cloud...</small>
+                </div>
+                <label>Deskripsi</label>
+                <textarea id="desk-input" placeholder="Tulis deskripsi artikel..."></textarea>
+                <div class="news-form-actions">
+                    <button class="btn-preview-news" id="preview-btn"><i class="fa fa-eye"></i> Preview</button>
+                    <button class="btn-cancel-news" id="cancel-btn"><i class="fa fa-times"></i> Batal</button>
+                </div>
+            </div>
         `;
     }
 
@@ -239,6 +254,7 @@ document.addEventListener("click", async (e) => {
         const judul = document.getElementById("judul-input").value;
         const desk = document.getElementById("desk-input").value;
         const file = document.getElementById("foto-input").files[0];
+        const tanggal = document.getElementById("tanggal-input").value;
 
         if (!judul || !desk || !file) {
             alert("Lengkapi semua data dan pilih foto!");
@@ -247,47 +263,85 @@ document.addEventListener("click", async (e) => {
 
         const reader = new FileReader();
         reader.onload = (event) => {
+            const tglDisplay = tanggal
+                ? new Date(tanggal).toLocaleString('id-ID', { dateStyle: 'long', timeStyle: 'short' })
+                : new Date().toLocaleString('id-ID');
             ui.preview.innerHTML = `
-                <div class="card-monitor">
-                    <img src="${event.target.result}" style="max-width:100%; border-radius:8px;">
+                <div class="news-preview-card">
+                    <span class="news-preview-label"><i class="fa fa-eye"></i> Preview Artikel</span>
+                    <img src="${event.target.result}" alt="preview">
                     <h3>${judul}</h3>
+                    <p class="preview-date"><i class="fa fa-calendar"></i> ${tglDisplay}</p>
                     <p>${desk}</p>
-                    <button id="post-btn">Konfirmasi Post</button>
-                    <button id="clear-btn">Hapus Preview</button>
+                    <div class="news-form-actions" style="margin-top: 16px;">
+                        <button id="post-btn" class="btn-preview-news"><i class="fa fa-paper-plane"></i> Konfirmasi & Post</button>
+                        <button id="clear-btn" class="btn-cancel-news"><i class="fa fa-trash"></i> Hapus Preview</button>
+                    </div>
                 </div>
             `;
         };
         reader.readAsDataURL(file);
     }
 
-    // TOMBOL POST
+    // TOMBOL POST — Upload ke Cloudinary dulu, baru simpan URL ke Firestore
     if (e.target.id === "post-btn") {
-        const judul = document.getElementById("judul-input").value;
-        const desk = document.getElementById("desk-input").value;
-        const file = document.getElementById("foto-input").files[0];
+        const judul = document.getElementById("judul-input")?.value;
+        const desk = document.getElementById("desk-input")?.value;
+        const file = document.getElementById("foto-input")?.files[0];
+        const tanggal = document.getElementById("tanggal-input")?.value;
 
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = async () => {
-                const base64String = reader.result;
-                try {
-                    await addDoc(collection(db, "article"), {
-                        judul: judul,
-                        foto: base64String,
-                        desk: desk,
-                        createdAt: serverTimestamp()
-                    });
-                    alert("Artikel berhasil terbit!");
-                    await simpanLog("Menambah Artikel", judul);
-                    ui.form.innerHTML = "";
-                    ui.preview.innerHTML = "";
-                } catch (err) {
-                    console.error("Gagal post:", err);
-                }
-            };
-            reader.readAsDataURL(file);
-        } else {
+        if (!file) {
             alert("Pilih file gambarnya dulu, Bro!");
+            return;
+        }
+
+        const postBtn = document.getElementById("post-btn");
+        const progressDiv = document.getElementById("upload-progress");
+        const uploadBar = document.getElementById("upload-bar");
+        const uploadStatus = document.getElementById("upload-status");
+
+        if (postBtn) { postBtn.disabled = true; postBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Uploading...'; }
+        if (progressDiv) progressDiv.style.display = "block";
+
+        try {
+            // 1. Upload gambar ke Cloudinary (unsigned upload)
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", CONFIG.CLOUDINARY_PRESET);
+
+            const cloudRes = await fetch(
+                `https://api.cloudinary.com/v1_1/${CONFIG.CLOUDINARY_NAME}/image/upload`,
+                { method: "POST", body: formData }
+            );
+
+            if (!cloudRes.ok) {
+                const errData = await cloudRes.json().catch(() => ({}));
+                throw new Error(errData.error?.message || "Gagal upload ke Cloudinary (" + cloudRes.status + ")");
+            }
+
+            const cloudData = await cloudRes.json();
+            const imageUrl = cloudData.secure_url;
+
+            if (uploadBar) uploadBar.style.width = "100%";
+            if (uploadStatus) uploadStatus.innerText = "Upload selesai, menyimpan artikel...";
+
+            // 2. Simpan ke Firestore dengan URL Cloudinary + tanggal custom
+            const pubDate = tanggal ? Timestamp.fromDate(new Date(tanggal)) : serverTimestamp();
+            await addDoc(collection(db, "article"), {
+                judul,
+                foto: imageUrl,
+                desk,
+                createdAt: pubDate
+            });
+
+            alert("Artikel berhasil terbit!");
+            await simpanLog("Menambah Artikel", judul);
+            ui.form.innerHTML = "";
+            ui.preview.innerHTML = "";
+        } catch (err) {
+            console.error("Gagal post:", err);
+            alert("Gagal post artikel: " + err.message);
+            if (postBtn) { postBtn.disabled = false; postBtn.innerHTML = '<i class="fa fa-paper-plane"></i> Konfirmasi & Post'; }
         }
     }
 
@@ -428,26 +482,6 @@ function getLogs() {
 }
 
 getLogs();
-
-
-const logoutBtn = document.getElementById('logout-btn');
-
-if (logoutBtn) {
-    logoutBtn.addEventListener('click', async () => {
-        if (confirm("Yakin mau logout, Bang?")) {
-            try {
-                await signOut(auth);
-                localStorage.removeItem('admin_token');
-                alert("Logout berhasil! Silahkan login ulang buat tes OTP.");
-                window.location.href = "admin_login.html";
-            } catch (error) {
-                console.error("Gagal logout:", error);
-                alert("Waduh, gagal logout nih. Coba lagi!");
-            }
-        }
-    });
-}
-
 // ==========================================
 // REKAP ABSENSI HARIAN
 // ==========================================
