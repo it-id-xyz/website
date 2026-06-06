@@ -110,4 +110,187 @@
   }
 }
 
+/* =====================
+   CONTACT & HIERARCHY
+   ===================== */
+.contact-section {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.contact-section h2 {
+  font-size: 1.8rem;
+  color: var(--text-light);
+  text-align: center;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.contact-section h2::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 3px;
+  background: var(--bg-button);
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+/* Centering Pembina & Single Cards */
+.pembina-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Card Styling */
+.contact-card {
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.contact-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: transparent;
+  transition: background 0.3s;
+}
+
+.contact-card:hover {
+  transform: translateY(-8px);
+  background: var(--glass-hover);
+  box-shadow: 0 15px 30px rgba(59, 130, 246, 0.15);
+}
+
+/* Custom glow borders per hierarchy */
+.card-pembina { width: 320px; }
+.card-pembina::before { background: linear-gradient(90deg, #10b981, #34d399); }
+.card-pembina:hover { border-color: rgba(16, 185, 129, 0.5); }
+
+.card-ketua {
+  width: 340px;
+  margin: 0 auto;
+}
+.card-ketua::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+.card-ketua:hover { border-color: rgba(245, 158, 11, 0.5); }
+.card-ketua .contact-icon i { color: #f59e0b; }
+
+.card-wakil {
+  width: 300px;
+  margin: 0 auto;
+}
+.card-wakil::before { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+.card-wakil:hover { border-color: rgba(59, 130, 246, 0.5); }
+.card-wakil .contact-icon i { color: #3b82f6; }
+
+/* Hierarchy Layout */
+.hierarchy-level {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.hierarchy-row {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.hierarchy-col {
+  flex: 1;
+  min-width: 280px;
+}
+
+.group-title {
+  font-size: 1.2rem;
+  color: var(--text-light);
+  margin-bottom: 15px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.group-title i {
+  color: var(--bg-button);
+}
+
+.group-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+.group-grid .contact-card {
+  padding: 20px 15px;
+}
+
+.group-grid .contact-card::before {
+  background: var(--bg-button);
+}
+
+/* Icons & Labels */
+.contact-icon {
+  font-size: 2.2rem;
+  margin-bottom: 12px;
+  color: var(--text-muted);
+  transition: transform 0.3s;
+}
+
+.contact-card:hover .contact-icon {
+  transform: scale(1.1);
+}
+
+.contact-card h3 {
+  font-size: 1.15rem;
+  color: var(--text-light);
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.contact-role {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* General Link Styling (For Email/Instagram) */
+.contact-link {
+  display: inline-block;
+  margin-top: 10px;
+  color: var(--bg-button);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.contact-link:hover {
+  color: var(--text-light);
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .hierarchy-row {
+    flex-direction: column;
+  }
+}
+
 
