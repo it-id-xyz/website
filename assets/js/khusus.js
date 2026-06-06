@@ -558,7 +558,7 @@ if (selRekap && btnLoadRekap) {
             const resAbsen = await fetch(CONFIG.APPS_SCRIPT_URL_ABSEN + "?action=getRecap&sheetName=" + encodeURIComponent(tgl), { method: "GET", redirect: "follow" });
             const dataAbsen = await resAbsen.json(); 
 
-            const resDb = await fetch(CONFIG.APPS_SCRIPT_URL_DB + "?action=getRecap&sheetName=DATABASE%20ANGGOTA", { method: "GET", redirect: "follow" });
+            const resDb = await fetch(CONFIG.APPS_SCRIPT_URL_DB + "?action=getRecap, { method: "GET", redirect: "follow" });
             const dataDb = await resDb.json(); 
             
             console.log("DEBUG RES ABSEN:", dataAbsen);
