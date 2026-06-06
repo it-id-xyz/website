@@ -558,11 +558,14 @@ if (selRekap && btnLoadRekap) {
             const resAbsen = await fetch(CONFIG.APPS_SCRIPT_URL_ABSEN + "?action=getRecap&sheetName=" + encodeURIComponent(tgl), { method: "GET", redirect: "follow" });
             const dataAbsen = await resAbsen.json(); 
 
-            const resDb = await fetch(CONFIG.APPS_SCRIPT_URL_DB + "?action=getRecap&sheetName=DATABASE ANGGOTA", { method: "GET", redirect: "follow" });
+            const resDb = await fetch(CONFIG.APPS_SCRIPT_URL_DB + "?action=getRecap&sheetName=DATABASE%20ANGGOTA", { method: "GET", redirect: "follow" });
             const dataDb = await resDb.json(); 
+            
+            console.log("DEBUG RES ABSEN:", dataAbsen);
+            console.log("DEBUG RES DB:", dataDb);
 
-            if (dataDb.error || dataDb.length === 0) {
-                alert("Database Anggota gagal ditarik! Pastikan GAS sudah disetting buat buka file eksternal.");
+            if (dataDb.error || !Array.isArray(dataDb) || dataDb.length <= 1) {
+                alert("Gagal narik Database! Alasan: " + (dataDb.error || "Data kosong/format salah. Cek Console Log!"));
                 return;
             }
 
@@ -582,6 +585,7 @@ if (selRekap && btnLoadRekap) {
                         const angkatan = dataDb[i][5] || "-"; 
                         const sub = dataDb[i][3] || "-";
                         htmlAlfa += `<tr>
+                            <td>${no++}</td>
                             <td>${namaDb}</td>
                             <td>${angkatan}</td>
                             <td>${sub}</td>
