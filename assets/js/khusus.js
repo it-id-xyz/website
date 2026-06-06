@@ -579,8 +579,8 @@ if (selRekap && btnLoadRekap) {
                 if (dataDb[i][1]) {
                     const namaDb = dataDb[i][1].toString().trim();
                     if (!namaAbsen.includes(namaDb.toLowerCase())) {
-                        const angkatan = dataDb[i][1] || "-"; 
-                        const sub = dataDb[i][2] || "-";
+                        const angkatan = dataDb[i][2] || "-"; 
+                        const sub = dataDb[i][3] || "-";
                         htmlAlfa += `<tr>
                             <td>${namaDb}</td>
                             <td>${angkatan}</td>
