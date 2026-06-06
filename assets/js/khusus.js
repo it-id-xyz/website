@@ -524,25 +524,26 @@ const containerRekap = document.getElementById('rekap-result-container');
 const tbodyAlfa = document.getElementById('alfa-list-body');
 
 if (selRekap && btnLoadRekap) {
-    async function loadSheets() {
-        try {
-            const res = await fetch(CONFIG.APPS_SCRIPT_URL_ABSEN + "?action=getSheets", { redirect: "follow" });
-            const data = await res.json();
-            selRekap.innerHTML = "";
-            let hasValidSheet = false;
-            
-            data.forEach(sheetName => {
-                if (sheetName !== "Database Anggota" && sheetName !== "Sheet1") { 
-                    selRekap.innerHTML += `<option value="${sheetName}">${sheetName}</option>`;
-                    hasValidSheet = true;
-                }
-            });
-            if (!hasValidSheet) selRekap.innerHTML = `<option value="">Belum ada data absen</option>`;
-        } catch(e) {
-            console.error("Gagal load sheets", e);
-            selRekap.innerHTML = `<option value="">Gagal meload tanggal (Periksa Koneksi/Apps Script)</option>`;
-        }
-    }
+   async function loadSheets() {
+       try {
+           const res = await fetch(CONFIG.APPS_SCRIPT_URL_ABSEN + "?action=getSheets", { redirect: "follow" });
+           const data = await res.json();
+           
+           selRekap.innerHTML = "";
+           data.forEach(tanggalSheet => {
+               if (tanggalSheet !== "Sheet1") { 
+                   selRekap.innerHTML += `<option value="${tanggalSheet}">${tanggalSheet}</option>`;
+               }
+           });
+           
+           if (selRekap.innerHTML === "") {
+               selRekap.innerHTML = `<option value="">Belum ada data absen</option>`;
+           }
+       } catch(e) {
+           console.error("Gagal load sheets", e);
+           selRekap.innerHTML = `<option value="">Gagal meload tanggal (Periksa Env)</option>`;
+       }
+   }
     loadSheets();
 
     btnLoadRekap.addEventListener('click', async () => {
