@@ -526,7 +526,7 @@ const tbodyAlfa = document.getElementById('alfa-list-body');
 if (selRekap && btnLoadRekap) {
     async function loadSheets() {
         try {
-            const res = await fetch(CONFIG.APPS_SCRIPT_URL + "?action=getSheets", { redirect: "follow" });
+            const res = await fetch(CONFIG.APPS_SCRIPT_URL_ABSEN + "?action=getSheets", { redirect: "follow" });
             const data = await res.json();
             selRekap.innerHTML = "";
             let hasValidSheet = false;
