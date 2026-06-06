@@ -576,7 +576,7 @@ if (selRekap && btnLoadRekap) {
             let htmlAlfa = "";
             let no = 1;
             for (let i = 1; i < dataDb.length; i++) { 
-                if (dataDb[i][0]) {
+                if (dataDb[i][1]) {
                     const namaDb = dataDb[i][0].toString().trim();
                     if (!namaAbsen.includes(namaDb.toLowerCase())) {
                         const angkatan = dataDb[i][1] || "-"; 
