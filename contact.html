@@ -53,15 +53,18 @@
         </script>
     </div>
         <a href="lita.html" class="chat-button"><span class="ai-label">AI</span></a>
-        <section class="contact-hero">
+        
+        <!-- Header H1 Contact & Pengurus styled like news-hero -->
+        <section class="news-hero">
             <h1>Contact & Pengurus IT</h1>
             <p>Hubungi pengurus ekskul IT untuk informasi lebih lanjut</p>
         </section>
 
+        <!-- Pembina Centered -->
         <section class="contact-section">
             <h2>Pembina</h2>
-            <div class="contact-grid">
-                <div class="contact-card">
+            <div class="pembina-container">
+                <div class="contact-card card-pembina">
                     <div class="contact-icon"><i class="fa-solid fa-chalkboard-teacher"></i></div>
                     <h3>Heni Indriani S.KOM</h3>
                     <p class="contact-role">Pembina Ekskul IT</p>
@@ -69,56 +72,74 @@
             </div>
         </section>
 
+        <!-- Pengurus Inti Structured by Rank (Hierarchy) -->
         <section class="contact-section">
             <h2>Pengurus Inti</h2>
-            <div class="contact-grid">
-                <div class="contact-card">
+            
+            <!-- Level 1: Ketua Umum -->
+            <div class="hierarchy-level">
+                <div class="contact-card card-ketua">
                     <div class="contact-icon"><i class="fa-solid fa-crown"></i></div>
                     <h3>Rizki Putri Octaviana</h3>
                     <p class="contact-role">Ketua Umum</p>
-                    <a href="tel:+620895326125385" class="contact-phone"><i class="fa-solid fa-phone"></i> 0895326125385</a>
                 </div>
-                <div class="contact-card">
+            </div>
+            
+            <!-- Level 2: Wakil Ketua Umum -->
+            <div class="hierarchy-level">
+                <div class="contact-card card-wakil">
                     <div class="contact-icon"><i class="fa-solid fa-star"></i></div>
                     <h3>Ghani Edsar Prasetyo</h3>
                     <p class="contact-role">Wakil Ketua Umum</p>
-                    <a href="tel:+6287831166441" class="contact-phone"><i class="fa-solid fa-phone"></i> 087831166441</a>
                 </div>
-                <div class="contact-card">
-                    <div class="contact-icon"><i class="fa-solid fa-pen-nib"></i></div>
-                    <h3>Mutiara Ellyza Agustina</h3>
-                    <p class="contact-role">Sekretaris 1</p>
+            </div>
+            
+            <!-- Level 3: Sekretaris & Bendahara Groups -->
+            <div class="hierarchy-row">
+                <!-- Sekretaris Group -->
+                <div class="hierarchy-col">
+                    <h3 class="group-title"><i class="fa-solid fa-pen-nib"></i> Sekretaris</h3>
+                    <div class="group-grid">
+                        <div class="contact-card">
+                            <div class="contact-icon" style="font-size: 1.5rem;"><i class="fa-solid fa-pen-nib"></i></div>
+                            <h3>Mutiara Ellyza Agustina</h3>
+                            <p class="contact-role">Sekretaris 1</p>
+                        </div>
+                        <div class="contact-card">
+                            <div class="contact-icon" style="font-size: 1.5rem;"><i class="fa-solid fa-pen-nib"></i></div>
+                            <h3>Muhammad Arkan Hanif</h3>
+                            <p class="contact-role">Sekretaris 2</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="contact-card">
-                    <div class="contact-icon"><i class="fa-solid fa-pen-nib"></i></div>
-                    <h3>Muhammad Arkan Hanif</h3>
-                    <p class="contact-role">Sekretaris 2</p>
-                </div>
-                <div class="contact-card">
-                    <div class="contact-icon"><i class="fa-solid fa-coins"></i></div>
-                    <h3>Lutfiah Nur Azizah</h3>
-                    <p class="contact-role">Bendahara 1</p>
-                </div>
-                <div class="contact-card">
-                    <div class="contact-icon"><i class="fa-solid fa-coins"></i></div>
-                    <h3>Natasya Febriani Alta Funisah</h3>
-                    <p class="contact-role">Bendahara 2</p>
+                
+                <!-- Bendahara Group -->
+                <div class="hierarchy-col">
+                    <h3 class="group-title"><i class="fa-solid fa-coins"></i> Bendahara</h3>
+                    <div class="group-grid">
+                        <div class="contact-card">
+                            <div class="contact-icon" style="font-size: 1.5rem;"><i class="fa-solid fa-coins"></i></div>
+                            <h3>Lutfiah Nur Azizah</h3>
+                            <p class="contact-role">Bendahara 1</p>
+                        </div>
+                        <div class="contact-card">
+                            <div class="contact-icon" style="font-size: 1.5rem;"><i class="fa-solid fa-coins"></i></div>
+                            <h3>Natasya Febriani Alta Funisah</h3>
+                            <p class="contact-role">Bendahara 2</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
+        <!-- Kontak Umum (Email Only) -->
         <section class="contact-section">
             <h2>Kontak Umum</h2>
-            <div class="contact-grid">
-                <div class="contact-card">
+            <div class="pembina-container">
+                <div class="contact-card card-pembina">
                     <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
                     <h3>Email</h3>
                     <a href="mailto:itsmansaci01@gmail.com" class="contact-link">itsmansaci01@gmail.com</a>
-                </div>
-                <div class="contact-card">
-                    <div class="contact-icon"><i class="fa-brands fa-instagram"></i></div>
-                    <h3>Instagram</h3>
-                    <a href="https://www.instagram.com/itsmansaci" target="_blank" class="contact-link">@itsmansaci</a>
                 </div>
             </div>
         </section>
@@ -174,3 +195,10 @@
 </body>
 
 </html>
+
+
+
+
+
+
+
