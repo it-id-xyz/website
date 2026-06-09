@@ -19,6 +19,7 @@ let cachedDescriptors = [];
 let userDataCache = {};
 let isDataLoaded = false;
 let currentDistance = 0;
+let currentUser = null;
 
 // ==========================================
 // 0. SWEETALERT FALLBACK
@@ -38,6 +39,7 @@ const myAlert = (title, text, icon) => {
 onAuthStateChanged(auth, (user) => {
     if (user) {
         console.log("User login:", user.email);
+        currentUser = user;
     } else {
         myAlert('Oops...', 'Waduh, kamu belum login! Balik dulu ya.', 'error')
             .then(() => {
@@ -126,6 +128,10 @@ document.getElementById('btn-menu-absen').addEventListener('click', async () => 
     previewAbsen.classList.add('hidden');
 
     if (!isDataLoaded) {
+        if (!currentUser) {
+            myAlert('Sabar...', 'Sedang memverifikasi akun kamu, coba klik tombol sekali lagi dalam 2 detik.', 'info');
+            return;
+        }
         pesanLokasi.innerHTML = "Memuat data wajah dari database...";
         try {
             const q = query(collection(db, "UID"));
