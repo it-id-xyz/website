@@ -58,7 +58,6 @@ const teamStructure = [
     { id: 'anggota1', label: 'Anggota 1' },
     { id: 'anggota2', label: 'Anggota 2' },
     { id: 'anggota3', label: 'Anggota 3' },
-    { id: 'anggota4', label: 'Anggota 4' },
     { id: 'cadangan', label: 'Pemain Cadangan' }
 ];
 
