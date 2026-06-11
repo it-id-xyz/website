@@ -89,16 +89,7 @@ teamStructure.forEach(role => {
 });
 if (membersContainer) membersContainer.innerHTML = formHTML;
 
-// ── Debounce helper ──────────────────────────
-function debounce(fn, delay) {
-    let timer;
-    return function (...args) {
-        clearTimeout(timer);
-        timer = setTimeout(() => fn.apply(this, args), delay);
-    };
-}
-
-// ── Live ID Checker ──────────────────────────
+// ── Live ID Checker  ──────────────────────────
 let isChecking = {}; 
 let lastCheckedId = {}; 
 
@@ -153,25 +144,32 @@ async function checkGameId(roleId, gameId) {
     }
 }
 
-// ── Event Listener Input ──────────────────────────
+// ── Event Listener Input (Simple & Aman) ──────────────────────────
 document.querySelectorAll('.id-checker').forEach(input => {
-    const debouncedCheck = debounce(function () {
+
+    input.addEventListener('change', function () {
         const roleId = this.getAttribute('data-role');
         checkGameId(roleId, this.value);
-    }, 700);
+    });
 
-    input.addEventListener('input', debouncedCheck);
-    
     input.addEventListener('keydown', function (e) {
         if (e.key === 'Enter') {
-            e.preventDefault(); 
-            
+            e.preventDefault();
             const roleId = this.getAttribute('data-role');
             checkGameId(roleId, this.value);
         }
     });
-});
 
+    input.addEventListener('input', function () {
+        const roleId = this.getAttribute('data-role');
+        const nickElement = document.getElementById(`nick_${roleId}`);
+        if (nickElement && nickElement.getAttribute('data-nickname')) {
+            nickElement.innerText = "";
+            nickElement.setAttribute('data-nickname', '');
+            lastCheckedId[roleId] = ''; 
+        }
+    });
+});
 // ── Handle Submit ────────────────────────────
 const regForm = document.getElementById('registrationForm');
 if (regForm) {
