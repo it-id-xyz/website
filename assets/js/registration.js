@@ -147,6 +147,14 @@ document.querySelectorAll('.id-checker').forEach(input => {
         const roleId = this.getAttribute('data-role');
         checkGameId(roleId, this.value);
     });
+    input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            
+            const roleId = this.getAttribute('data-role');
+            checkGameId(roleId, this.value);
+        }
+    });
 });
 
 // ── Handle Submit ────────────────────────────
