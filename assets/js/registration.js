@@ -143,10 +143,6 @@ document.querySelectorAll('.id-checker').forEach(input => {
     }, 700);
 
     input.addEventListener('input', debouncedCheck);
-    input.addEventListener('change', function () {
-        const roleId = this.getAttribute('data-role');
-        checkGameId(roleId, this.value);
-    });
     input.addEventListener('keydown', function (e) {
         if (e.key === 'Enter') {
             e.preventDefault();
