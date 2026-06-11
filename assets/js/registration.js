@@ -48,11 +48,7 @@ document.getElementById('btn-logout').addEventListener('click', () => {
 });
 
 // --- LOGIC FORM & ID CHECKER ---
-
-// URL Backend Node.js lu (Ganti ke domain asli kalau backend udah di-hosting)
 const BACKEND_URL = 'https://api.it-smansaci.my.id'; 
-
-// Struktur Anggota Tim
 const teamStructure = [
     { id: 'kapten', label: 'Kapten Tim' },
     { id: 'anggota1', label: 'Anggota 1' },
@@ -61,7 +57,6 @@ const teamStructure = [
     { id: 'cadangan', label: 'Pemain Cadangan' }
 ];
 
-// Generate HTML Form Input secara otomatis
 let formHTML = '';
 teamStructure.forEach(role => {
     formHTML += `
@@ -120,7 +115,6 @@ document.getElementById('registrationForm').addEventListener('submit', async (e)
     btnSubmit.innerText = "Memproses...";
     btnSubmit.disabled = true;
 
-    // Validasi apakah semua nickname udah ketemu
     let isAllNickValid = true;
     const payload = {
         email_pendaftar: currentUserEmail,
