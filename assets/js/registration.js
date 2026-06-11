@@ -99,22 +99,34 @@ function debounce(fn, delay) {
 }
 
 // ── Live ID Checker ──────────────────────────
+let isChecking = {}; 
+let lastCheckedId = {}; 
+
 async function checkGameId(roleId, gameId) {
+    const cleanId = gameId ? gameId.trim() : '';
     const nickElement = document.getElementById(`nick_${roleId}`);
     if (!nickElement) return;
 
-    if (!gameId || gameId.trim() === '') {
+    if (!cleanId) {
         nickElement.innerText = "";
         nickElement.setAttribute('data-nickname', '');
+        lastCheckedId[roleId] = ''; 
         return;
     }
 
+    if (lastCheckedId[roleId] === cleanId && nickElement.getAttribute('data-nickname')) {
+        return; 
+    }
+
+    if (isChecking[roleId]) return;
+
+    isChecking[roleId] = true;
     nickElement.innerHTML = `<i class="fa fa-spinner fa-spin"></i> Mengecek ID...`;
     nickElement.style.color = "var(--text-muted)";
     nickElement.setAttribute('data-nickname', '');
 
     try {
-        const response = await fetch(`${BACKEND_URL}/api/check-id?id=${encodeURIComponent(gameId.trim())}`);
+        const response = await fetch(`${BACKEND_URL}/api/check-id?id=${encodeURIComponent(cleanId)}`);
         const data = await response.json();
 
         if (!response.ok) {
@@ -125,6 +137,8 @@ async function checkGameId(roleId, gameId) {
             nickElement.innerHTML = `<i class="fa fa-circle-check"></i> Nickname: <strong>${data.nickname}</strong>`;
             nickElement.style.color = "#00c896";
             nickElement.setAttribute('data-nickname', data.nickname);
+            
+            lastCheckedId[roleId] = cleanId;
         } else {
             throw new Error("Nickname tidak ditemukan");
         }
@@ -133,9 +147,13 @@ async function checkGameId(roleId, gameId) {
         nickElement.innerHTML = `<i class="fa fa-circle-xmark"></i> ${error.message}`;
         nickElement.style.color = "#ff4d4d";
         nickElement.setAttribute('data-nickname', '');
+        lastCheckedId[roleId] = ''; 
+    } finally {
+        isChecking[roleId] = false; 
     }
 }
 
+// ── Event Listener Input ──────────────────────────
 document.querySelectorAll('.id-checker').forEach(input => {
     const debouncedCheck = debounce(function () {
         const roleId = this.getAttribute('data-role');
@@ -143,9 +161,10 @@ document.querySelectorAll('.id-checker').forEach(input => {
     }, 700);
 
     input.addEventListener('input', debouncedCheck);
+    
     input.addEventListener('keydown', function (e) {
         if (e.key === 'Enter') {
-            e.preventDefault();
+            e.preventDefault(); 
             
             const roleId = this.getAttribute('data-role');
             checkGameId(roleId, this.value);
