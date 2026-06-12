@@ -7,7 +7,7 @@ export const CONFIG = {
     TOLERANSI_METER: 50,
     ANGKATAN_DEFAULT: "2024",
     HARI_ABSEN: [5], 
-    JAM_MULAI: 13,  
+    JAM_MULAI: 10,  
     MENIT_MULAI: 30, 
     JAM_SELESAI: 15, 
     MENIT_SELESAI: 30,
