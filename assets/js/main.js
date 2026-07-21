@@ -1,5 +1,5 @@
 // Ganti pakai URL Web App lu dari Google Script Poin 1
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx4P5ovDxHLVoY2dGbES3HUp4OPOiqO_K1WtPmgx9TNOWv4t-6zQO3uFSxJ0HVtwNTfYw/exec"; 
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwv1P5mKRL2RgRf1hcAV-hBdnuAdA5Kp9WlV-OUZMypVkK0emco8ReJIoKjLS4kANSMCw/exec"; 
 
 document.addEventListener("DOMContentLoaded", () => {
     const stepVerify = document.getElementById("step-verify");
