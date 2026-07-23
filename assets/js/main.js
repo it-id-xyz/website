@@ -1,5 +1,5 @@
 // Ganti pakai URL Web App lu dari Google Script Poin 1
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwv1P5mKRL2RgRf1hcAV-hBdnuAdA5Kp9WlV-OUZMypVkK0emco8ReJIoKjLS4kANSMCw/exec"; 
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwpyiv80wrenvLPAYUaWn8p78KMDobKrHwfipNDsDnphSWPAaed8LvkMBytcxvvD30QDQ/exec"; 
 
 document.addEventListener("DOMContentLoaded", () => {
     const stepVerify = document.getElementById("step-verify");
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if(wa.startsWith('0')) wa = '62' + wa.substring(1);
         
         if (wa === "") {
-            showMsg(verifyMsg, "Masukkan nomor WA lu bro!", "red");
+            showMsg(verifyMsg, "Masukkan nomor Whatsapp kamu!", "red");
             return;
         }
 
